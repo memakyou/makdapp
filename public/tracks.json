@@ -1,0 +1,34 @@
+[
+  {
+    "id": "1",
+    "trackArt": "art/cover/0.jpg",
+    "trackName": "Left, Off The Main Road",
+    "trackDuration": "2:15",
+    "url": "art/music/0.mp3",
+    "artist": "MEMAKYOU"
+  },
+  {
+    "id": "2",
+    "trackArt": "art/cover/1.jpg",
+    "trackName": "YOyo",
+    "trackDuration": "3:01",
+    "url": "art/music/1.mp3",
+    "artist": "MEMAKYOU"
+  },
+  {
+    "id": "3",
+    "trackArt": "art/cover/2.jpg",
+    "trackName": "ARNOLD!",
+    "trackDuration": "3:02",
+    "url": "art/music/2.mp3",
+    "artist": "MEMAKYOU"
+  },
+  {
+    "id": "4",
+    "trackArt": "art/cover/3.jpg",
+    "trackName": "Nail In The Coffin",
+    "trackDuration": "3:36",
+    "url": "art/music/3.mp3",
+    "artist": "MEMAKYOU"
+  }
+]

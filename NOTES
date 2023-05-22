@@ -1,0 +1,54 @@
+#ME
+--------
+# Link latest drop to play Latest released song. When playing, display tracks button to bring the user to the tracklists page.
+# Art is a horse, load up the youtube video in a modal with play controls and white X close button in the top right screen corner
+
+#MAK
+--------
+# Got mak linked to Game page.
+# Style modal, Sticky top containing the artwork, reciept type layout for the slider and number indicators. Sticky Purchase and accept. When confirm puchase is clicked and terms is not ticked, turn terms text red. Link terms page to MSHRS Agreement text.
+
+#YOU
+--------
+# Style modal, Sticky top containing the artwork, reciept type layout for the slider and number indicators. Sticky Purchase and accept. When confirm is clicked and terms is not, turn terms text red. Link terms page to MSHRS Agreement text.
+# Create conditional formatting to display message if user has no badges. Link support badges component.
+# Create conditional formatting to display message if user has no CORE token with an option to get CORE.
+# Link MAKPAY component.
+
+
+# FOOTER.component
+--------
+# usage terms, generate and display on own page.
+# MSHRS Agreement, Update based on new terms, proof legal and seal.
+# Policy, standard web application policy to cover transactions, refunds, errors handelling, IP issues.
+
+
+Create Pages
+# Music
+# 
+
+Create Components:
+# CorePay
+# SupportersBadges
+# Game
+# Playhead [global]
+# Tracklist
+
+Additional scope:
+# Google Analytics
+# Track music player interaction data
+# SEO
+# Responsive Testing
+# Transaction Testing
+
+# Building the music player
+-----------
+Components
+
+- Playhead - Display the song art, title, artist,progress bar, Controls icon.
+
+- PlayheadControls - The play head will display Play/Pause, Back, Forward, Shuffle and Repeat and volume, using icons with hover state of colour #ccc002.
+
+- TrackList - Each item will display ID, TrackArt, TrackName,Track duration and a List icon. when a list element is clicked, it will play the audio of the selected song.
+
+- Player music be imported to the _app.tsx file to ensure it is accesible through the whole application.
