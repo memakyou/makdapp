@@ -43,7 +43,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({ children }) => {
         newAudioPlayer.play();
         setSelectedTrack(track);
         console.log('Audio played:', track.url);
-    }
+      }
     };
   
     useEffect(() => {

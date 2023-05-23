@@ -3,18 +3,8 @@ import styled from 'styled-components';
 import { RiPlayLine, RiPauseLine } from 'react-icons/ri';
 import { MdSkipPrevious, MdSkipNext } from 'react-icons/md';
 import { FaVolumeUp, FaList } from 'react-icons/fa';
-// import TrackList, { Track } from './TrackList'; // Update the import statement
-import TrackList from './TrackList';
-
-export type Track = {
-  id: string;
-  trackArt: string;
-  trackName: string;
-  trackDuration: string;
-  url: string;
-  artist: string;
-};
-
+import TrackList, { Track } from './xTrackList';
+ 
 const ControlsContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -82,6 +72,7 @@ const ListIcon = styled.span<{ showTrackList: boolean }>`
 `;
 
 type ControlsProps = {
+  isPlaying: boolean;
   audioPlayer: HTMLAudioElement | null;
   selectedTrack: Track | null;
   handleTrackContainerClick: (track: Track) => void;

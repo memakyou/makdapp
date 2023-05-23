@@ -5,7 +5,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import Header from "../components/Header";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
-import MusicPlayer from '../components/MusicPlayer';
+import MusicPlayer from "../components/MusicPlayer/MusicPlayer";
 
 const activeChain = "goerli";
 
@@ -32,6 +32,7 @@ export function MyApp({ Component, pageProps }: AppProps) {
         <Component {...pageProps} />
         <Footer />
       </ThirdwebProvider>
+
     </>
   );
 }

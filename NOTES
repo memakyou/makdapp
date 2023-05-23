@@ -43,6 +43,12 @@ Additional scope:
 
 # Building the music player
 -----------
+
+- List of all tracks being read from a json file in the root directory.
+- Style with styled components
+- Next js and typescript
+- Player music be imported to the _app.tsx file to ensure it is accesible through the whole application.
+
 Components
 
 - Playhead - Display the song art, title, artist,progress bar, Controls icon.
@@ -51,4 +57,12 @@ Components
 
 - TrackList - Each item will display ID, TrackArt, TrackName,Track duration and a List icon. when a list element is clicked, it will play the audio of the selected song.
 
-- Player music be imported to the _app.tsx file to ensure it is accesible through the whole application.
+
+
+Here's an overview of the code structure and the tasks that need to be completed:
+
+TrackList.tsx: This component displays a list of tracks and handles track selection. It fetches the tracks from a JSON file and renders them as a list. It also handles mouse events and opens a modal when a track is clicked. The task here is to ensure that the track selection functionality is working correctly.
+
+Controls.tsx: This component renders the playback controls for the music player, such as play/pause, previous/next track buttons, volume slider, and track list icon. It also handles the state for showing/hiding the volume slider and the track list. The task here is to implement the event handlers for the controls and make them functional.
+
+AudioPlayer.tsx: This component wraps the music player components and manages the audio playback. It keeps track of the selected track and the audio player instance. The task here is to ensure that the audio playback functionality is working correctly, including playing, pausing, and switching tracks.

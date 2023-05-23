@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import Playhead from './Playhead';
-// import Controls from './Controls';
-// import Track from './TrackList';
-import Controls, { Track } from './Controls';
-
+import Playhead from './xPlayhead';
+import Controls from './xControls';
+import TrackList, { Track } from './xTrackList'
 
 const MusicPlayer = () => {
   const [audioPlayer, setAudioPlayer] = useState<HTMLAudioElement | null>(null);
@@ -11,7 +9,7 @@ const MusicPlayer = () => {
 
   const handleTrackContainerClick = (track: Track) => {
     // Handle the click event for the track container
-    console.log('Track container clicked:', track);
+    console.log('Track container clickeded:', track);
   };
 
   return (
@@ -21,8 +19,10 @@ const MusicPlayer = () => {
         audioPlayer={audioPlayer}
         selectedTrack={selectedTrack}
         handleTrackContainerClick={handleTrackContainerClick} // Pass the correct function name here
-      />
-    </>
+        isPlaying={false}  
+      />           
+      
+     </>
   );
 };
 

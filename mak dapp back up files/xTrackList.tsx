@@ -164,7 +164,7 @@ const CloseButton = styled.button`
 const ModalTrackName = styled.div`
   color: #0f1318;
   flex: 1;
-`;
+`; 
 
 const TrackArtModal = styled.img`
   width: 200px;
@@ -253,7 +253,7 @@ const TrackList: React.FC<TrackListProps> = ({
               onMouseLeave={handleTrackContainerMouseLeave}
               onClick={() => handleTrackContainerClick(track)}
             >
-              <TrackContainer>
+            <TrackContainer>
                 <TrackId isHovered={hoveredTrackId === track.id}>
                   {track.id}
                 </TrackId>
