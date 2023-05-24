@@ -3,22 +3,15 @@ import styled from 'styled-components';
 import Playhead from './Playhead';
 import PlayerController from './PlayerController';
 import SongList from './SongList';
-import { Songs as MusicPlayerSong } from '../../components/xtypes';
-
-interface Song {
-  id: string;
-  trackArt: string;
-  trackName: string;
-  trackDuration: string;
-  url: string;
-  artist: string;
-}
+import { SongListSong } from '../xtypes';
 
 // Styled components
 const MusicPlayerContainer = styled.div`
-  // text-align: center;
   margin: auto;
   max-width: 100%;
+  background-color: #141a20;
+  position: sticky;
+  top: 0;
 `;
 
 const ProgressBarContainer = styled.div`
@@ -26,23 +19,51 @@ const ProgressBarContainer = styled.div`
   align-items: center;
   justify-content: center;
   margin-top: 16px;
-  
+  width: 100%;
+  background-color: #d4d4d4;
 `;
 
 const ProgressBar = styled.input`
   width: 100%;
-  margin: 0 8px;
+  margin: auto;
+  appearance: none;
+
+  &::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 5px;
+    background: #333;
+    border: none;
+    border-radius: 0;
+  }
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 0%;
+    background: #ccc002;
+    margin-top: -4px;
+  }
 `;
 
-const MusicPlayer: React.FC = () => {
+interface MusicPlayerProps {
+  isOpen: boolean;
+  onToggle: () => void;
+  
+}
+
+const MusicPlayer: React.FC<MusicPlayerProps> = ({ isOpen }) => {
   // State variables
-  const [currentSong, setCurrentSong] = useState<MusicPlayerSong | null>(null);
-  const [songs, setSongs] = useState<Song[]>([]);
+  const [currentSong, setCurrentSong] = useState<SongListSong | null>(null);
+  const [songs, setSongs] = useState<SongListSong[]>([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [currentSongId, setCurrentSongId] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [showPlayerController, setShowPlayerController] = useState(true);
+  const [showSongList, setShowSongList] = useState(false);
 
   // Fetch songs data on component mount
   useEffect(() => {
@@ -129,23 +150,60 @@ const MusicPlayer: React.FC = () => {
     setCurrentTime(time);
   };
 
+  // Handle song click
+  const handleSongClick = (song: SongListSong) => {
+    setCurrentSong(song);
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      audioRef.current.src = song.url;
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
+  };
+
+  // Toggle player controller visibility
+  const togglePlayerController = () => {
+    setShowPlayerController(!showPlayerController);
+  };
+
+
+  // Toggle song list visibility
+  const toggleSongList = () => {
+    setShowSongList(!showSongList);
+  };
+
   // Render the music player UI
   return (
     <MusicPlayerContainer>
-      <Playhead currentSong={currentSong} />
-      <PlayerController play={play} pause={pause} previous={previous} next={next} isPlaying={isPlaying} />
-      <SongList songs={songs} setCurrentSong={setCurrentSong} currentSongId={currentSongId} />
-      {currentSong && (
+      {isOpen && (
         <>
-          <audio
-            ref={audioRef}
-            src={currentSong.url}
-            onTimeUpdate={handleTimeUpdate}
-            onDurationChange={handleDurationChange}
+          <Playhead currentSong={currentSong} currentTime={currentTime} duration={duration} onProgressBarChange={handleProgressBarChange} />
+          {showPlayerController && (
+            <PlayerController
+            play={play}
+            pause={pause}
+            previous={previous}
+            next={next}
+            isPlaying={isPlaying}
+            onListIconClick={toggleSongList}
+            onSettingsIconClick={togglePlayerController} // Add this line
           />
-          <ProgressBarContainer>
-            <ProgressBar type="range" min={0} max={duration} value={currentTime} onChange={handleProgressBarChange} />
-          </ProgressBarContainer>
+          )}
+          {showSongList && <SongList songs={songs} setCurrentSong={setCurrentSong} currentSongId={currentSongId} onSongClick={handleSongClick} />}
+          {currentSong && (
+            <>
+              <audio
+                ref={audioRef}
+                src={currentSong.url}
+                onTimeUpdate={handleTimeUpdate}
+                onDurationChange={handleDurationChange}
+              />
+              <ProgressBarContainer>
+                <ProgressBar type="range" min={0} max={duration} value={currentTime} onChange={handleProgressBarChange} />
+              </ProgressBarContainer>
+            </>
+          )}
         </>
       )}
     </MusicPlayerContainer>

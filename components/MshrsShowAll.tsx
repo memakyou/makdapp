@@ -4,6 +4,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { useWindowSize } from "react-use";
 import { useEffect, useRef, useState } from "react";
 import Confetti from 'react-confetti'
+import emailjs from 'emailjs-com';
 
 
 const Container = styled.div`
@@ -213,24 +214,59 @@ const TermsCheckbox = styled.div`
   }
 `;
 
+const AddressForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 80%
+`;
+
+const Label = styled.label`
+  color: grey;
+`;
+
+const Input = styled.input`
+  padding: 5px;
+  width: 100%;
+  border: 1px solid black;
+  border-radius: 16px;
+`;
+
+
 
 const MshrsShowAll: React.FC = () => {
-  const address = useAddress()
+  const address = useAddress();
   const { contract } = useContract("0x0880432A2A4D97C7d775566f205aa3c545886430");
   const { data: nfts, isLoading, error } = useNFTs(contract);
 
-  const { width, height } = useWindowSize()
-  const [isConfettiVisible, setIsConfettiVisible] = useState(false)
-
+  const { width, height } = useWindowSize();
+  const [isConfettiVisible, setIsConfettiVisible] = useState(false);
 
   const [transactionStatus, setTransactionStatus] = useState('');
   const [transactionError, setTransactionError] = useState('');
   const [termsAccepted, setTermsAccepted] = useState(false);
 
+  const sendEmail = (emailContent: string) => {
+    // console.log("Email content:", emailContent); // Add this console.log statement
+
+    const templateParams = {
+      to_email: "isthatmak@gmail.com", // Replace with your desired recipient email address
+      subject: "MSHRS SUPPORTER PLAQUE ORDER",
+      message: emailContent, // Check if emailContent is correctly assigned to the content parameter
+    };
   
-  const ref = useRef();
+    emailjs.send("service_qy5dyxh", "template_zu7uhvx", templateParams, "oetc636JvIIsre0jz" )
+      .then((response) => {
+        console.log("Email sent successfully!", response.text);
+      })
+      .catch((error) => {
+        console.error("Email sending failed:", error);
+      });
+  };
+  
+  const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
       const { innerWidth, innerHeight } = window;
 
@@ -243,7 +279,7 @@ const MshrsShowAll: React.FC = () => {
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-
+    
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
     };
@@ -260,109 +296,182 @@ const MshrsShowAll: React.FC = () => {
   const [sliderValue, setSliderValue] = useState(50);
   
   const [selectedNFT, setSelectedNFT] = useState(null);
+  const [isShippingChecked, setIsShippingChecked] = useState(false);
+  const [isAddressFormVisible, setIsAddressFormVisible] = useState(false);
 
-  const mshrsUnitPrice = 3
+  const handleAddressCheckboxChange = (e) => {
+    const isChecked = e.target.checked;
+    setIsShippingChecked(isChecked);
+    setIsAddressFormVisible(isChecked);
+  };
   
-    return  (
-      <Container>
-        <Main>
-          {isConfettiVisible && 
-            <Confetti
-              width={width}
-              height={height}
-              numberOfPieces={300}
-              wind={0.01}
-              gravity={0.1}
-              tweenDuration={1000}
-              run={true}
-              style={{ position: 'fixed', zIndex: 1 }} // Add this to make the confetti overlay the content
-            />
-          }
-          <Modal open={isModalOpen}>
-        <div>
-        <CloseButton onClick={() => {
-            setModalOpen(false);
-            setSelectedNFT(null);
-            setTransactionStatus('');
-            setTransactionError('');
-            setIsConfettiVisible(false)
-          }}>X
-        </CloseButton>
-          <ModalContent>
-          {selectedNFT && <StyledThirdwebNftMedia ref={ref} metadata={selectedNFT.metadata} />}
-          <ModalTitle>{selectedNFT?.metadata.name || 'Loading...'}</ModalTitle>
-            <Slider 
-              type="range" 
-              min="5" 
-              max="1000" 
-              value={sliderValue} 
-              onChange={(e) => setSliderValue(parseInt(e.target.value))} 
-            />
-            <TextBox type="text" value={sliderValue} readOnly />
-            <PercentageBox>Purchasing <PercentageBoxSum>{sharePertoken * sliderValue}%</PercentageBoxSum> Music Shares</PercentageBox>
-            <PercentageBox><b>Costing</b></PercentageBox>
-            <PriceBox>${sliderValue * mshrsUnitPrice}</PriceBox>
 
+  const mshrsUnitPrice = 3;
+  
+  const handleWeb3ButtonSuccess = (result: { transactionHash: any }) => {
+    setTransactionStatus('Success!');
+    setTransactionError('');
+    setIsConfettiVisible(true);
+  
+    let emailContent = `Congratulations, your purchase was successful! Transaction ID: ${result.transactionHash}`;
+  
+    if (isShippingChecked) {
+      const shippingName = (document.getElementById('shippingName') as HTMLInputElement)?.value;
+      const streetAddress = (document.getElementById('streetAddress') as HTMLInputElement)?.value;
+      const city = (document.getElementById('city') as HTMLInputElement)?.value;
+      const state = (document.getElementById('state') as HTMLInputElement)?.value;
+      const zipEir = (document.getElementById('zipEir') as HTMLInputElement)?.value;
+      const country = (document.getElementById('country') as HTMLInputElement)?.value;
+      const shippingNotes = (document.getElementById('shippingNotes') as HTMLTextAreaElement)?.value;
+        
+      emailContent += `\n\nShipping Details:\n\nName: ${shippingName}\nStreet Address: ${streetAddress}\nCity: ${city}\nState: ${state}\nZip/Eir: ${zipEir}\nCountry: ${country}\nShipping Notes: ${shippingNotes}`;
+    }
+  
+    sendEmail(emailContent);
+  };
+  
+
+
+
+  return (
+    <Container>
+      <Main>
+        {isConfettiVisible && 
+          <Confetti
+            width={width}
+            height={height}
+            numberOfPieces={300}
+            wind={0.01}
+            gravity={0.1}
+            tweenDuration={1000}
+            run={true}
+            style={{ position: 'fixed', zIndex: 1 }} // Add this to make the confetti overlay the content
+          />
+        }
+        <Modal open={isModalOpen}>
+          <div>
+            <CloseButton onClick={() => {
+              setModalOpen(false);
+              setSelectedNFT(null);
+              setTransactionStatus('');
+              setTransactionError('');
+              setIsConfettiVisible(false)
+            }}>X
+            </CloseButton>
+            <ModalContent>
+              {selectedNFT && <StyledThirdwebNftMedia ref={ref} metadata={selectedNFT.metadata} />}
+              <ModalTitle>{selectedNFT?.metadata.name || 'Loading...'}</ModalTitle>
+              <Slider 
+                type="range" 
+                min="5" 
+                max="1000" 
+                value={sliderValue} 
+                onChange={(e) => setSliderValue(parseInt(e.target.value))} 
+              />
+              <TextBox type="text" value={sliderValue} readOnly />
+              <PercentageBox>Purchasing <PercentageBoxSum>{sharePertoken * sliderValue}%</PercentageBoxSum> Music Shares</PercentageBox>
+              <PercentageBox><b>Costing</b></PercentageBox>
+              <PriceBox>${sliderValue * mshrsUnitPrice}</PriceBox>
+              {sliderValue >= 500 && (
+                <TermsCheckbox>
+                  <input
+                    type="checkbox"
+                    id="shipping"
+                    name="shipping"
+                    checked={isShippingChecked}
+                    onChange={handleAddressCheckboxChange}
+                  />
+                  <label htmlFor="shipping">Add a delivery address for your physical supporter plaque</label>
+                </TermsCheckbox>
+              )}
+              
+              {isShippingChecked && isAddressFormVisible && sliderValue >= 500 &&  (
+                <AddressForm>
+                <Label>Shipping Name</Label>
+                <Input type="text" id="shippingName" />
+              
+                <Label>Street Address</Label>
+                <Input type="text" id="streetAddress" />
+                
+                <Label>City</Label>
+                <Input type="text" id="city" />
+                
+                <Label>State</Label>
+                <Input type="text" id="state" />
+                
+                <Label>Zip/Eir</Label>
+                <Input type="text" id="zipEir" />
+              
+                <Label>Country</Label>
+                <Input type="text" id="country" />
+              
+                <Label>Shipping Notes</Label>
+                <Input type="text" id="shippingNotes" />
+              </AddressForm>
+              )}
+              
               <StatusMessage>{transactionStatus}</StatusMessage>
-              {transactionError && <ErrorMessage>Error: There has been a error, please try again.</ErrorMessage>}
+              {transactionError && <ErrorMessage>Error: There has been an error, please try again.</ErrorMessage>}
 
               {transactionStatus === 'Success!' && <SuccessLink>Awesome, stream MEMAKYOU to earn royalties</SuccessLink>}
-            <Web3Button
-              contractAddress="0x0880432A2A4D97C7d775566f205aa3c545886430"
-              action={(contract) => contract.erc1155.claim(selectedNFT?.metadata.id, sliderValue)}
-              onError={(error) => {
-                setTransactionStatus('Error');
-                setTransactionError(error.message);
-              }}
-              onSubmit={() => {
-                setTransactionStatus('Transaction submitted');
-                setTransactionError('');
-              }}
-              onSuccess={(result) => {
-                setTransactionStatus('Success!');
-                setTransactionError('');
-                setIsConfettiVisible(true)
-              }}            
-              className="OverrideWeb3Button"
-              isDisabled={!termsAccepted}
-            >
-              CONFIRM PURCHASE!
-            </Web3Button>
+              <Web3Button
+                contractAddress="0x0880432A2A4D97C7d775566f205aa3c545886430"
+                action={(contract) => contract.erc1155.claim(selectedNFT?.metadata.id, sliderValue)}
+                onError={(error) => {
+                  setTransactionStatus('Error');
+                  setTransactionError(error.message);
+                }}
+                onSubmit={() => {
+                  setTransactionStatus('Transaction submitted');
+                  setTransactionError('');
+                }}
+                onSuccess={(result) => {
+                  setTransactionStatus('Success!');
+                  setTransactionError('');
+                  setIsConfettiVisible(true);
+                  handleWeb3ButtonSuccess(result); // This line triggers the function
+                }}            
+                className="OverrideWeb3Button"
+                isDisabled={!termsAccepted}
+              >
+                CONFIRM PURCHASE!
+              </Web3Button>
             
-            <TermsCheckbox>
-              <input type="checkbox" id="terms" name="terms" value={termsAccepted} onChange={() => setTermsAccepted(!termsAccepted)}/>
-              <label htmlFor="terms" className={!termsAccepted ? 'error' : ''}>
-                I accept the terms of the MSHRS Agreement
-              </label> 
-            </TermsCheckbox>
-          </ModalContent>
-        </div>
-      </Modal>
+              <TermsCheckbox>
+                <input type="checkbox" id="terms" name="terms" value={termsAccepted} onChange={() => setTermsAccepted(!termsAccepted)}/>
+                <label htmlFor="terms" className={!termsAccepted ? 'error' : ''}>
+                  I accept the terms of the MSHRS Agreement
+                </label> 
+              </TermsCheckbox>
+            </ModalContent>
+          </div>
+        </Modal>
 
-          {isLoading ?  ( 
-            <p>Loading...</p> 
-          ) : (
-            nfts
-              ?.map((nft) => {
-                return (
-                  <CardContainer key={nft.metadata.id} onClick={() => (setModalOpen(true), setSelectedNFT(nft))}>
-                  <NftContainer>
-                    <ThirdwebNftMedia
-                      metadata={nft.metadata} 
-                      height="70px"
-                      width="70px"
-                      style={{ borderRadius: "15px"}}
-                    />
-                  <NftName>{nft.metadata.name}</NftName>
-                  <BuyButton><FaShoppingCart /></BuyButton>
-                  </NftContainer>
-                  </CardContainer>
-                )
-              })
-          )}    
-        </ Main>
+        {isLoading ? (
+  <p>Loading...</p>
+) : nfts && nfts.length > 0 ? (
+  nfts.map((nft) => {
+    return (
+      <CardContainer key={nft.metadata.id} onClick={() => (setModalOpen(true), setSelectedNFT(nft))}>
+        <NftContainer>
+          <ThirdwebNftMedia
+            metadata={nft.metadata}
+            height="70px"
+            width="70px"
+            style={{ borderRadius: "15px" }}
+          />
+          <NftName>{nft.metadata.name}</NftName>
+          <BuyButton><FaShoppingCart /></BuyButton>
+        </NftContainer>
+      </CardContainer>
+    );
+  })
+) : (
+  <p>No NFTs found.</p>
+)}    
+      </Main>
     </Container>
-    )
+  )
 }
 
-export default MshrsShowAll
+export default MshrsShowAll;

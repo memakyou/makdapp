@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Songs as SongListSong, Songs } from '../../components/xtypes';
+import { SongListSong } from '../xtypes';
 import { RiPlayLine, RiInformationLine } from 'react-icons/ri';
 
 const Container = styled.div`
@@ -50,6 +50,16 @@ const TrackContainer = styled.div`
   padding-left: 16px;
   position: relative;
   cursor: pointer; /* Add cursor pointer for the clickable effect */
+
+  &:hover {
+    .track-id {
+      display: none;
+    }
+
+    .play-icon {
+      display: flex;
+    }
+  }
 `;
 
 const TrackId = styled.div`
@@ -57,6 +67,15 @@ const TrackId = styled.div`
   color: #d4d4d4;
 
   /* Conditionally show/hide the play icon */
+  display: flex;
+  align-items: center;
+
+  .play-icon {
+    display: none;
+    font-size: 20px;
+    color: #ccc002;
+    margin-right: 1rem;
+  }
 `;
 
 const TrackName = styled.div`
@@ -137,7 +156,7 @@ const CloseButton = styled.button`
 const ModalTrackName = styled.div`
   color: #0f1318;
   flex: 1;
-`; 
+`;
 
 const TrackArtModal = styled.img`
   width: 200px;
@@ -147,50 +166,45 @@ const TrackArtModal = styled.img`
 
 interface SongListProps {
   songs: SongListSong[];
-  setCurrentSong: (song: SongListSong) => void;
+  setCurrentSong: (song: SongListSong | null) => void;
   currentSongId: string | null;
+  onSongClick: (song: SongListSong) => void; // Added onSongClick prop
 }
 
-const SongList: React.FC<SongListProps> = ({ songs, setCurrentSong, currentSongId }) => {
+const SongList: React.FC<SongListProps> = ({ songs, setCurrentSong, currentSongId, onSongClick }) => {
+  const [isModalOpen, setIsModalOpen] = useState(true);
+
   const handleSongClick = (song: SongListSong) => {
     setCurrentSong(song);
+    onSongClick(song); // Call the onSongClick prop with the clicked song
   };
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const handleInformationIconClick = (song: SongListSong) => {
+    setIsModalOpen(true);
+  };
 
-
-// cosstants:
-const handleInformationIconClick = (song: Songs) => {
-  setIsModalOpen(true);
-};
-
-const closeModal = () => {
-  setIsModalOpen(false);
-};
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <Container>
       <Main>
         {songs.length > 0 ? (
           songs.map((song) => (
-            <TrackListContainer
-              key={song.id}
-              onClick={() => handleSongClick(song)}
-            >
-            <TrackContainer>
+            <TrackListContainer key={song.id} onClick={() => handleSongClick(song)}>
+              <TrackContainer>
                 <TrackId>
-                  {song.id}
+                  <PlayIcon className="play-icon" />
+                  <span className="track-id">{song.id}</span>
                 </TrackId>
                 <TrackArt src={song.trackArt} alt="Track Art" />
                 <TrackName>{song.trackName}</TrackName>
                 <TrackDuration>
                   {song.trackDuration}
-                  <IconContainer
-                    className="information-icon"
-                    onClick={() => handleInformationIconClick(song)}
-                  >
+                  {/* <IconContainer className="information-icon" onClick={() => handleInformationIconClick(song)}>
                     <InformationIcon />
-                  </IconContainer>
+                  </IconContainer> */}
                 </TrackDuration>
               </TrackContainer>
             </TrackListContainer>
@@ -199,10 +213,8 @@ const closeModal = () => {
           <p>Loading...</p>
         )}
       </Main>
-      
     </Container>
   );
 };
 
 export default SongList;
-

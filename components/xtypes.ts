@@ -1,6 +1,4 @@
-// components/types.ts
-
-export interface Songs {
+export interface SongListSong {
   id: string;
   trackArt: string;
   trackName: string;

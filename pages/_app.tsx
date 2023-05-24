@@ -1,15 +1,47 @@
+// _app.tsx
 import type { AppProps } from "next/app";
 import { ThirdwebProvider, localWallet, magicLink, metamaskWallet, paperWallet, walletConnect } from "@thirdweb-dev/react";
 import "../styles/globals.css";
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import Header from "../components/Header";
 import Nav from "../components/Nav";
 import Footer from "../components/Footer";
 import MusicPlayer from "../components/MusicPlayer/MusicPlayer";
+import styled from "styled-components";
 
 const activeChain = "goerli";
 
+const MusicPlayerBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 16px;
+  background-color: #ccc002;
+  border-style: none;
+  
+
+
+  &:hover {
+    background-color: #eee002;
+    cursor: pointer; /* Add cursor pointer for the clickable effect */
+    box-shadow: 0px 4px 8px rgba(0,0,0,0.2), 0px 2px 4px rgba(0,0,0,0.12);
+  }
+`;
+
+
+
 export function MyApp({ Component, pageProps }: AppProps) {
+  const [isMusicPlayerOpen, setIsMusicPlayerOpen] = useState(false);
+
+  const handleMusicPlayerToggle = () => {
+    setIsMusicPlayerOpen(prevState => !prevState);
+  };
+
+  const handleOpenMusicPlayer = () => {
+    setIsMusicPlayerOpen(true);
+  };
+
   return (
     <>
       <ThirdwebProvider 
@@ -23,19 +55,18 @@ export function MyApp({ Component, pageProps }: AppProps) {
           }),
           metamaskWallet(),
           walletConnect(),
-          localWallet({persist: true}),
+          localWallet({ persist: true }),
         ]}
       >
         <Header />
         <Nav />
-        <MusicPlayer />
+        {!isMusicPlayerOpen && <MusicPlayerBtn onClick={handleOpenMusicPlayer}>Open Music Player</MusicPlayerBtn>}
+        {isMusicPlayerOpen && <MusicPlayer isOpen={isMusicPlayerOpen} onToggle={handleMusicPlayerToggle} />}
         <Component {...pageProps} />
         <Footer />
       </ThirdwebProvider>
-
     </>
   );
 }
-  
-  export default MyApp;
-  
+
+export default MyApp;

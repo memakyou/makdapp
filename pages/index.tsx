@@ -1,3 +1,4 @@
+// index.tsx
 import type { NextPage } from "next";
 import styled from 'styled-components';
 import SocialMediaLinks from "../components/SocialLinkBar";
@@ -16,24 +17,6 @@ const Main = styled.main`
   justify-content: center;
   align-items: center;
 `;
-
-// const Title = styled.h2`
-//   margin: 0;
-//   line-height: 1.15;
-//   font-size: 4rem;
-//   text-align: center;
-
-//   a {
-//     color: #ccc002;
-//     text-decoration: none;
-
-//     &:hover,
-//     &:focus,
-//     &:active {
-//       text-decoration: underline;
-//     }
-//   }
-// `;
 
 const Card = styled.div`
   width: 100%;
@@ -60,30 +43,27 @@ const Card2 = styled.div`
   }
 `;
 
-
 const Home: NextPage = () => {
-  const openNewTab = (url) => {
+  const openNewTab = (url: string) => {
     window.open(url, "_blank");
   };
+
+
   return (
     <Container>
       <Main>
         <div>
           <SocialMediaLinks />
           <Card onClick={() => openNewTab("https://twitter.com")}>
-          <h1>ACCESS <a>MAKWRLD 🌎</a></h1><p>Come get lost in the magical world of creation</p>
+            <h1>ACCESS <a>MAKWRLD 🌎</a></h1><p>Come get lost in the magical world of creation</p>
           </Card>
           <br/>
           <Card2>
-          <h1>LATEST DROP 🎧</h1><p>NAIL IN THE COFFIN - Produced by Axel</p>
-          </Card2>
-          <br/>
-          <Card2>
-          <h1>ART IS A HORSE 🎥</h1><p>A short film that explains nothing</p>
+            <h1>ART IS A HORSE 🎥</h1><p>A short film that explains nothing</p>
           </Card2>
           <br/>
           <Card onClick={() => openNewTab("https://docs.google.com/forms/d/e/1FAIpQLSdr0fgkl-tu1NZbiFGB1sDTxMrz3m8YcqO7tBwz9hYrvWjsug/viewform")}>
-          <h1>HILLTOP BASH 🎟️ ✈️ 🇮🇪</h1><p>Claim your interest</p>
+            <h1>HILLTOP BASH 🎟️ ✈️ 🇮🇪</h1><p>Claim your interest</p>
           </Card>
         </div>
       </Main>

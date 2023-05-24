@@ -15,6 +15,7 @@
     "@thirdweb-dev/sdk": "^3",
     "babel-plugin-styled-components": "^2.1.1",
     "dotenv": "^16.0.3",
+    "emailjs-com": "^3.2.0",
     "ethers": "^5",
     "gltf-loader": "^1.0.0",
     "next": "^13",

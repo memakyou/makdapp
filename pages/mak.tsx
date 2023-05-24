@@ -70,7 +70,6 @@ const Mak: NextPage = () => {
         </Title>
           <h2>MUSIC SHARES <a>$MSHRS</a></h2>
           <MshrsShowAll />
-
           <br/>
 
           <Card2>

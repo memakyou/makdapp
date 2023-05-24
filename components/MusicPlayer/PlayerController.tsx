@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { RiPlayLine, RiPauseLine } from 'react-icons/ri';
 import { MdSkipPrevious, MdSkipNext } from 'react-icons/md';
-import { FaVolumeUp, FaList } from 'react-icons/fa';
+import { FaList } from 'react-icons/fa';
 
 const ControlsContainer = styled.div`
   display: flex;
@@ -22,43 +22,6 @@ const ControlIcon = styled.span`
   }
 `;
 
-const VolumeSlider = styled.input`
-  display: ${({ visible }: { visible: boolean }) => (visible ? 'block' : 'none')};
-  width: 50%;
-  margin: auto;
-  appearance: none;
-  /* Styling for the track of the volume slider */
-  &::-webkit-slider-runnable-track {
-    width: 300px;
-    height: 5px;
-    background: #d4d4d4;
-    border: none;
-    border-radius: 3px;
-    
-  }
-
-  &::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    border: none;
-    height: 16px;
-    width: 16px;
-    border-radius: 0%;
-    background: #ccc002;
-    margin-top: -4px;
-  }
-`;
-
-const VolIcon = styled.span<{ showVolumeSlider: boolean }>`
-  font-size: 20px;
-  margin: 0 10px;
-  cursor: pointer;
-  color: ${({ showVolumeSlider }) => (showVolumeSlider ? '#ccc002' : '#333')};
-
-  &:hover {
-    color: #ccc002;
-  }
-`;
-
 const ListIcon = styled.span<{ showTrackList: boolean }>`
   font-size: 20px;
   margin: 0 10px;
@@ -70,20 +33,24 @@ const ListIcon = styled.span<{ showTrackList: boolean }>`
   }
 `;
 interface PlayerControllerProps {
-  isPlaying: boolean;
   play: () => void;
   pause: () => void;
   previous: () => void;
   next: () => void;
-} 
+  isPlaying: boolean;
+  onListIconClick: () => void;
+  onSettingsIconClick: () => void;
+}
 
-const PlayerController: React.FC<PlayerControllerProps> = ({ play, pause, previous, next, isPlaying }) => {
-  const [showVolumeSlider, setShowVolumeSlider] = useState(false);
-  const [showTrackList, setShowTrackList] = useState(false);
-
-  const handleVolumeIconClick = () => {
-    setShowVolumeSlider(!showVolumeSlider);
-  };
+const PlayerController: React.FC<PlayerControllerProps> = ({
+  play,
+  pause,
+  previous,
+  next,
+  isPlaying,
+  onListIconClick,
+  onSettingsIconClick,
+}) => {  const [showTrackList, setShowTrackList] = useState(false);
 
   const handleListIconClick = () => {
     setShowTrackList(!showTrackList);
@@ -108,20 +75,10 @@ const PlayerController: React.FC<PlayerControllerProps> = ({ play, pause, previo
       <ControlIcon onClick={next}>
         <MdSkipNext />
       </ControlIcon>
-      <VolIcon showVolumeSlider={showVolumeSlider}>
-        <FaVolumeUp onClick={handleVolumeIconClick} />
-      </VolIcon>
       <ListIcon showTrackList={showTrackList} onClick={handleListIconClick}>
         <FaList />
       </ListIcon>
     </ControlsContainer>
-    <VolumeSlider
-    type="range"
-    min="0"
-    max="100"
-    step="1"
-    visible={showVolumeSlider}
-  />
   </>
   );
 };
