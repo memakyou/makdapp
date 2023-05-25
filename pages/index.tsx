@@ -28,6 +28,8 @@ const Card = styled.div`
   &:hover {
     background-color: #ccc002;
     box-shadow: 0px 14px 28px rgba(0,0,0,0.25), 0px 10px 10px rgba(0,0,0,0.22);
+    cursor: pointer;
+
   }
 `;
 
@@ -40,6 +42,7 @@ const Card2 = styled.div`
   
   &:hover {
     box-shadow: 0px 14px 28px rgba(0,0,0,0.25), 0px 10px 10px rgba(0,0,0,0.22);
+    cursor: pointer;
   }
 `;
 
@@ -55,12 +58,12 @@ const Home: NextPage = () => {
         <div>
           <SocialMediaLinks />
           <Card onClick={() => openNewTab("https://twitter.com")}>
-            <h1>ACCESS <a>MAKWRLD 🌎</a></h1><p>Come get lost in the magical world of creation</p>
+            <h1>VISIT MAKWRLD 🌎</h1><p>Come get lost in the magical world of creation</p>
           </Card>
           <br/>
-          <Card2>
+          <Card>
             <h1>ART IS A HORSE 🎥</h1><p>A short film that explains nothing</p>
-          </Card2>
+          </Card>
           <br/>
           <Card onClick={() => openNewTab("https://docs.google.com/forms/d/e/1FAIpQLSdr0fgkl-tu1NZbiFGB1sDTxMrz3m8YcqO7tBwz9hYrvWjsug/viewform")}>
             <h1>HILLTOP BASH 🎟️ ✈️ 🇮🇪</h1><p>Claim your interest</p>

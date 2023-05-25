@@ -87,7 +87,7 @@ const TrackName = styled.div`
 const TrackDuration = styled.div`
   margin-left: auto;
   color: #d4d4d4;
-  padding-right: 26px;
+  padding-right: 10px;
   display: flex;
   align-items: center;
 
@@ -109,23 +109,23 @@ const PlayIcon = styled(RiPlayLine)`
   margin-right: 1rem;
 `;
 
-const InformationIcon = styled(RiInformationLine)`
-  font-size: 20px;
-  color: #d4d4d4;
+// const InformationIcon = styled(RiInformationLine)`
+//   font-size: 20px;
+//   color: #d4d4d4;
 
-  &:hover {
-    color: #ccc002;
-  }
-`;
+//   &:hover {
+//     color: #ccc002;
+//   }
+// `;
 
-const ModalOverlay = styled.div`
+const ModalOverlay = styled.div<{ isOpen: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   width: 100vh;
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
-  display: flex;
+  display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
   align-items: center;
   justify-content: center;
 `;
@@ -169,15 +169,16 @@ interface SongListProps {
   setCurrentSong: (song: SongListSong | null) => void;
   currentSongId: string | null;
   onSongClick: (song: SongListSong) => void; // Added onSongClick prop
+  showTrackList: boolean; // Added showTrackList prop
 }
 
-const SongList: React.FC<SongListProps> = ({ songs, setCurrentSong, currentSongId, onSongClick }) => {
-  const [isModalOpen, setIsModalOpen] = useState(true);
-
+const SongList: React.FC<SongListProps> = ({ songs, setCurrentSong, currentSongId, onSongClick, showSongList }) => {
   const handleSongClick = (song: SongListSong) => {
     setCurrentSong(song);
-    onSongClick(song); // Call the onSongClick prop with the clicked song
+    onSongClick(song);
   };
+
+  const [isModalOpen, setIsModalOpen] = useState(false); // Set isModalOpen to false initially
 
   const handleInformationIconClick = (song: SongListSong) => {
     setIsModalOpen(true);
@@ -189,11 +190,11 @@ const SongList: React.FC<SongListProps> = ({ songs, setCurrentSong, currentSongI
 
   return (
     <Container>
-      <Main>
-        {songs.length > 0 ? (
-          songs.map((song) => (
-            <TrackListContainer key={song.id} onClick={() => handleSongClick(song)}>
-              <TrackContainer>
+      {showSongList && (
+        <Main>
+          {songs.length > 0 ? (
+            songs.map((song) => (
+              <TrackContainer key={song.id} onClick={() => handleSongClick(song)}>
                 <TrackId>
                   <PlayIcon className="play-icon" />
                   <span className="track-id">{song.id}</span>
@@ -207,12 +208,21 @@ const SongList: React.FC<SongListProps> = ({ songs, setCurrentSong, currentSongI
                   </IconContainer> */}
                 </TrackDuration>
               </TrackContainer>
-            </TrackListContainer>
-          ))
-        ) : (
-          <p>Loading...</p>
-        )}
-      </Main>
+            ))
+          ) : (
+            <p>Loading...</p>
+          )}
+        </Main>
+      )}
+      {isModalOpen && (
+        <ModalOverlay>
+          <ModalContent>
+            <CloseButton onClick={closeModal}>&times;</CloseButton>
+            <h2>Title</h2>
+            <p>Content of the modal goes here.</p>
+          </ModalContent>
+        </ModalOverlay>
+      )}
     </Container>
   );
 };

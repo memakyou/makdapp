@@ -54,7 +54,6 @@ interface MusicPlayerProps {
 }
 
 const MusicPlayer: React.FC<MusicPlayerProps> = ({ isOpen }) => {
-  // State variables
   const [currentSong, setCurrentSong] = useState<SongListSong | null>(null);
   const [songs, setSongs] = useState<SongListSong[]>([]);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -62,10 +61,10 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ isOpen }) => {
   const [duration, setDuration] = useState(0);
   const [currentSongId, setCurrentSongId] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [showPlayerController, setShowPlayerController] = useState(true);
+  const [showPlayerController, setShowPlayerController] = useState(false);
   const [showSongList, setShowSongList] = useState(false);
+  const [showTrackList, setShowTrackList] = useState(false);
 
-  // Fetch songs data on component mount
   useEffect(() => {
     fetch('/songs.json')
       .then((response) => response.json())
@@ -75,11 +74,23 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ isOpen }) => {
         setCurrentSongId(data[0].id);
       });
   }, []);
+  const handleListIconClick = () => {
+    setShowTrackList(!showTrackList);
+  };
+  const toggleTrackList = () => {
+    setShowTrackList((prev) => !prev);
+  };
 
-  // Play the current song
+  const togglePlayerController = () => {
+    if (showTrackList) {
+      setShowTrackList(false);
+    } else {
+      setShowPlayerController((prev) => !prev);
+    }
+  };
+
   const play = () => {
     if (currentSong && audioRef.current) {
-      // If the play button was not previously clicked, start playing the audio
       if (!isPlaying) {
         audioRef.current.play();
       }
@@ -87,7 +98,6 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ isOpen }) => {
     }
   };
 
-  // Pause the current song
   const pause = () => {
     if (currentSong && audioRef.current) {
       audioRef.current.pause();
@@ -95,7 +105,6 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ isOpen }) => {
     }
   };
 
-  // Play the previous song
   const previous = () => {
     if (currentSong) {
       const currentIndex = songs.findIndex((song) => song.id === currentSong.id);
@@ -108,7 +117,6 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ isOpen }) => {
     }
   };
 
-  // Play the next song
   const next = () => {
     if (currentSong) {
       const currentIndex = songs.findIndex((song) => song.id === currentSong.id);
@@ -121,27 +129,14 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ isOpen }) => {
     }
   };
 
-  // Add 'ended' event listener to the audio element to autoplay the next song
-  useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.addEventListener('ended', next);
-      return () => {
-        audioRef.current?.removeEventListener('ended', next);
-      };
-    }
-  }, [currentSong]);
-
-  // Handle time update event of the audio element
   const handleTimeUpdate = (e: React.SyntheticEvent<HTMLAudioElement, Event>) => {
     setCurrentTime(e.currentTarget.currentTime);
   };
 
-  // Handle duration change event of the audio element
   const handleDurationChange = (e: React.SyntheticEvent<HTMLAudioElement, Event>) => {
     setDuration(e.currentTarget.duration);
   };
 
-  // Handle progress bar change event
   const handleProgressBarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const time = parseFloat(e.target.value);
     if (audioRef.current) {
@@ -150,7 +145,6 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ isOpen }) => {
     setCurrentTime(time);
   };
 
-  // Handle song click
   const handleSongClick = (song: SongListSong) => {
     setCurrentSong(song);
     if (audioRef.current) {
@@ -162,35 +156,42 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ isOpen }) => {
     }
   };
 
-  // Toggle player controller visibility
-  const togglePlayerController = () => {
-    setShowPlayerController(!showPlayerController);
-  };
-
-
-  // Toggle song list visibility
   const toggleSongList = () => {
     setShowSongList(!showSongList);
   };
 
-  // Render the music player UI
   return (
     <MusicPlayerContainer>
       {isOpen && (
         <>
-          <Playhead currentSong={currentSong} currentTime={currentTime} duration={duration} onProgressBarChange={handleProgressBarChange} />
+          <Playhead
+            currentSong={currentSong}
+            currentTime={currentTime}
+            duration={duration}
+            onProgressBarChange={handleProgressBarChange}
+            showPlayerController={showPlayerController}
+            togglePlayerController={togglePlayerController}
+          />
           {showPlayerController && (
             <PlayerController
-            play={play}
-            pause={pause}
-            previous={previous}
-            next={next}
-            isPlaying={isPlaying}
-            onListIconClick={toggleSongList}
-            onSettingsIconClick={togglePlayerController} // Add this line
-          />
+              play={play}
+              pause={pause}
+              previous={previous}
+              next={next}
+              isPlaying={isPlaying}
+              onListIconClick={toggleSongList}
+              showTrackList={showTrackList}
+            />
           )}
-          {showSongList && <SongList songs={songs} setCurrentSong={setCurrentSong} currentSongId={currentSongId} onSongClick={handleSongClick} />}
+          {showSongList && (
+            <SongList
+              songs={songs}
+              setCurrentSong={setCurrentSong}
+              currentSongId={currentSongId}
+              onSongClick={handleSongClick}
+              showSongList={showSongList}
+            />
+          )}
           {currentSong && (
             <>
               <audio
@@ -200,7 +201,13 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ isOpen }) => {
                 onDurationChange={handleDurationChange}
               />
               <ProgressBarContainer>
-                <ProgressBar type="range" min={0} max={duration} value={currentTime} onChange={handleProgressBarChange} />
+                <ProgressBar
+                  type="range"
+                  min={0}
+                  max={duration}
+                  value={currentTime}
+                  onChange={handleProgressBarChange}
+                />
               </ProgressBarContainer>
             </>
           )}

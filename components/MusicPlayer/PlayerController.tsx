@@ -4,7 +4,7 @@ import { RiPlayLine, RiPauseLine } from 'react-icons/ri';
 import { MdSkipPrevious, MdSkipNext } from 'react-icons/md';
 import { FaList } from 'react-icons/fa';
 
-const ControlsContainer = styled.div`
+const ControlsContainer = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,24 +14,27 @@ const ControlIcon = styled.span`
   font-size: 30px;
   margin: 0 10px;
   cursor: pointer;
-  padding-bottom: 10px
-
+  padding-bottom: 10px;
+  color: white;
 
   &:hover {
     color: #ccc002;
   }
 `;
 
-const ListIcon = styled.span<{ showTrackList: boolean }>`
+const ListIcon = styled.span<{ isActive: boolean }>`
   font-size: 20px;
   margin: 0 10px;
   cursor: pointer;
-  color: ${({ showTrackList }) => (showTrackList ? '#ccc002' : '#333')};
+  padding-bottom: 11px;
+  color: ${({ isActive }) => (isActive ? '#ccc002' : '#333')};
 
   &:hover {
     color: #ccc002;
   }
 `;
+
+
 interface PlayerControllerProps {
   play: () => void;
   pause: () => void;
@@ -39,8 +42,11 @@ interface PlayerControllerProps {
   next: () => void;
   isPlaying: boolean;
   onListIconClick: () => void;
-  onSettingsIconClick: () => void;
+  showTrackList: boolean; // Add showTrackList prop
 }
+
+
+
 
 const PlayerController: React.FC<PlayerControllerProps> = ({
   play,
@@ -49,16 +55,16 @@ const PlayerController: React.FC<PlayerControllerProps> = ({
   next,
   isPlaying,
   onListIconClick,
-  onSettingsIconClick,
-}) => {  const [showTrackList, setShowTrackList] = useState(false);
+  showTrackList,
+}) => {
+  const [isActive, setIsActive] = useState(showTrackList);
 
   const handleListIconClick = () => {
-    setShowTrackList(!showTrackList);
+    setIsActive((prev) => !prev);
+    onListIconClick();
   };
 
-
   return (
-    <>
     <ControlsContainer>
       <ControlIcon onClick={previous}>
         <MdSkipPrevious />
@@ -75,11 +81,10 @@ const PlayerController: React.FC<PlayerControllerProps> = ({
       <ControlIcon onClick={next}>
         <MdSkipNext />
       </ControlIcon>
-      <ListIcon showTrackList={showTrackList} onClick={handleListIconClick}>
+      <ListIcon isActive={isActive} onClick={handleListIconClick}>
         <FaList />
       </ListIcon>
     </ControlsContainer>
-  </>
   );
 };
 

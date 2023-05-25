@@ -30,11 +30,10 @@ const PlayheadContainer = styled.div`
   position: relative;
 `;
 
-const ControlIcon = styled.span<{ showControls: boolean }>`
+const ControlIcon = styled.span<{ showControls: boolean; showTrackList: boolean }>`
   font-size: 20px;
-  // margin: 0 10px;
   cursor: pointer;
-  color: ${({ showControls }) => (showControls ? '#ccc002' : '#333')};
+  color: ${({ showControls, showTrackList }) => (showControls || showTrackList ? '#ccc002' : '#333')};
 
   &:hover {
     color: #ccc002;
@@ -57,18 +56,37 @@ const ModalOverlay = styled.div<{ isOpen: boolean }>`
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
   display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
   align-items: center;
   justify-content: center;
   z-index: 9999;
+  background: linear-gradient(45deg, #ccc002, #333);
+  background-size: 400% 400%;
+  animation: gradientAnimation 10s ease-in-out infinite;
+  
+  @keyframes gradientAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
 `;
 
+
 const ModalContent = styled.div`
-  background: #d4d4d4;
+  background: transparent;
   padding: 20px;
   width: 100%;
-  overflow-y: auto;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
 `;
 
@@ -91,6 +109,9 @@ interface PlayheadProps {
   currentTime: number;
   duration: number;
   onProgressBarChange: (time: number) => void;
+  showPlayerController: boolean;
+  togglePlayerController: () => void;
+  showTrackList: boolean;
 }
 
 interface Song {
@@ -107,12 +128,16 @@ const Playhead: React.FC<PlayheadProps> = ({
   currentTime,
   duration,
   onProgressBarChange,
+  showPlayerController,
+  togglePlayerController,
+  showTrackList,
 }) => {
   const [showControls, setShowControls] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleListIconClick = () => {
     setShowControls(!showControls);
+    togglePlayerController();
   };
 
   const handleInfoIconClick = () => {
@@ -130,12 +155,16 @@ const Playhead: React.FC<PlayheadProps> = ({
           <>
             <TrackArt src={currentSong.trackArt} alt="Artwork" />
             <TrackName>
-            <Marquee text={`${currentSong.trackName} by ${currentSong.artist}`}></Marquee>
+              <Marquee text={`${currentSong.trackName} by ${currentSong.artist}`} />
             </TrackName>
             <InfoIcon onClick={handleInfoIconClick}>
               <FiInfo />
             </InfoIcon>
-            <ControlIcon showControls={showControls} onClick={handleListIconClick}>
+            <ControlIcon
+              showControls={showControls}
+              showTrackList={showTrackList}
+              onClick={handleListIconClick}
+            >
               <FiSettings />
             </ControlIcon>
           </>
@@ -145,8 +174,14 @@ const Playhead: React.FC<PlayheadProps> = ({
       <ModalOverlay isOpen={isModalOpen}>
         <ModalContent>
           <CloseButton onClick={closeModal}>&times;</CloseButton>
-          <h2>Title</h2>
-          <p>Content of the modal goes here.</p>
+          {currentSong && (
+            <>
+              <h2>{currentSong.trackName}</h2>
+              {/* <img src={currentSong.trackArt} alt="Artwork" /> */}
+              <p>Artist: {currentSong.artist}</p>
+              <p>Duration: {currentSong.trackDuration}</p>
+            </>
+          )}
         </ModalContent>
       </ModalOverlay>
     </>

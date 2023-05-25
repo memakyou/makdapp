@@ -218,18 +218,19 @@ const AddressForm = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
-  width: 80%
-`;
-
-const Label = styled.label`
-  color: grey;
+  width: 100%
 `;
 
 const Input = styled.input`
-  padding: 5px;
+  padding: 15px;
   width: 100%;
-  border: 1px solid black;
-  border-radius: 16px;
+  border: 2px solid #CCC002;
+  background-color: #d4d4d4;
+  border-radius: 6px;
+`;
+
+const PlaceholderInput = styled(Input)`
+  color: gray;
 `;
 
 
@@ -317,14 +318,15 @@ const MshrsShowAll: React.FC = () => {
   
     if (isShippingChecked) {
       const shippingName = (document.getElementById('shippingName') as HTMLInputElement)?.value;
+      const email = (document.getElementById('email') as HTMLInputElement)?.value;
       const streetAddress = (document.getElementById('streetAddress') as HTMLInputElement)?.value;
       const city = (document.getElementById('city') as HTMLInputElement)?.value;
       const state = (document.getElementById('state') as HTMLInputElement)?.value;
       const zipEir = (document.getElementById('zipEir') as HTMLInputElement)?.value;
       const country = (document.getElementById('country') as HTMLInputElement)?.value;
       const shippingNotes = (document.getElementById('shippingNotes') as HTMLTextAreaElement)?.value;
-        
-      emailContent += `\n\nShipping Details:\n\nName: ${shippingName}\nStreet Address: ${streetAddress}\nCity: ${city}\nState: ${state}\nZip/Eir: ${zipEir}\nCountry: ${country}\nShipping Notes: ${shippingNotes}`;
+
+      emailContent += `\n\nShipping Details:\n\nName: ${shippingName}\nEmail: ${email}\nStreet Address: ${streetAddress}\nCity: ${city}\nState: ${state}\nZip/Eir: ${zipEir}\nCountry: ${country}\nShipping Notes: ${shippingNotes}\nShares Purchased: ${sliderValue}\nID: ${selectedNFT?.metadata.id}\nSong Name: ${selectedNFT?.metadata.name}`;
     }
   
     sendEmail(emailContent);
@@ -381,32 +383,27 @@ const MshrsShowAll: React.FC = () => {
                     checked={isShippingChecked}
                     onChange={handleAddressCheckboxChange}
                   />
-                  <label htmlFor="shipping">Add a delivery address for your physical supporter plaque</label>
+                  <label htmlFor="shipping">🎁 GIFT! Claim your gift!</label>
                 </TermsCheckbox>
               )}
               
               {isShippingChecked && isAddressFormVisible && sliderValue >= 500 &&  (
                 <AddressForm>
-                <Label>Shipping Name</Label>
-                <Input type="text" id="shippingName" />
-              
-                <Label>Street Address</Label>
-                <Input type="text" id="streetAddress" />
+                <Input type="text" id="shippingName" placeholder="Email"  />
                 
-                <Label>City</Label>
-                <Input type="text" id="city" />
-                
-                <Label>State</Label>
-                <Input type="text" id="state" />
-                
-                <Label>Zip/Eir</Label>
-                <Input type="text" id="zipEir" />
+                <Input type="text" id="email" placeholder="Shipping Name" />
               
-                <Label>Country</Label>
-                <Input type="text" id="country" />
+                <Input type="text" id="streetAddress" placeholder="Street Address"/>
+                
+                <Input type="text" id="city" placeholder="City"/>
+                
+                <Input type="text" id="state" placeholder="State"/>
+                
+                <Input type="text" id="zipEir" placeholder="Zip/Eircode"/>
               
-                <Label>Shipping Notes</Label>
-                <Input type="text" id="shippingNotes" />
+                <Input type="text" id="country" placeholder="Country"/>
+              
+                <Input type="text" id="shippingNotes" placeholder="Shipping Notes"/>
               </AddressForm>
               )}
               
