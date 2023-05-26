@@ -44,7 +44,14 @@ export function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <ThirdwebProvider 
+      <ThirdwebProvider
+        sdkOptions={{
+          gasless: {
+            openzeppelin: {
+              relayerUrl: process.env.NEXT_PUBLIC_OPENZEPPELIN_URL,
+          }
+        }
+        }}
         activeChain={activeChain}
         supportedWallets={[
           paperWallet({

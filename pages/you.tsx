@@ -2,6 +2,8 @@ import { NextPage } from 'next';
 import MshrsShowMine from '../components/MshrsShowMine';
 import { useAddress, useContract, useTokenBalance } from '@thirdweb-dev/react';
 import styled from 'styled-components';
+import MyBdgs from '../components/MyBdgs';
+import MyMakPay from '../components/MyMakPay';
 
 const Container = styled.div`
   padding: 0 2rem;
@@ -34,9 +36,7 @@ const Title = styled.h1`
   }
 `;
 
-const SubTitle = styled.h2`
-  color: #d4d4d4
-`;
+
 
 const Card = styled.div`
   width: 100%;
@@ -82,16 +82,9 @@ const You: NextPage = () => {
                 in your connected wallet 👜
               </p>
             </Card><br></br>
-            <SubTitle>$MSHRS</SubTitle>
             <MshrsShowMine/>
-            <SubTitle>SUPPORTER BADGES</SubTitle>
-            <br></br>
-            <DefaultText>😔 You have not earned any supporter badges yet</DefaultText>
-            <br></br>
-            <SubTitle>MAKPAY</SubTitle>
-            <br></br>
-            <DefaultText>😔 You do not own a CORE token <button>GET CORE</button></DefaultText>
-            <br></br>
+            <MyBdgs />
+            <MyMakPay />    
             <p></p>
           </>
         ) : (

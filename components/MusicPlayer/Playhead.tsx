@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import Marquee from '../Marquee';
 import { FiSettings, FiInfo } from 'react-icons/fi';
+import { useWindowSize } from "react-use";
 
 const TrackArt = styled.img`
   width: 50px;
@@ -86,7 +87,7 @@ const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  // justify-content: center;
   box-sizing: border-box;
 `;
 
@@ -103,6 +104,23 @@ const CloseButton = styled.button`
     color: #ccc002;
   }
 `;
+
+const Artwork = styled.img`
+  width: 300px;
+  height: 300px;
+  border-radius: 0px;
+  margin-top: 0px;
+
+  transition: transform 0.5s;
+  box-shadow: 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+
+&:hover {
+  background-color: #ccc002;
+  box-shadow: 0px 14px 28px rgba(0,0,0,0.25), 0px 10px 10px rgba(0,0,0,0.22);
+}
+`;
+
 
 interface PlayheadProps {
   currentSong: Song | null;
@@ -135,6 +153,8 @@ const Playhead: React.FC<PlayheadProps> = ({
   const [showControls, setShowControls] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const { width, height } = useWindowSize();
+
   const handleListIconClick = () => {
     setShowControls(!showControls);
     togglePlayerController();
@@ -147,6 +167,29 @@ const Playhead: React.FC<PlayheadProps> = ({
   const closeModal = () => {
     setIsModalOpen(false);
   };
+
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+
+    const handleMouseMove = (e: MouseEvent) => {
+      const { clientX, clientY } = e;
+      const { innerWidth, innerHeight } = window;
+
+      const dx = (clientX - innerWidth / 2) / 20; // change the divisor for more/less sensitivity
+      const dy = (clientY - innerHeight / 2) / 20; // change the divisor for more/less sensitivity
+
+      if(ref.current) {
+        ref.current.style.transform = `perspective(1000px) rotateX(${dy}deg) rotateY(${dx}deg)`;
+      }
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
 
   return (
     <>
@@ -175,9 +218,10 @@ const Playhead: React.FC<PlayheadProps> = ({
         <ModalContent>
           <CloseButton onClick={closeModal}>&times;</CloseButton>
           {currentSong && (
-            <>
+            <>      
+               <Artwork src={currentSong.trackArt} ref={ref} alt="Artwork" />
+
               <h2>{currentSong.trackName}</h2>
-              {/* <img src={currentSong.trackArt} alt="Artwork" /> */}
               <p>Artist: {currentSong.artist}</p>
               <p>Duration: {currentSong.trackDuration}</p>
             </>

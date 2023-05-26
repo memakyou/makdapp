@@ -232,10 +232,7 @@ const BuyButton = styled.button`
   }
 `;
 
-
-
-
-const MshrsShowMine:  NextPage = () => {
+const MshrsShowMine: React.FC = () => {
   const { width, height } = useWindowSize()
   const [isConfettiVisible, setIsConfettiVisible] = useState(false)
 
@@ -287,6 +284,7 @@ const MshrsShowMine:  NextPage = () => {
   return (
     <Container>
       <Main>
+        
       {isConfettiVisible && 
         <Confetti
           width={width}
@@ -368,7 +366,7 @@ const MshrsShowMine:  NextPage = () => {
           ownedNFTs
             ?.map((nft) => {
               return (
-                <CardContainer key={nft.metadata.id} onClick={() => (setModalOpen(true), setSelectedNFT(nft))}>
+                <CardContainer key={nft.metadata.id}>
                 <NftContainer>
                   <ThirdwebNftMedia
                     metadata={nft.metadata}
