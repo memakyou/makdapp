@@ -4,10 +4,11 @@ import { useState, useRef, useEffect } from 'react'
 import useWindowSize from 'react-use/lib/useWindowSize'
 import Confetti from 'react-confetti'
 import { FaShoppingCart } from "react-icons/fa";
-
+ 
 // Define your styled components
 const Container = styled.div`
-  // padding: 0 2rem;
+// padding: 0 2rem;
+
 `;
 
 const Main = styled.main`
@@ -217,6 +218,7 @@ const NftContainer = styled.div`
 
 const NftName = styled.p`
   margin-right: auto; /* Added this line */
+  font-size: 12px;
 `;
 
 const BuyButton = styled.button`
@@ -366,18 +368,18 @@ const MshrsShowMine: React.FC = () => {
           ownedNFTs
             ?.map((nft) => {
               return (
-                <CardContainer key={nft.metadata.id}>
+
+                <CardContainer key={nft.metadata.id} onClick={() => (setModalOpen(true), setSelectedNFT(nft))}>
                 <NftContainer>
                   <ThirdwebNftMedia
                     metadata={nft.metadata}
-                    width={70}
-                    height={70}
+                    width={50}
+                    height={50}
                     style={{ borderRadius: "15px"}}                    onClick={() => {
                       setSelectedNFT(nft);
                       setModalOpen(true);
                     }}
                   />
-
                   <NftName>You own <a>{nft.quantityOwned}</a> music shares in <a>{nft.metadata.name}</a>, a <a>{(nft.quantityOwned * sharePertoken).toFixed(3)}%</a> stake</NftName>
                   <BuyButton><FaShoppingCart /></BuyButton>
                 </NftContainer>

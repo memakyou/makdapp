@@ -5,7 +5,7 @@ import SocialMediaLinks from "../components/SocialLinkBar";
 
 // Define your styled components here
 const Container = styled.div`
-  padding: 0 2rem;
+  padding: 0 rem;
 `;
 
 const Main = styled.main`
@@ -16,6 +16,8 @@ const Main = styled.main`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 24px;
+
 `;
 
 const Card = styled.div`

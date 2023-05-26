@@ -12,14 +12,14 @@ const InfoSection = styled.section`
 
 const ProfileImage = styled.img`
   border-radius: 50%;
-  width: 150px;
-  height: 150px;
+  width: 75px;
+  height: 75px;
   object-fit: cover;
 `;
 
 const Verified = styled.img`
-  width: 17px;
-  height: 17px;
+  width: 14px;
+  height: 14px;
 `;
 
 const SocialIcons = styled.div`
@@ -35,13 +35,27 @@ const IconLink = styled.a`
     color: #ccc002;
   }
 `;
+
+const Title = styled.p`
+  color: #d4d4d4;
+  font-size: 16px;
+  
+  &:hover {
+    color: #ccc002;
+  }
+`;
+
+const Description = styled.p`
+  color: #d4d4d4;
+  font-size: 12px;
+`;
 const SocialLinkBar: NextPage = () => {
   return (
     <Container>
       <InfoSection>
         <ProfileImage src="./profile.jpg" alt="pfp" />
-        <h3>@memakyou <Verified src="./verified.png" alt="pfp" /></h3>
-        <p>Wouldn't it be cool if we collectively proved a pixel can 'make it'</p>
+        <Title>@memakyou <Verified src="./verified.png" alt="pfp" /></Title>
+        <Description>Wouldn't it be cool if we collectively proved a pixel can 'make it'</Description>
       </InfoSection>
       <br />
       <br />

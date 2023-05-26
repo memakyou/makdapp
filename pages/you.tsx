@@ -11,7 +11,7 @@ const Container = styled.div`
 
 const Main = styled.main`
   min-height: 100vh;
-  padding: 4rem 0;
+  padding: 1rem 0;
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -41,7 +41,7 @@ const Title = styled.h1`
 const Card = styled.div`
   width: 100%;
   background-color: #878787;
-  padding: 16px;
+  padding: 10px;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
 
@@ -52,8 +52,14 @@ const Card = styled.div`
 
 const DefaultText = styled.p`
   color: #272c34;
-  margin: auto;
-  text-align: center;
+  // margin: auto;
+  // text-align: center;
+  font-size: 14px;
+`;
+
+const SubTitle = styled.h2`
+  color: #d4d4d4
+  
 `;
 
 const You: NextPage = () => {
@@ -71,18 +77,19 @@ const You: NextPage = () => {
         {isConnected ? (
           <>
             <Card>
-              <p>
-                You're connected to <a>MEMAKYOU</a> with <a>{address}</a> ✅
-              </p>
-              <p>
+              <DefaultText>
+              ✅ You're connected to <a>MEMAKYOU</a> with <a>{address}</a>
+              </DefaultText>
+              {/* <p>
                 You've{' '}
                 <a>
                   {tokenBalance?.displayValue} ${tokenBalance?.symbol}
                 </a>{' '}
                 in your connected wallet 👜
-              </p>
+              </p> */}
             </Card><br></br>
             <MshrsShowMine/>
+            <SubTitle>#BDGS</SubTitle>
             <MyBdgs />
             <MyMakPay />    
             <p></p>

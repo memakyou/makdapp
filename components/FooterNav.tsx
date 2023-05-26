@@ -15,7 +15,7 @@ const Container = styled.div`
 `;
 
 const NavLink = styled.a`
-  font-size: medium;
+  font-size: 12px;
   font-weight: bold;
   margin-right: 20px;
   color: black;

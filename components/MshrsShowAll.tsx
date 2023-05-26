@@ -48,6 +48,7 @@ const NftContainer = styled.div`
 
 const NftName = styled.p`
   margin-right: auto; /* Added this line */
+  font-size: 12px;
 `;
 
 const CardContainer = styled.div`
@@ -108,6 +109,36 @@ const Modal = styled.div<{ open: boolean }>`
   }
 `;
 
+const ModalOverlay = styled.div<{ isOpen: boolean }>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* Keep the same z-index as before */
+  background: linear-gradient(45deg, #d4d4d4, #878787);
+  background-size: 400% 400%;
+  animation: gradientAnimation 10 s ease-in-out infinite;
+`;
+`;
+ 10s ease-in-out infinite;
+  
+  @keyframes gradientAnimation {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+`;
+
 const CloseButton = styled.button`
   position: absolute;
   top: 10px;
@@ -115,7 +146,15 @@ const CloseButton = styled.button`
   background: none;
   border: none;
   font-size: 1.5em;
+  color: #fff;
+  cursor: pointer;
+  z-index: 10000; 
+
+  &:hover {
+    color: #ccc002;
+  }
 `;
+
 
 const ModalTitle = styled.h1`
   margin-bottom: 20px;
@@ -126,34 +165,44 @@ const ModalTitle = styled.h1`
 const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
   align-items: center;
   height: calc(100% - 30px);
-  gap: 20px;
+  gap: 10px;
 `;
 
 const Slider = styled.input`
   width: 100%;
-  margin: 20px 0;
+  margin: auto;
+  appearance: none;
 
-  /* Change color of slider */
+
+  &::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 5px;
+    background: #333;
+    border: none;
+    border-radius: 0;
+  }
+
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
-    appearance: none;
-    width: 25px;
-    height: 25px;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 0%;
     background: #ccc002;
-    cursor: pointer;
-  }
-  
-  &::-moz-range-thumb {
-    width: 25px;
-    height: 25px;
-    background: #ccc002;
-    cursor: pointer;
+    margin-top: -4px;
   }
 `;
 
+const ProgressBarContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+  width: 100%;
+  background-color: #d4d4d4;
+`;
 
 const TextBox = styled.input`
   width: 100%;
@@ -222,7 +271,7 @@ const AddressForm = styled.div`
 `;
 
 const Input = styled.input`
-  padding: 15px;
+  padding: 5px;
   width: 100%;
   border: 2px solid #CCC002;
   background-color: #d4d4d4;
@@ -317,7 +366,7 @@ const MshrsShowAll: React.FC = () => {
     let emailContent = `Congratulations, your purchase was successful! Transaction ID: ${result.transactionHash}`;
   
     if (isShippingChecked) {
-      const shippingName = (document.getElementById('shippingName') as HTMLInputElement)?.value;
+      // const shippingName = (document.getElementById('shippingName') as HTMLInputElement)?.value;
       const email = (document.getElementById('email') as HTMLInputElement)?.value;
       const streetAddress = (document.getElementById('streetAddress') as HTMLInputElement)?.value;
       const city = (document.getElementById('city') as HTMLInputElement)?.value;
@@ -326,7 +375,7 @@ const MshrsShowAll: React.FC = () => {
       const country = (document.getElementById('country') as HTMLInputElement)?.value;
       const shippingNotes = (document.getElementById('shippingNotes') as HTMLTextAreaElement)?.value;
 
-      emailContent += `\n\nShipping Details:\n\nName: ${shippingName}\nEmail: ${email}\nStreet Address: ${streetAddress}\nCity: ${city}\nState: ${state}\nZip/Eir: ${zipEir}\nCountry: ${country}\nShipping Notes: ${shippingNotes}\nShares Purchased: ${sliderValue}\nID: ${selectedNFT?.metadata.id}\nSong Name: ${selectedNFT?.metadata.name}`;
+      emailContent += `\n\nShipping Details:\n\nName: ${address}\nEmail: ${email}\nStreet Address: ${streetAddress}\nCity: ${city}\nState: ${state}\nZip/Eir: ${zipEir}\nCountry: ${country}\nShipping Notes: ${shippingNotes}\nShares Purchased: ${sliderValue}\nID: ${selectedNFT?.metadata.id}\nSong Name: ${selectedNFT?.metadata.name}`;
     }
   
     sendEmail(emailContent);
@@ -360,18 +409,21 @@ const MshrsShowAll: React.FC = () => {
               setIsConfettiVisible(false)
             }}>X
             </CloseButton>
+            <ModalOverlay isOpen={isModalOpen}>
+
             <ModalContent>
               {selectedNFT && <StyledThirdwebNftMedia ref={ref} metadata={selectedNFT.metadata} />}
               <ModalTitle>{selectedNFT?.metadata.name || 'Loading...'}</ModalTitle>
+              <ProgressBarContainer>
               <Slider 
                 type="range" 
                 min="5" 
                 max="1000" 
                 value={sliderValue} 
                 onChange={(e) => setSliderValue(parseInt(e.target.value))} 
-              />
+              /></ProgressBarContainer>
               <TextBox type="text" value={sliderValue} readOnly />
-              <PercentageBox>Purchasing <PercentageBoxSum>{sharePertoken * sliderValue}%</PercentageBoxSum> Music Shares</PercentageBox>
+              <PercentageBox>Purchasing <PercentageBoxSum>{(sharePertoken * sliderValue).toFixed(4)}%</PercentageBoxSum> Music Shares</PercentageBox>
               <PercentageBox><b>Costing</b></PercentageBox>
               <PriceBox>${sliderValue * mshrsUnitPrice}</PriceBox>
               {sliderValue >= 500 && (
@@ -383,15 +435,15 @@ const MshrsShowAll: React.FC = () => {
                     checked={isShippingChecked}
                     onChange={handleAddressCheckboxChange}
                   />
-                  <label htmlFor="shipping">🎁 GIFT! Claim your gift!</label>
+                  <label htmlFor="shipping">🎁 Add Shipping Address</label>
                 </TermsCheckbox>
               )}
               
               {isShippingChecked && isAddressFormVisible && sliderValue >= 500 &&  (
                 <AddressForm>
-                <Input type="text" id="shippingName" placeholder="Email"  />
+                {/* <Input type="text" id="shippingName" placeholder="Email"  /> */}
                 
-                <Input type="text" id="email" placeholder="Shipping Name" />
+                <Input type="text" id="email" placeholder="Email" />
               
                 <Input type="text" id="streetAddress" placeholder="Street Address"/>
                 
@@ -403,7 +455,7 @@ const MshrsShowAll: React.FC = () => {
               
                 <Input type="text" id="country" placeholder="Country"/>
               
-                <Input type="text" id="shippingNotes" placeholder="Shipping Notes"/>
+                {/* <Input type="text" id="shippingNotes" placeholder="Shipping Notes"/> */}
               </AddressForm>
               )}
               
@@ -441,6 +493,7 @@ const MshrsShowAll: React.FC = () => {
                 </label> 
               </TermsCheckbox>
             </ModalContent>
+            </ModalOverlay>
           </div>
         </Modal>
 
@@ -453,8 +506,8 @@ const MshrsShowAll: React.FC = () => {
         <NftContainer>
           <ThirdwebNftMedia
             metadata={nft.metadata}
-            height="70px"
-            width="70px"
+            height="50px"
+            width="50px"
             style={{ borderRadius: "15px" }}
           />
           <NftName>{nft.metadata.name}</NftName>

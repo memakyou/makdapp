@@ -45,13 +45,13 @@ export function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <ThirdwebProvider
-        sdkOptions={{
-          gasless: {
-            openzeppelin: {
-              relayerUrl: process.env.NEXT_PUBLIC_OPENZEPPELIN_URL,
-          }
-        }
-        }}
+        // sdkOptions={{
+        //   gasless: {
+        //     openzeppelin: {
+        //       relayerUrl: "https://api.defender.openzeppelin.com/autotasks/836222cc-9374-44c5-bb16-801c0bf68134/runs/webhook/3a0f9a9c-74c5-487b-8f79-11c88544824e/6G8qPnvdiHn8RSnL4TY8ys",
+        //   }
+        // }
+        // }}
         activeChain={activeChain}
         supportedWallets={[
           paperWallet({

@@ -20,6 +20,7 @@ const RightDiv = styled.div`
 const Title = styled.h3`
   color: #00000;
   margin-top: 0;
+  font-size: 14px;
 `;
 
 const Description = styled.p`
@@ -29,8 +30,16 @@ const Description = styled.p`
 const Cost = styled.p`
   color: #555;
   font-weight: bold;
-  margin-bottom: 10px;
+  // margin-bottom: 10px;
 `;
+
+const CoreDataWrapper = styled.p`
+  color: #d4d4d4;
+  font-weight: bold;
+  font-size: 12px;
+`;
+
+CoreDataWrapper
 
 const GetCore = () => {
     const [minting, setMinting] = useState(false);
@@ -54,17 +63,18 @@ const GetCore = () => {
         <LeftDiv>
         <ThirdwebNftMedia 
             metadata={nft.metadata}
-            height={200}
-            width={200}
+            height={120}
+            width={120}
         />
         </LeftDiv>
         <RightDiv>
         <Title>{nft.metadata.description}</Title>
-          <Cost>Members: {nft.supply}</Cost>
-          <Cost>Total Supply: 625</Cost>
-
-          <Cost>Cost: 10000 $MAK</Cost>
-          
+        <CoreDataWrapper>
+          <Cost>MEMBERS: {nft.supply}</Cost>
+          <Cost>ToT SUPPLEY: 625 🔒</Cost>
+          {/* <Cost>PRICE: 10000 $MAK</Cost> */}
+          <p></p>
+        </CoreDataWrapper>
         </RightDiv>
       </Container>
       {/* <br/> */}

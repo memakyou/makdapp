@@ -21,14 +21,17 @@ const TrackName = styled.div`
 `;
 
 const PlayheadContainer = styled.div`
-  display: flex;
-  padding: 10px;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  padding-left: 24px;
-  padding-right: 24px;
-  position: relative;
+display: flex;
+padding: 10px;
+align-items: center;
+justify-content: space-between;
+width: 100%;
+padding-left: 24px;
+padding-right: 24px;
+position: relative;
+background-image: url(${({ backgroundImage }) => backgroundImage});
+background-size: cover;
+background-position: center;
 `;
 
 const ControlIcon = styled.span<{ showControls: boolean; showTrackList: boolean }>`
@@ -109,7 +112,7 @@ const Artwork = styled.img`
   width: 300px;
   height: 300px;
   border-radius: 0px;
-  margin-top: 0px;
+  margin-top: 30px;
 
   transition: transform 0.5s;
   box-shadow: 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24);
@@ -193,7 +196,7 @@ const Playhead: React.FC<PlayheadProps> = ({
 
   return (
     <>
-      <PlayheadContainer>
+      <PlayheadContainer >
         {currentSong && (
           <>
             <TrackArt src={currentSong.trackArt} alt="Artwork" />
