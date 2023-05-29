@@ -35,7 +35,6 @@ const StyledThirdwebNftMedia = styled(ThirdwebNftMedia)`
 }
 `;
 
-
 const TextBox = styled.input`
   width: 100%;
   margin: 10px 0;  

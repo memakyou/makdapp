@@ -1,16 +1,14 @@
-import { useContract, useContractRead, useContractWrite, useNFTs, useMintNFT, ThirdwebNftMedia, useAddress, Web3Button } from "@thirdweb-dev/react"
+import { useContract, useContractRead, useContractWrite, useNFTs, useMintNFT, ThirdwebNftMedia, useAddress, Web3Button } from "@thirdweb-dev/react";
 import styled from "styled-components";
 import { FaShoppingCart } from "react-icons/fa";
 import { useWindowSize } from "react-use";
 import { useEffect, useRef, useState } from "react";
-import Confetti from 'react-confetti'
+import Confetti from 'react-confetti';
 import emailjs from 'emailjs-com';
 import Link from 'next/link';
 
-
 const Container = styled.div`
   // padding: 0 2rem;
-  
 `;
 
 const Main = styled.main`
@@ -56,6 +54,7 @@ const CardContainer = styled.div`
   gap: 2rem;
   border: none; /* Add this line */
   transition: border 0.3s; /* Add this line */
+  cursor: pointer;
 
   @media (min-width: 768px) {
     flex-direction: row;
@@ -114,10 +113,7 @@ const ModalOverlay = styled.div<{ isOpen: boolean }>`
   z-index: 9999; /* Keep the same z-index as before */
   background: linear-gradient(45deg, #d4d4d4, #878787);
   background-size: 400% 400%;
-  animation: gradientAnimation 10 s ease-in-out infinite;
-`;
-`;
- 10s ease-in-out infinite;
+  animation: gradientAnimation 10s ease-in-out infinite;
   
   @keyframes gradientAnimation {
     0% {
@@ -148,13 +144,11 @@ const CloseButton = styled.button`
   }
 `;
 
-
 const ModalTitle = styled.h1`
   margin-bottom: 20px;
   font-size: 16px;
   color: black;
 `;
-
 
 const ModalContent = styled.div`
   display: flex;
@@ -168,7 +162,6 @@ const Slider = styled.input`
   width: 100%;
   margin: auto;
   appearance: none;
-
 
   &::-webkit-slider-runnable-track {
     width: 100%;
@@ -251,7 +244,7 @@ const TermsCheckbox = styled.div`
   color: grey;
 
   & input[type=checkbox] {
-    margin-right: 50spx;
+    margin-right: 30px;
   }
 
   label {
@@ -280,10 +273,6 @@ const Input = styled.input`
   font-size: 12px;
 `;
 
-const PlaceholderInput = styled(Input)`
-  color: gray;
-`;
-
 const PurchaseReceipt = styled.div`
   background-color: #999;
   width: 100%;
@@ -304,6 +293,7 @@ const a1 = styled.a`
   border-radius: 6px;
   padding: 10px;
 `;
+
 const MshrsShowAll: React.FC = () => {
   const address = useAddress();
   const { contract } = useContract("0x0880432A2A4D97C7d775566f205aa3c545886430");
@@ -324,8 +314,8 @@ const MshrsShowAll: React.FC = () => {
       subject: "MSHRS SUPPORTER PLAQUE ORDER",
       message: emailContent, // Check if emailContent is correctly assigned to the content parameter
     };
-  
-    emailjs.send("service_qy5dyxh", "template_zu7uhvx", templateParams, "oetc636JvIIsre0jz" )
+
+    emailjs.send("service_qy5dyxh", "template_zu7uhvx", templateParams, "oetc636JvIIsre0jz")
       .then((response) => {
         console.log("Email sent successfully!", response.text);
       })
@@ -333,7 +323,7 @@ const MshrsShowAll: React.FC = () => {
         console.error("Email sending failed:", error);
       });
   };
-  
+
   const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -343,31 +333,29 @@ const MshrsShowAll: React.FC = () => {
       const dx = (clientX - innerWidth / 2) / 20; // change the divisor for more/less sensitivity
       const dy = (clientY - innerHeight / 2) / 20; // change the divisor for more/less sensitivity
 
-      if(ref.current) {
+      if (ref.current) {
         ref.current.style.transform = `perspective(1000px) rotateX(${dy}deg) rotateY(${dx}deg)`;
       }
     };
 
     window.addEventListener('mousemove', handleMouseMove);
-    
+
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
 
-  // Check if user has ownedNFTs  
-  
+  // Check if user has ownedNFTs
+
   // pricing logistics
-  const sharePertoken = 0.0002
+  const sharePertoken = 0.0002;
   const mshrsUnitPrice = 0.65;
   const mshrsUnitMinOrder = 20;
-  const mshrsUnitMaxOrder = 100000;
-
-
+  const mshrsUnitMaxOrder = 5000;
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [sliderValue, setSliderValue] = useState(50);
-  
+
   const [selectedNFT, setSelectedNFT] = useState(null);
   const [isShippingChecked, setIsShippingChecked] = useState(false);
   const [isAddressFormVisible, setIsAddressFormVisible] = useState(false);
@@ -377,14 +365,14 @@ const MshrsShowAll: React.FC = () => {
     setIsShippingChecked(isChecked);
     setIsAddressFormVisible(isChecked);
   };
-    
+
   const handleWeb3ButtonSuccess = (result: { transactionHash: any }) => {
     setTransactionStatus('Success!');
     setTransactionError('');
     setIsConfettiVisible(true);
-  
+
     let emailContent = `Congratulations, your purchase was successful! Transaction ID: ${result.transactionHash}`;
-  
+
     if (isShippingChecked) {
       // const shippingName = (document.getElementById('shippingName') as HTMLInputElement)?.value;
       const email = (document.getElementById('email') as HTMLInputElement)?.value;
@@ -397,21 +385,21 @@ const MshrsShowAll: React.FC = () => {
 
       emailContent += `\n\nShipping Details:\n\nName: ${address}\nEmail: ${email}\nStreet Address: ${streetAddress}\nCity: ${city}\nState: ${state}\nZip/Eir: ${zipEir}\nCountry: ${country}\nShipping Notes: ${shippingNotes}\nShares Purchased: ${sliderValue}\nID: ${selectedNFT?.metadata.id}\nSong Name: ${selectedNFT?.metadata.name}`;
     }
-  
+
     sendEmail(emailContent);
   };
-  
+
   const handleModalClose = () => {
     setModalOpen(false);
     setSelectedNFT(null);
     setTransactionStatus('');
     setTransactionError('');
     setIsConfettiVisible(false);
-    setSliderValue(50); // Reset the slider value
+    setSliderValue(50);
     setIsShippingChecked(false);
-    setTermsAccepted(false)
+    setIsAddressFormVisible(false);
+    setTermsAccepted(false); // Reset the checkbox state
   };
-
 
   return (
     <Container>
@@ -441,42 +429,27 @@ const MshrsShowAll: React.FC = () => {
               {transactionStatus !== 'Success!' && (
                 <>
                   <ProgressBarContainer>
-                  <Slider 
-                    type="range" 
-                    min={mshrsUnitMinOrder} 
-                    max={mshrsUnitMaxOrder} 
-                    value={sliderValue} 
-                    onChange={(e) => setSliderValue(parseInt(e.target.value))} 
-                  />
-                  </ProgressBarContainer>                </>
+                    <Slider 
+                      type="range" 
+                      min={mshrsUnitMinOrder} 
+                      max={mshrsUnitMaxOrder} 
+                      value={sliderValue} 
+                      onChange={(e) => setSliderValue(parseInt(e.target.value))} 
+                    />
+                  </ProgressBarContainer>
+                </>
               )}
 
-
-
-              {/* <ProgressBarContainer>
-              <Slider 
-                type="range" 
-                min={mshrsUnitMinOrder} 
-                max={mshrsUnitMaxOrder} 
-                value={sliderValue} 
-                onChange={(e) => setSliderValue(parseInt(e.target.value))} 
-              />
-              </ProgressBarContainer> */}
               <br/>
-              <PercentageBox1>Order Summery:</PercentageBox1>
+              <PercentageBox1>Order Summary:</PercentageBox1>
               <PurchaseReceipt>
-              {/* <TextBox type="text" value={sliderValue} readOnly /> */}
-              <PercentageBox><b>Tokens:</b><TextBox2 type="text" value={sliderValue} readOnly />
-</PercentageBox>
-              <PercentageBox><b>Shares:</b> {(sharePertoken * sliderValue).toFixed(4)}%</PercentageBox>
-              {/* <PercentageBox><b>Cost: </b>€{(sliderValue * mshrsUnitPrice).toFixed(2)}</PercentageBox> */}
+                <PercentageBox><b>Tokens:</b><TextBox2 type="text" value={sliderValue} readOnly /></PercentageBox>
+                <PercentageBox><b>Shares:</b> {(sharePertoken * sliderValue).toFixed(4)}%</PercentageBox>
+              
               {sliderValue >= 500 && (
-                
                 <TermsCheckbox>
-                <br/><br/>
-
-
-                 <label htmlFor="shipping">🎁 Shipping Address</label>
+                  <br/><br/>
+                  <label htmlFor="shipping">🎁 Shipping Address</label>
                   <input
                     type="checkbox"
                     id="shipping"
@@ -488,70 +461,60 @@ const MshrsShowAll: React.FC = () => {
               )}
               </PurchaseReceipt>
 
-              
-              
-
-{isShippingChecked && transactionStatus !== 'Success!' && isAddressFormVisible && sliderValue >= 500 &&  (
+              {isShippingChecked && transactionStatus !== 'Success!' && isAddressFormVisible && sliderValue >= 500 && (
                 <PurchaseReceipt>
-                
-                <AddressForm>
-                {/* <Input type="text" id="shippingName" placeholder="Email"  /> */}
-                
-                <Input type="text" id="email" placeholder="Email" />
-              
-                <Input type="text" id="streetAddress" placeholder="Street Address"/>
-                
-                <Input type="text" id="city" placeholder="City"/>
-                
-                <Input type="text" id="state" placeholder="State"/>
-                
-                <Input type="text" id="zipEir" placeholder="Zip/Eircode"/>
-              
-                <Input type="text" id="country" placeholder="Country"/>
-              
-                {/* <Input type="text" id="shippingNotes" placeholder="Shipping Notes"/> */}
-              </AddressForm>
-              </PurchaseReceipt>
+                  <AddressForm>
+                    <Input type="text" id="email" placeholder="Email" />
+                    <Input type="text" id="streetAddress" placeholder="Street Address"/>
+                    <Input type="text" id="city" placeholder="City"/>
+                    <Input type="text" id="state" placeholder="State"/>
+                    <Input type="text" id="zipEir" placeholder="Zip/Eircode"/>
+                    <Input type="text" id="country" placeholder="Country"/>
+                  </AddressForm>
+                </PurchaseReceipt>
               )}
-                            {transactionStatus && (
-                            <PurchaseStatusBox>
-                              <StatusMessage>{transactionStatus}</StatusMessage>
-                              {transactionError && <ErrorMessage>Error: There has been an error, please try again.</ErrorMessage>}
-                              {transactionStatus === 'Success!' && <SuccessLink>Now stream MEMAKYOU to earn royalties</SuccessLink>}
-                            </PurchaseStatusBox>
-                            )}
+
+              {transactionStatus && (
+                <PurchaseStatusBox>
+                  <StatusMessage>{transactionStatus}</StatusMessage>
+                  {transactionError && <ErrorMessage>Error: There has been an error, please try again.</ErrorMessage>}
+                  {transactionStatus === 'Success!' && <SuccessLink>Now stream MEMAKYOU to earn royalties</SuccessLink>}
+                </PurchaseStatusBox>
+              )}
+
               {transactionStatus !== 'Success!' && (
-<>
-                    <Web3Button
-                contractAddress="0x0880432A2A4D97C7d775566f205aa3c545886430"
-                action={(contract) => contract.erc1155.claim(selectedNFT?.metadata.id, sliderValue)}
-                onError={(error) => {
-                  setTransactionStatus('Error');
-                  setTransactionError(error.message);
-                }}
-                onSubmit={() => {
-                  setTransactionStatus('Transaction submitted');
-                  setTransactionError('');
-                }}
-                onSuccess={(result) => {
-                  setTransactionStatus('Success!');
-                  setTransactionError('');
-                  setIsConfettiVisible(true);
-                  handleWeb3ButtonSuccess(result); // This line triggers the function
-                }}            
-                className="OverrideWeb3Button"
-                isDisabled={!termsAccepted}
-              >
-                PURCHASE €{(sliderValue * mshrsUnitPrice).toFixed(2)}
-              </Web3Button>
-            
-              <TermsCheckbox>
-              <input type="checkbox" id="terms" name="terms" value={termsAccepted} onChange={() => setTermsAccepted(!termsAccepted)}/>
-              <label htmlFor="terms" className={!termsAccepted ? 'error' : ''}>
-                  I accept the terms of the MSHRS Agreement
-                </label> 
-              </TermsCheckbox>
-              </>
+                <>
+                  <Web3Button
+                    contractAddress="0x0880432A2A4D97C7d775566f205aa3c545886430"
+                    action={(contract) => contract.erc1155.claim(selectedNFT?.metadata.id, sliderValue)}
+                    onError={(error) => {
+                      setTransactionStatus('Error');
+                      setTransactionError(error.message);
+                    }}
+                    onSubmit={() => {
+                      setTransactionStatus('Transaction submitted');
+                      setTransactionError('');
+                    }}
+                    onSuccess={(result) => {
+                      setTransactionStatus('Success!');
+                      setTransactionError('');
+                      setIsConfettiVisible(true);
+                      handleWeb3ButtonSuccess(result); // This line triggers the function
+                    }}            
+                    className="OverrideWeb3Button"
+                    isDisabled={!termsAccepted}
+                  >
+                    PURCHASE €{(sliderValue * mshrsUnitPrice).toFixed(2)}
+                  </Web3Button>
+                  <PurchaseReceipt>
+                    <TermsCheckbox>
+                      <input type="checkbox" id="terms" name="terms" value={termsAccepted} checked={termsAccepted} onChange={() => setTermsAccepted(!termsAccepted)}/>
+                      <label htmlFor="terms" className={!termsAccepted ? 'error' : ''}>
+                        I accept the terms of the MSHRS Agreement
+                      </label> 
+                    </TermsCheckbox>
+                  </PurchaseReceipt>
+                </>
               )}
             </ModalContent>
             </ModalOverlay>
@@ -559,27 +522,27 @@ const MshrsShowAll: React.FC = () => {
         </Modal>
 
         {isLoading ? (
-  <p>Loading...</p>
-) : nfts && nfts.length > 0 ? (
-  nfts.map((nft) => {
-    return (
-      <CardContainer key={nft.metadata.id} onClick={() => (setModalOpen(true), setSelectedNFT(nft))}>
-        <NftContainer>
-          <ThirdwebNftMedia
-            metadata={nft.metadata}
-            height="50px"
-            width="50px"
-            style={{ borderRadius: "15px" }}
-          />
-          <NftName>{nft.metadata.name}</NftName>
-          <BuyButton><FaShoppingCart /></BuyButton>
-        </NftContainer>
-      </CardContainer>
-    );
-  })
-) : (
-  <p>No NFTs found.</p>
-)}    
+          <p>Loading...</p>
+        ) : nfts && nfts.length > 0 ? (
+          nfts.map((nft) => {
+            return (
+              <CardContainer key={nft.metadata.id} onClick={() => (setModalOpen(true), setSelectedNFT(nft))}>
+                <NftContainer>
+                  <StyledThirdwebNftMedia
+                    metadata={nft.metadata}
+                    height="50px"
+                    width="50px"
+                    style={{ borderRadius: "15px" }}
+                  />
+                  <NftName>{nft.metadata.name}</NftName>
+                  <BuyButton><FaShoppingCart /></BuyButton>
+                </NftContainer>
+              </CardContainer>
+            );
+          })
+        ) : (
+          <p>No NFTs found.</p>
+        )}
       </Main>
     </Container>
   )
