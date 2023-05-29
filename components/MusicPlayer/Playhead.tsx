@@ -54,6 +54,12 @@ const InfoIcon = styled.span`
   }
 `;
 
+const InfoIcon2 = styled.span`
+  font-size: 16px;
+  margin-right: 10px;
+  color: ##e7e8e8;
+`;
+
 const ModalOverlay = styled.div<{ isOpen: boolean }>`
   position: fixed;
   top: 0;
@@ -219,9 +225,10 @@ const Playhead: React.FC<PlayheadProps> = ({
 
       <ModalOverlay isOpen={isModalOpen}>
         <ModalContent>
+          <h3>Song Info <InfoIcon2><FiInfo/></InfoIcon2></h3>
           <CloseButton onClick={closeModal}>&times;</CloseButton>
           {currentSong && (
-            <>      
+            <>     
                <Artwork src={currentSong.trackArt} ref={ref} alt="Artwork" />
 
               <h2>{currentSong.trackName}</h2>

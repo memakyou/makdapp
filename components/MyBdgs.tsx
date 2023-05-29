@@ -33,7 +33,7 @@ const Tooltip = styled.div<{ show: boolean }>`
   transform: translateX(-50%);
   width: 150px; /* Adjust the width as needed */
   background-color: #141a20; /* Updated to dark background color */
-  color: #ccc00280; /* Updated to text color */
+  color: #d4d4d4; /* Updated to text color */
   border-radius: 5px;
   box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
   padding: 10px;

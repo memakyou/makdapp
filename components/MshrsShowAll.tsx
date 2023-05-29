@@ -248,11 +248,10 @@ const SuccessLink = styled.p`
 const TermsCheckbox = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
   color: grey;
 
   & input[type=checkbox] {
-    margin-right: 5px;
+    margin-right: 50spx;
   }
 
   label {
@@ -360,9 +359,9 @@ const MshrsShowAll: React.FC = () => {
   
   // pricing logistics
   const sharePertoken = 0.0002
-  const mshrsUnitPrice = 1.00;
-  const mshrsUnitMinOrder = 16;
-  const mshrsUnitMaxOrder = 1000;
+  const mshrsUnitPrice = 0.65;
+  const mshrsUnitMinOrder = 20;
+  const mshrsUnitMaxOrder = 100000;
 
 
 
@@ -466,15 +465,18 @@ const MshrsShowAll: React.FC = () => {
               <br/>
               <PercentageBox1>Order Summery:</PercentageBox1>
               <PurchaseReceipt>
-              <TextBox type="text" value={sliderValue} readOnly />
+              {/* <TextBox type="text" value={sliderValue} readOnly /> */}
               <PercentageBox><b>Tokens:</b><TextBox2 type="text" value={sliderValue} readOnly />
 </PercentageBox>
-              <PercentageBox><b>Share Tot:</b> {(sharePertoken * sliderValue).toFixed(4)}%</PercentageBox>
-              {/* <PercentageBox><b>Investing: </b>€{(sliderValue * mshrsUnitPrice).toFixed(2)}</PercentageBox> */}
-              <br/>
+              <PercentageBox><b>Shares:</b> {(sharePertoken * sliderValue).toFixed(4)}%</PercentageBox>
+              {/* <PercentageBox><b>Cost: </b>€{(sliderValue * mshrsUnitPrice).toFixed(2)}</PercentageBox> */}
               {sliderValue >= 500 && (
+                
                 <TermsCheckbox>
-                                    <label htmlFor="shipping">🎁 Shipping Address</label>
+                <br/><br/>
+
+
+                 <label htmlFor="shipping">🎁 Shipping Address</label>
                   <input
                     type="checkbox"
                     id="shipping"
@@ -489,7 +491,7 @@ const MshrsShowAll: React.FC = () => {
               
               
 
-{isShippingChecked && isAddressFormVisible && sliderValue >= 500 &&  (
+{isShippingChecked && transactionStatus !== 'Success!' && isAddressFormVisible && sliderValue >= 500 &&  (
                 <PurchaseReceipt>
                 
                 <AddressForm>
@@ -515,7 +517,7 @@ const MshrsShowAll: React.FC = () => {
                             <PurchaseStatusBox>
                               <StatusMessage>{transactionStatus}</StatusMessage>
                               {transactionError && <ErrorMessage>Error: There has been an error, please try again.</ErrorMessage>}
-                              {transactionStatus === 'Success!' && <SuccessLink>Awesome, now stream MEMAKYOU to earn royalties</SuccessLink>}
+                              {transactionStatus === 'Success!' && <SuccessLink>Now stream MEMAKYOU to earn royalties</SuccessLink>}
                             </PurchaseStatusBox>
                             )}
               {transactionStatus !== 'Success!' && (
