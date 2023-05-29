@@ -5,10 +5,12 @@ import { useWindowSize } from "react-use";
 import { useEffect, useRef, useState } from "react";
 import Confetti from 'react-confetti'
 import emailjs from 'emailjs-com';
+import Link from 'next/link';
 
 
 const Container = styled.div`
   // padding: 0 2rem;
+  
 `;
 
 const Main = styled.main`
@@ -18,24 +20,15 @@ const Main = styled.main`
   gap: 1rem;
 `;
 
-const InfoSection = styled.section`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  text-align: center;
-  width: 100%;
-  gap: 1rem;
-`;
-
 const StyledThirdwebNftMedia = styled(ThirdwebNftMedia)`
   transition: transform 0.5s;
   box-shadow: 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24);
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 
-&:hover {
-  background-color: #ccc002;
-  box-shadow: 0px 14px 28px rgba(0,0,0,0.25), 0px 10px 10px rgba(0,0,0,0.22);
-}
+  &:hover {
+    background-color: #ccc002;
+    box-shadow: 0px 14px 28px rgba(0,0,0,0.25), 0px 10px 10px rgba(0,0,0,0.22);
+  }
 `;
 
 const NftContainer = styled.div`
@@ -158,6 +151,7 @@ const CloseButton = styled.button`
 
 const ModalTitle = styled.h1`
   margin-bottom: 20px;
+  font-size: 16px;
   color: black;
 `;
 
@@ -201,7 +195,6 @@ const ProgressBarContainer = styled.div`
   justify-content: center;
   margin-top: 16px;
   width: 100%;
-  background-color: #d4d4d4;
 `;
 
 const TextBox = styled.input`
@@ -210,29 +203,33 @@ const TextBox = styled.input`
   text-align: center;
   border: none;
   background: none;
-  color: black;
-  font-size: 20px;
+  color: #ccc002;
+  font-size: 16px;
 `;
 
-const PriceBox = styled.div`
-  color: green;
-  text-align: center;
-  font-size: 40px;
+const TextBox2 = styled.input`
+  // margin: 10px 0;  
+  // text-align: center;
+  border: none;
+  background: none;
+  color: #444;
+  font-size: 12px;
 `;
+
 const PercentageBox = styled.div`
   color: #444;
-  text-align: center;
-  font-size: 10px;
+  // text-align: center;
+  font-size: 12px;
 `;
 
-const PercentageBoxSum = styled.div`
-  color: green;
-  text-align: center;
-  font-size: 20px;
+const PercentageBox1 = styled.div`
+  color: #444;
+  // text-align: center;
+  font-size: 12px;
 `;
 
 const StatusMessage = styled.p`
-  color: black;
+  color: #444;
 `;
 
 const ErrorMessage = styled.p`
@@ -258,6 +255,11 @@ const TermsCheckbox = styled.div`
     margin-right: 5px;
   }
 
+  label {
+    font-size: 12px; /* Added this line */
+    color: #444444; /* Added this line */
+  }
+
   label.error {
     color: red;
   }
@@ -271,19 +273,38 @@ const AddressForm = styled.div`
 `;
 
 const Input = styled.input`
-  padding: 5px;
+  // padding: 5px;
   width: 100%;
-  border: 2px solid #CCC002;
+  border: 1px solid #d4d4d4;
   background-color: #d4d4d4;
-  border-radius: 6px;
+  border-radius: 0px;
+  font-size: 12px;
 `;
 
 const PlaceholderInput = styled(Input)`
   color: gray;
 `;
 
+const PurchaseReceipt = styled.div`
+  background-color: #999;
+  width: 100%;
+  border-radius: 6px;
+  padding: 10px;
+`;
 
+const PurchaseStatusBox = styled.div`
+  background-color: #999;
+  width: 100%;
+  border-radius: 6px;
+  padding: 10px;
+`;
 
+const a1 = styled.a`
+  background-color: #999;
+  width: 100%;
+  border-radius: 6px;
+  padding: 10px;
+`;
 const MshrsShowAll: React.FC = () => {
   const address = useAddress();
   const { contract } = useContract("0x0880432A2A4D97C7d775566f205aa3c545886430");
@@ -337,8 +358,11 @@ const MshrsShowAll: React.FC = () => {
 
   // Check if user has ownedNFTs  
   
+  // pricing logistics
   const sharePertoken = 0.0002
-  const mshrsContract = process.env.MSHRS_CONTRACT;
+  const mshrsUnitPrice = 1.00;
+  const mshrsUnitMinOrder = 16;
+  const mshrsUnitMaxOrder = 1000;
 
 
 
@@ -354,10 +378,7 @@ const MshrsShowAll: React.FC = () => {
     setIsShippingChecked(isChecked);
     setIsAddressFormVisible(isChecked);
   };
-  
-
-  const mshrsUnitPrice = 3;
-  
+    
   const handleWeb3ButtonSuccess = (result: { transactionHash: any }) => {
     setTransactionStatus('Success!');
     setTransactionError('');
@@ -381,11 +402,21 @@ const MshrsShowAll: React.FC = () => {
     sendEmail(emailContent);
   };
   
-
+  const handleModalClose = () => {
+    setModalOpen(false);
+    setSelectedNFT(null);
+    setTransactionStatus('');
+    setTransactionError('');
+    setIsConfettiVisible(false);
+    setSliderValue(50); // Reset the slider value
+    setIsShippingChecked(false);
+    setTermsAccepted(false)
+  };
 
 
   return (
     <Container>
+      <h2>MUSIC SHARES <a>$MSHRS</a></h2>
       <Main>
         {isConfettiVisible && 
           <Confetti
@@ -401,33 +432,49 @@ const MshrsShowAll: React.FC = () => {
         }
         <Modal open={isModalOpen}>
           <div>
-            <CloseButton onClick={() => {
-              setModalOpen(false);
-              setSelectedNFT(null);
-              setTransactionStatus('');
-              setTransactionError('');
-              setIsConfettiVisible(false)
-            }}>X
-            </CloseButton>
+            <CloseButton onClick={handleModalClose}>X</CloseButton>
             <ModalOverlay isOpen={isModalOpen}>
 
             <ModalContent>
               {selectedNFT && <StyledThirdwebNftMedia ref={ref} metadata={selectedNFT.metadata} />}
               <ModalTitle>{selectedNFT?.metadata.name || 'Loading...'}</ModalTitle>
-              <ProgressBarContainer>
+             
+              {transactionStatus !== 'Success!' && (
+                <>
+                  <ProgressBarContainer>
+                  <Slider 
+                    type="range" 
+                    min={mshrsUnitMinOrder} 
+                    max={mshrsUnitMaxOrder} 
+                    value={sliderValue} 
+                    onChange={(e) => setSliderValue(parseInt(e.target.value))} 
+                  />
+                  </ProgressBarContainer>                </>
+              )}
+
+
+
+              {/* <ProgressBarContainer>
               <Slider 
                 type="range" 
-                min="5" 
-                max="1000" 
+                min={mshrsUnitMinOrder} 
+                max={mshrsUnitMaxOrder} 
                 value={sliderValue} 
                 onChange={(e) => setSliderValue(parseInt(e.target.value))} 
-              /></ProgressBarContainer>
+              />
+              </ProgressBarContainer> */}
+              <br/>
+              <PercentageBox1>Order Summery:</PercentageBox1>
+              <PurchaseReceipt>
               <TextBox type="text" value={sliderValue} readOnly />
-              <PercentageBox>Purchasing <PercentageBoxSum>{(sharePertoken * sliderValue).toFixed(4)}%</PercentageBoxSum> Music Shares</PercentageBox>
-              <PercentageBox><b>Costing</b></PercentageBox>
-              <PriceBox>${sliderValue * mshrsUnitPrice}</PriceBox>
+              <PercentageBox><b>Tokens:</b><TextBox2 type="text" value={sliderValue} readOnly />
+</PercentageBox>
+              <PercentageBox><b>Share Tot:</b> {(sharePertoken * sliderValue).toFixed(4)}%</PercentageBox>
+              {/* <PercentageBox><b>Investing: </b>€{(sliderValue * mshrsUnitPrice).toFixed(2)}</PercentageBox> */}
+              <br/>
               {sliderValue >= 500 && (
                 <TermsCheckbox>
+                                    <label htmlFor="shipping">🎁 Shipping Address</label>
                   <input
                     type="checkbox"
                     id="shipping"
@@ -435,11 +482,16 @@ const MshrsShowAll: React.FC = () => {
                     checked={isShippingChecked}
                     onChange={handleAddressCheckboxChange}
                   />
-                  <label htmlFor="shipping">🎁 Add Shipping Address</label>
                 </TermsCheckbox>
               )}
+              </PurchaseReceipt>
+
               
-              {isShippingChecked && isAddressFormVisible && sliderValue >= 500 &&  (
+              
+
+{isShippingChecked && isAddressFormVisible && sliderValue >= 500 &&  (
+                <PurchaseReceipt>
+                
                 <AddressForm>
                 {/* <Input type="text" id="shippingName" placeholder="Email"  /> */}
                 
@@ -457,13 +509,18 @@ const MshrsShowAll: React.FC = () => {
               
                 {/* <Input type="text" id="shippingNotes" placeholder="Shipping Notes"/> */}
               </AddressForm>
+              </PurchaseReceipt>
               )}
-              
-              <StatusMessage>{transactionStatus}</StatusMessage>
-              {transactionError && <ErrorMessage>Error: There has been an error, please try again.</ErrorMessage>}
-
-              {transactionStatus === 'Success!' && <SuccessLink>Awesome, stream MEMAKYOU to earn royalties</SuccessLink>}
-              <Web3Button
+                            {transactionStatus && (
+                            <PurchaseStatusBox>
+                              <StatusMessage>{transactionStatus}</StatusMessage>
+                              {transactionError && <ErrorMessage>Error: There has been an error, please try again.</ErrorMessage>}
+                              {transactionStatus === 'Success!' && <SuccessLink>Awesome, now stream MEMAKYOU to earn royalties</SuccessLink>}
+                            </PurchaseStatusBox>
+                            )}
+              {transactionStatus !== 'Success!' && (
+<>
+                    <Web3Button
                 contractAddress="0x0880432A2A4D97C7d775566f205aa3c545886430"
                 action={(contract) => contract.erc1155.claim(selectedNFT?.metadata.id, sliderValue)}
                 onError={(error) => {
@@ -483,15 +540,17 @@ const MshrsShowAll: React.FC = () => {
                 className="OverrideWeb3Button"
                 isDisabled={!termsAccepted}
               >
-                CONFIRM PURCHASE!
+                PURCHASE €{(sliderValue * mshrsUnitPrice).toFixed(2)}
               </Web3Button>
             
               <TermsCheckbox>
-                <input type="checkbox" id="terms" name="terms" value={termsAccepted} onChange={() => setTermsAccepted(!termsAccepted)}/>
-                <label htmlFor="terms" className={!termsAccepted ? 'error' : ''}>
+              <input type="checkbox" id="terms" name="terms" value={termsAccepted} onChange={() => setTermsAccepted(!termsAccepted)}/>
+              <label htmlFor="terms" className={!termsAccepted ? 'error' : ''}>
                   I accept the terms of the MSHRS Agreement
                 </label> 
               </TermsCheckbox>
+              </>
+              )}
             </ModalContent>
             </ModalOverlay>
           </div>

@@ -20,7 +20,7 @@ const Main = styled.main`
 const Title = styled.h1`
   margin: 0;
   line-height: 1.15;
-  font-size: 4rem;
+  font-size: 14px;
   text-align: center;
 
   a {
@@ -30,7 +30,7 @@ const Title = styled.h1`
     &:hover,
     &:focus,
     &:active {
-      text-decoration: underline;
+      // text-decoration: underline;
     }
   }
 `;
@@ -62,16 +62,18 @@ const Card2 = styled.div`
 
   }
 `;
+const TitleMain = styled.h1`
+  margin-bottom: 20px;
+  font-size: 16px;
+  color: #e7e8e8;
+  text-align: left;
+`;
 
 const Mak: NextPage = () => {
   return (
     <Container>
       <Main>
-        <Title>
-          MAK
-          <a href="#">FACTORY</a>
-        </Title>
-          <h2>MUSIC SHARES <a>$MSHRS</a></h2>
+          {/* <TitleMain>MAK<a>FACTORY</a></TitleMain> */}
           <MshrsShowAll />
           <br/>
 
