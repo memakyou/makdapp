@@ -29,7 +29,6 @@ width: 100%;
 padding-left: 24px;
 padding-right: 24px;
 position: relative;
-background-image: url(${({ backgroundImage }) => backgroundImage});
 background-size: cover;
 background-position: center;
 `;
@@ -229,7 +228,7 @@ const Playhead: React.FC<PlayheadProps> = ({
           <CloseButton onClick={closeModal}>&times;</CloseButton>
           {currentSong && (
             <>     
-               <Artwork src={currentSong.trackArt} ref={ref} alt="Artwork" />
+               <Artwork src={currentSong.trackArt}  alt="Artwork" />
 
               <h2>{currentSong.trackName}</h2>
               <p>Artist: {currentSong.artist}</p>

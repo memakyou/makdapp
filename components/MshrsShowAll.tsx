@@ -294,6 +294,12 @@ const a1 = styled.a`
   padding: 10px;
 `;
 
+const PurchaseIcon2 = styled.span`
+  font-size: 16px;
+  margin-right: 10px;
+  color: ##e7e8e8;
+`;
+
 const MshrsShowAll: React.FC = () => {
   const address = useAddress();
   const { contract } = useContract("0x0880432A2A4D97C7d775566f205aa3c545886430");
@@ -423,6 +429,7 @@ const MshrsShowAll: React.FC = () => {
             <ModalOverlay isOpen={isModalOpen}>
 
             <ModalContent>
+            <h3>Buy Shares <PurchaseIcon2><FaShoppingCart/></PurchaseIcon2></h3>
               {selectedNFT && <StyledThirdwebNftMedia ref={ref} metadata={selectedNFT.metadata} />}
               <ModalTitle>{selectedNFT?.metadata.name || 'Loading...'}</ModalTitle>
              
