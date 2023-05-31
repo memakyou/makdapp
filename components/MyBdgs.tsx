@@ -24,6 +24,7 @@ const NftContainer = styled.div`
   gap: 4rem;
   margin-bottom: 1rem; /* Added this line to create a gap between rows */
   cursor: pointer; /* Added this line to indicate the element is clickable */
+  z-index: 0; /* Adjust the value as needed */
 `;
 
 const Tooltip = styled.div<{ show: boolean }>`
@@ -50,6 +51,10 @@ const NftName = styled.p`
   margin: 0; /* Updated to remove default margin */
   text-align: center; /* Added to center the NFT name */
 `;
+
+const StyledThirdwebNftMedia = styled(ThirdwebNftMedia)`
+  z-index: 0
+`
 
 const MyBdgs: React.FC = () => {
   const { contract } = useContract("0xBBC9956157e7cb58404F1B02cEaE029971aB6bbe");

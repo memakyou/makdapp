@@ -74,6 +74,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ isOpen }) => {
         setCurrentSongId(data[0].id);
       });
   }, []);
+  
   const handleListIconClick = () => {
     setShowTrackList(!showTrackList);
   };

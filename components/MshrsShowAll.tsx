@@ -389,10 +389,11 @@ const MshrsShowAll: React.FC = () => {
       const country = (document.getElementById('country') as HTMLInputElement)?.value;
       const shippingNotes = (document.getElementById('shippingNotes') as HTMLTextAreaElement)?.value;
 
-      emailContent += `\n\nShipping Details:\n\nName: ${address}\nEmail: ${email}\nStreet Address: ${streetAddress}\nCity: ${city}\nState: ${state}\nZip/Eir: ${zipEir}\nCountry: ${country}\nShipping Notes: ${shippingNotes}\nShares Purchased: ${sliderValue}\nID: ${selectedNFT?.metadata.id}\nSong Name: ${selectedNFT?.metadata.name}`;
+      emailContent += `\n\nShipping Details:\n\nName: ${address}\nEmail: ${email}\nStreet Address: ${streetAddress}\nCity: ${city}\nState: ${state}\nZip/Eir: ${zipEir}\nCountry: ${country}\nShares Purchased: ${sliderValue}\nID: ${selectedNFT?.metadata.id}\nSong Name: ${selectedNFT?.metadata.name}`;
     }
-
-    sendEmail(emailContent);
+    if (isShippingChecked) {
+      sendEmail(emailContent);
+    }
   };
 
   const handleModalClose = () => {

@@ -114,8 +114,8 @@ const CloseButton = styled.button`
 `;
 
 const Artwork = styled.img`
-  width: 300px;
-  height: 300px;
+  width: 250px;
+  height: 250px;
   border-radius: 0px;
   margin-top: 30px;
 
@@ -147,6 +147,15 @@ interface Song {
   trackDuration: string;
   url: string;
   artist: string;
+  trackReleaseDate: string
+  musicSongWriters: string
+  lyricSongWriters: string
+  vocalProducer: string
+  recordProducer: string
+  engineers: string
+  mixing: string
+  mastering: string
+  label: string
 }
 
 const Playhead: React.FC<PlayheadProps> = ({
@@ -229,10 +238,24 @@ const Playhead: React.FC<PlayheadProps> = ({
           {currentSong && (
             <>     
                <Artwork src={currentSong.trackArt}  alt="Artwork" />
+              <div>
 
               <h2>{currentSong.trackName}</h2>
-              <p>Artist: {currentSong.artist}</p>
-              <p>Duration: {currentSong.trackDuration}</p>
+                <p><b>Artist:</b> {currentSong.artist}</p>
+                <p><b>Duration:</b> {currentSong.trackDuration}</p>
+                <p><b>Released:</b> {currentSong.trackReleaseDate}</p>
+                <br></br>
+                <h2><b>CREATIVE TEAM</b></h2>
+                <p><b>Music Songwriters:</b> {currentSong.musicSongWriters}</p>
+                <p><b>Lyric Songwriters:</b> {currentSong.lyricSongWriters}</p>
+                <p><b>Vocal Producers:</b> {currentSong.vocalProducer}</p>
+                <p><b>Record Producers:</b> {currentSong.recordProducer}</p>
+                <p><b>Engineers:</b> {currentSong.engineers}</p>
+                <p><b>Mixing:</b> {currentSong.mixing}</p>
+                <p><b>Mastering:</b> {currentSong.mastering}</p>
+                <p><b>Label:</b> {currentSong.label}</p>
+                <br></br>
+            </div>
             </>
           )}
         </ModalContent>

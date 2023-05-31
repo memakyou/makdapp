@@ -39,7 +39,7 @@ const StyledThirdwebNftMedia = styled(ThirdwebNftMedia)`
   transition: transform 0.5s;
   box-shadow: 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24);
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-
+  z-index: 9999;
 &:hover {
   background-color: #ccc002;
   box-shadow: 0px 14px 28px rgba(0,0,0,0.25), 0px 10px 10px rgba(0,0,0,0.22);

@@ -33,7 +33,7 @@ const Cost = styled.p`
   // margin-bottom: 10px;
 `;
 
-const CoreDataWrapper = styled.p`
+const CoreDataWrapper = styled.div`
   color: #d4d4d4;
   font-weight: bold;
   font-size: 12px;
