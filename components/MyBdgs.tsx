@@ -17,14 +17,14 @@ const Main = styled.main`
   gap: 1rem; /* Added this line to add spacing between elements */
 `;
 
-const NftContainer = styled.div`
+const NftContainer1 = styled.div`
   position: relative; /* Added this line to position the tooltip */
   display: flex;
   align-items: center;
   gap: 4rem;
   margin-bottom: 1rem; /* Added this line to create a gap between rows */
   cursor: pointer; /* Added this line to indicate the element is clickable */
-  z-index: 0; /* Adjust the value as needed */
+  // z-index: -1
 `;
 
 const Tooltip = styled.div<{ show: boolean }>`
@@ -50,11 +50,8 @@ const NftName = styled.p`
   font-size: 12px;
   margin: 0; /* Updated to remove default margin */
   text-align: center; /* Added to center the NFT name */
+  
 `;
-
-const StyledThirdwebNftMedia = styled(ThirdwebNftMedia)`
-  z-index: 0
-`
 
 const MyBdgs: React.FC = () => {
   const { contract } = useContract("0xBBC9956157e7cb58404F1B02cEaE029971aB6bbe");
@@ -98,7 +95,7 @@ const MyBdgs: React.FC = () => {
           <p>Loading...</p>
         ) : ownedNFTs?.length ? (
           ownedNFTs.map((nft) => (
-            <NftContainer
+            <NftContainer1
               key={nft.metadata.id}
               onClick={(event) => handleClick(nft, event)} // Pass the event object
               >
@@ -117,7 +114,7 @@ const MyBdgs: React.FC = () => {
                 <NftName>{nft.metadata.name}</NftName>
               </Tooltip>
 
-            </NftContainer>
+            </NftContainer1>
           ))
         ) : (
           <>

@@ -54,6 +54,7 @@ const Modal = styled.div<{ open: boolean }>`
   height: 100%;
   background: #d4d4d4;
   display: ${({ open }) => (open ? "block" : "none")};
+  z-index: 9999; /* Keep the same z-index as before */
 
   & > div {
     width: 100%;
@@ -373,7 +374,7 @@ const MshrsShowMine: React.FC = () => {
                 <NftContainer>
                   <ThirdwebNftMedia
                     metadata={nft.metadata}
-                    width={50}
+                    width={50} 
                     height={50}
                     style={{ borderRadius: "15px"}}                    onClick={() => {
                       setSelectedNFT(nft);

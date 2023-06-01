@@ -19,17 +19,12 @@ const NavLink = styled.a`
   font-weight: bold;
   margin-right: 20px;
   color: black;
+  z-index: 9999;
 
   &:hover {
     border-bottom: 5px solid #ccc002;
   }
-`;
-
-const ActiveNavLink = styled(NavLink)`
-  font-size: large;
-  color: #ccc002;
-  border-bottom: 5px solid #d1d1d1;
-`;
+`; 
 
 const FooterNav: React.FC = () => {
     const router = useRouter()

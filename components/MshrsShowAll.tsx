@@ -86,6 +86,8 @@ const Modal = styled.div<{ open: boolean }>`
   height: 100%;
   background: #d4d4d4;
   display: ${({ open }) => (open ? "block" : "none")};
+  z-index: 9999; /* Keep the same z-index as before */
+
 
   & > div {
     width: 100%;
@@ -421,7 +423,7 @@ const MshrsShowAll: React.FC = () => {
             gravity={0.1}
             tweenDuration={1000}
             run={true}
-            style={{ position: 'fixed', zIndex: 1 }} // Add this to make the confetti overlay the content
+            style={{ position: 'fixed', zIndex: 10000 }} // Add this to make the confetti overlay the content
           />
         }
         <Modal open={isModalOpen}>
@@ -507,7 +509,7 @@ const MshrsShowAll: React.FC = () => {
                       setTransactionStatus('Success!');
                       setTransactionError('');
                       setIsConfettiVisible(true);
-                      handleWeb3ButtonSuccess(result); // This line triggers the function
+                      handleWeb3ButtonSuccess(result); 
                     }}            
                     className="OverrideWeb3Button"
                     isDisabled={!termsAccepted}

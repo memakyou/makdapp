@@ -56,7 +56,7 @@ const MshrsAgreement: NextPage = () => {
 
         {showBasicExplanation ? (
           <>
-          <h2>Music Share Tokens - Explained!</h2>
+          <h2>This Music Share Token Contract - Explained!</h2>
 
 <p>This is like a special deal between the person who makes music (we call them "the Artist") and someone who wants to help support the artist and their music (we call them "the Buyer"). This deal is all about a special kind of music token, like a special kind of ticket. These special tickets are called <b>Music Share Tokens</b>.</p>
 

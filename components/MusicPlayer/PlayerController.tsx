@@ -45,9 +45,6 @@ interface PlayerControllerProps {
   showTrackList: boolean; // Add showTrackList prop
 }
 
-
-
-
 const PlayerController: React.FC<PlayerControllerProps> = ({
   play,
   pause,

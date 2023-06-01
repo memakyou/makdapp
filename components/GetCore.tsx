@@ -44,7 +44,7 @@ CoreDataWrapper
 const GetCore = () => {
     const [minting, setMinting] = useState(false);
     const { contract } = useContract("0x7016eb12fa75A763467876F5A352eFe10d3013E1");
-    const { data: nft, isLoading, error } = useNFT(contract, "0");
+    const { data: nft, isLoading, error } = useNFT(contract, "34");
 
     if (isLoading) return <div>Loading...</div>;
     if (error || !nft) return <div>NFT not found</div>;
@@ -55,11 +55,7 @@ const GetCore = () => {
     
   
     return (
-<>
         <Container>
-        </Container>
-        
-      <Container>
         <LeftDiv>
         <ThirdwebNftMedia 
             metadata={nft.metadata}
@@ -71,36 +67,13 @@ const GetCore = () => {
         <Title>{nft.metadata.description}</Title>
         <CoreDataWrapper>
           <Cost>MEMBERS: {nft.supply}</Cost>
-          <Cost>ToT SUPPLEY: 625 🔒</Cost>
+          <Cost>TOTAL SUPPLEY: 625 🔒</Cost>
           {/* <Cost>PRICE: 10000 $MAK</Cost> */}
           <p></p>
         </CoreDataWrapper>
         </RightDiv>
       </Container>
-      {/* <br/> */}
-      <Container>
-      {/* <Web3Button
-              contractAddress="0x7016eb12fa75A763467876F5A352eFe10d3013E1"
-              action={(contract) => contract.erc721.claim(1)}
-              //   onError={(error) => {
-            //     setTransactionStatus('Error');
-            //     setTransactionError(error.message);
-            //   }}
-            //   onSubmit={() => {
-            //     setTransactionStatus('Transaction submitted');
-            //     setTransactionError('');
-            //   }}
-            //   onSuccess={(result) => {
-            //     setTransactionStatus('Success!');
-            //     setTransactionError('');
-            //     setIsConfettiVisible(true)
-            //   }}            
-              className="OverrideWeb3Button"
-            >
-              GET CORE!
-            </Web3Button> */}
-        </Container>
-      </>
+      
     );
   };
   

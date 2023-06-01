@@ -68,7 +68,7 @@ const ModalOverlay = styled.div<{ isOpen: boolean }>`
   display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
   align-items: center;
   justify-content: center;
-  z-index: 9999;
+  // z-index: 10000;
   background: linear-gradient(45deg, #ccc002, #333);
   background-size: 400% 400%;
   animation: gradientAnimation 10s ease-in-out infinite;
@@ -97,6 +97,7 @@ const ModalContent = styled.div`
   align-items: center;
   // justify-content: center;
   box-sizing: border-box;
+  // z-index: 100000;
 `;
 
 const CloseButton = styled.button`
