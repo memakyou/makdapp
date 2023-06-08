@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
+import React, { useState, useEffect, useImperativeHandle, forwardRef, useCallback } from 'react';
 import styled from 'styled-components';
 
 interface SnakeCellProps {
@@ -51,14 +51,73 @@ interface SnakeGameProps {
   handleKeyDown: (event: KeyboardEvent) => void;
 }
 
-const GameSnake = forwardRef((props, ref) => {
-    const [snake, setSnake] = useState<SnakeCellProps[]>([]);
+const GameSnake = forwardRef(({ handleKeyDown }: SnakeGameProps, ref) => {
+  const [snake, setSnake] = useState<SnakeCellProps[]>([]);
   const [food, setFood] = useState<SnakeCellProps>({ id: 4 });
   const [direction, setDirection] = useState<Direction>(Direction.Right);
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [score, setScore] = useState<number>(0);
   const [gameStarted, setGameStarted] = useState<boolean>(false);
   const [gameRunning, setGameRunning] = useState<boolean>(false);
+
+  const moveSnake = useCallback(() => {
+    setSnake((prevSnake) => {
+      const updatedSnake = [...prevSnake];
+      const head = updatedSnake[0];
+      let newHead: SnakeCellProps;
+
+      if (direction === Direction.Up) {
+        newHead = { id: head.id - 20 };
+      } else if (direction === Direction.Down) {
+        newHead = { id: head.id + 20 };
+      } else if (direction === Direction.Left) {
+        newHead = { id: head.id - 1 };
+      } else {
+        newHead = { id: head.id + 1 };
+      }
+
+      updatedSnake.unshift(newHead);
+      updatedSnake.pop();
+
+      return updatedSnake;
+    });
+  }, [direction]);
+
+  const generateFood = useCallback((): SnakeCellProps => {
+    const randomId = Math.floor(Math.random() * 400) + 1;
+    const isOnSnake = snake.some((cell) => cell.id === randomId);
+  
+    if (isOnSnake) {
+      return generateFood();
+    }
+  
+    return { id: randomId };
+  }, [snake]);
+
+  const checkCollision = useCallback(() => {
+    if (snake.length === 0) {
+      return;
+    }
+
+    const head = snake[0];
+    const body = snake.slice(1);
+    const collision = body.some((cell) => cell.id === head.id);
+
+    if (
+      head.id < 1 ||
+      head.id > 400 ||
+      collision ||
+      (head.id % 20 === 0 && direction === Direction.Right) ||
+      (head.id % 20 === 1 && direction === Direction.Left)
+    ) {
+      setGameOver(true);
+      setGameRunning(false); // Stop the game
+    } else if (head.id === food.id) {
+      setFood(generateFood());
+      setScore((prevScore) => prevScore + 1);
+      growSnake();
+    }
+  }, [snake, direction, food.id, generateFood]);
 
   useEffect(() => {
     const initialSnake: SnakeCellProps[] = [
@@ -82,73 +141,49 @@ const GameSnake = forwardRef((props, ref) => {
         clearInterval(timer);
       };
     }
-  }, [gameOver, gameRunning]);
+  }, [gameOver, gameRunning, moveSnake]);
 
   useEffect(() => {
     checkCollision();
-  }, [snake]);
+  }, [snake, direction, checkCollision]);
 
-  function moveSnake(): void {
-    setSnake((prevSnake) => {
-      const updatedSnake = [...prevSnake];
-      const head = updatedSnake[0];
-      let newHead: SnakeCellProps;
-
-      if (direction === Direction.Up) {
-        newHead = { id: head.id - 20 };
-      } else if (direction === Direction.Down) {
-        newHead = { id: head.id + 20 };
-      } else if (direction === Direction.Left) {
-        newHead = { id: head.id - 1 };
-      } else {
-        newHead = { id: head.id + 1 };
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (!gameStarted || !gameRunning) {
+        return;
       }
 
-      updatedSnake.unshift(newHead);
-      updatedSnake.pop();
+      switch (event.key) {
+        case 'w':
+          if (direction !== Direction.Down) {
+            setDirection(Direction.Up);
+          }
+          break;
+        case 's':
+          if (direction !== Direction.Up) {
+            setDirection(Direction.Down);
+          }
+          break;
+        case 'a':
+          if (direction !== Direction.Right) {
+            setDirection(Direction.Left);
+          }
+          break;
+        case 'd':
+          if (direction !== Direction.Left) {
+            setDirection(Direction.Right);
+          }
+          break;
+        default:
+          break;
+      }
+    };
 
-      return updatedSnake;
-    });
-
-    // Move the snake after a delay
-    setTimeout(moveSnake, 100);
-  }
-
-  function checkCollision(): void {
-    if (snake.length === 0) {
-      return;
-    }
-
-    const head = snake[0];
-    const body = snake.slice(1);
-    const collision = body.some((cell) => cell.id === head.id);
-
-    if (
-      head.id < 1 ||
-      head.id > 400 ||
-      collision ||
-      (head.id % 20 === 0 && direction === Direction.Right) ||
-      (head.id % 20 === 1 && direction === Direction.Left)
-    ) {
-      setGameOver(true);
-      setGameRunning(false); // Stop the game
-    } else if (head.id === food.id) {
-      setFood(generateFood());
-      setScore((prevScore) => prevScore + 1);
-      growSnake();
-    }
-  }
-
-  function generateFood(): SnakeCellProps {
-    const randomId = Math.floor(Math.random() * 400) + 1;
-    const isOnSnake = snake.some((cell) => cell.id === randomId);
-
-    if (isOnSnake) {
-      return generateFood();
-    }
-
-    return { id: randomId };
-  }
+    document.addEventListener('keydown', handleKeyPress);
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [gameStarted, gameRunning, direction]);
 
   function growSnake(): void {
     setSnake((prevSnake) => {
@@ -255,5 +290,7 @@ const GameSnake = forwardRef((props, ref) => {
     </div>
   );
 });
+
+GameSnake.displayName = 'GameSnake';
 
 export default GameSnake;

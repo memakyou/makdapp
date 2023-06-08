@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { SongListSong } from '../xtypes';
-import { RiPlayLine, RiInformationLine } from 'react-icons/ri';
+import { RiPlayLine } from 'react-icons/ri';
+import { SongListSong, Song } from '../xtypes';
 
 const Container = styled.div`
   // padding: 0 2rem;
@@ -11,34 +11,6 @@ const Main = styled.main`
   padding: 1rem 0;
   display: flex;
   flex-wrap: wrap;
-`;
-
-const TrackListContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  border: none;
-  transition: border 0.3s;
-
-  @media (min-width: 768px) {
-    flex-direction: row;
-  }
-
-  &:hover {
-    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.9);
-    background-color: #0f1318;
-
-    .information-icon {
-      opacity: 1;
-    }
-  }
-`;
-
-const TrackArt = styled.img`
-  width: 50px;
-  height: 50px;
-  border-radius: 6px;
 `;
 
 const TrackContainer = styled.div`
@@ -78,6 +50,12 @@ const TrackId = styled.div`
   }
 `;
 
+const TrackArt = styled.img`
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
+`;
+
 const TrackName = styled.div`
   color: #d4d4d4;
   flex: 1;
@@ -90,17 +68,6 @@ const TrackDuration = styled.div`
   padding-right: 10px;
   display: flex;
   align-items: center;
-
-  .information-icon {
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-`;
-
-const IconContainer = styled.span`
-  margin-right: 0.5rem;
-  padding-left: 26px;
-  position: relative;
 `;
 
 const PlayIcon = styled(RiPlayLine)`
@@ -109,83 +76,24 @@ const PlayIcon = styled(RiPlayLine)`
   margin-right: 1rem;
 `;
 
-// const InformationIcon = styled(RiInformationLine)`
-//   font-size: 20px;
-//   color: #d4d4d4;
-
-//   &:hover {
-//     color: #ccc002;
-//   }
-// `;
-
-const ModalOverlay = styled.div<{ isOpen: boolean }>`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vh;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
-  align-items: center;
-  justify-content: center;
-`;
-
-const ModalContent = styled.div`
-  background: #d4d4d4;
-  padding: 20px;
-  width: 100vh;
-  height: 100%;
-  align-items: center;
-
-  box-sizing: border-box;
-`;
-
-const CloseButton = styled.button`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 1.5em;
-
-  &:hover {
-    color: #ccc002;
-  }
-`;
-
-const ModalTrackName = styled.div`
-  color: #0f1318;
-  flex: 1;
-`;
-
-const TrackArtModal = styled.img`
-  width: 200px;
-  height: 200px;
-  border-radius: 6px;
-`;
-
 interface SongListProps {
-  songs: SongListSong[];
-  setCurrentSong: (song: SongListSong | null) => void;
+  songs: Song[];
+  setCurrentSong: React.Dispatch<React.SetStateAction<Song | null>>;
   currentSongId: string | null;
-  onSongClick: (song: SongListSong) => void; // Added onSongClick prop
-  showTrackList: boolean; // Added showTrackList prop
+  onSongClick: (song: Song) => void;
+  showSongList: boolean;
 }
 
-const SongList: React.FC<SongListProps> = ({ songs, setCurrentSong, currentSongId, onSongClick, showSongList }) => {
-  const handleSongClick = (song: SongListSong) => {
+const SongList: React.FC<SongListProps> = ({
+  songs,
+  setCurrentSong,
+  currentSongId,
+  onSongClick,
+  showSongList,
+}) => {
+  const handleSongClick = (song: Song) => {
     setCurrentSong(song);
     onSongClick(song);
-  };
-
-  const [isModalOpen, setIsModalOpen] = useState(false); // Set isModalOpen to false initially
-
-  const handleInformationIconClick = (song: SongListSong) => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
   };
 
   return (
@@ -201,27 +109,13 @@ const SongList: React.FC<SongListProps> = ({ songs, setCurrentSong, currentSongI
                 </TrackId>
                 <TrackArt src={song.trackArt} alt="Track Art" />
                 <TrackName>{song.trackName}</TrackName>
-                <TrackDuration>
-                  {song.trackDuration}
-                  {/* <IconContainer className="information-icon" onClick={() => handleInformationIconClick(song)}>
-                    <InformationIcon />
-                  </IconContainer> */}
-                </TrackDuration>
+                <TrackDuration>{song.trackDuration}</TrackDuration>
               </TrackContainer>
             ))
           ) : (
             <p>Loading...</p>
           )}
         </Main>
-      )}
-      {isModalOpen && (
-        <ModalOverlay>
-          <ModalContent>
-            <CloseButton onClick={closeModal}>&times;</CloseButton>
-            <h2>Title</h2>
-            <p>Content of the modal goes here.</p>
-          </ModalContent>
-        </ModalOverlay>
       )}
     </Container>
   );

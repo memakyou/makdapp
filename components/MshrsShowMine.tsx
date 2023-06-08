@@ -1,6 +1,6 @@
 import { ThirdwebNftMedia, useAddress, useContract, useOwnedNFTs, useClaimNFT, Web3Button } from '@thirdweb-dev/react'
 import styled from 'styled-components'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, RefObject, Ref } from 'react';
 import useWindowSize from 'react-use/lib/useWindowSize'
 import Confetti from 'react-confetti'
 import { FaShoppingCart } from "react-icons/fa";
@@ -35,16 +35,19 @@ const InfoSection = styled.section`
   gap: 1rem;
 `;
 
-const StyledThirdwebNftMedia = styled(ThirdwebNftMedia)`
-  transition: transform 0.5s;
-  box-shadow: 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24);
-  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+const StyledThirdwebNftMedia = styled(ThirdwebNftMedia)<{
+  ref: Ref<HTMLMediaElement | HTMLDivElement>;
+}>`  transition: transform 0.5s;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 2px rgba(0, 0, 0, 0.24);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   z-index: 9999;
-&:hover {
-  background-color: #ccc002;
-  box-shadow: 0px 14px 28px rgba(0,0,0,0.25), 0px 10px 10px rgba(0,0,0,0.22);
-}
-`;
+
+  &:hover {
+    background-color: #ccc002;
+    box-shadow: 0px 14px 28px rgba(0, 0, 0, 0.25), 0px 10px 10px rgba(0, 0, 0, 0.22);
+  }
+}`;
+
 
 const Modal = styled.div<{ open: boolean }>`
   position: fixed;
@@ -215,6 +218,8 @@ const NftContainer = styled.div`
   justify-content: space-between;
   gap: 2rem;
   width: 100%;
+  cursor: pointer; /* Add this line to make the container clickable */
+
 `;
 
 const NftName = styled.p`
@@ -245,9 +250,10 @@ const MshrsShowMine: React.FC = () => {
   const [termsAccepted, setTermsAccepted] = useState(false);
 
   
-  const ref = useRef();
+  const ref = useRef<HTMLMediaElement>(null);
+
   useEffect(() => {
-    const handleMouseMove = (e) => {
+    const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
       const { innerWidth, innerHeight } = window;
 
@@ -270,17 +276,15 @@ const MshrsShowMine: React.FC = () => {
   const address = useAddress()  
   const { data: ownedNFTs, isLoading, error } = useOwnedNFTs(contract, address);
   
-// Check if user has ownedNFTs
+  // Check if user has ownedNFTs
   const hasOwnedNFTs = Boolean(ownedNFTs?.length);
   
-  
   const sharePertoken = 0.0002
-
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [sliderValue, setSliderValue] = useState(50);
   
-  const [selectedNFT, setSelectedNFT] = useState(null);
+  const [selectedNFT, setSelectedNFT] = useState<null | { metadata: any }>(null);
 
   const mshrsUnitPrice = 3
 
@@ -302,15 +306,9 @@ const MshrsShowMine: React.FC = () => {
       }
       <Modal open={isModalOpen}>
         <div>
-        <CloseButton onClick={() => {            setModalOpen(false);
-            setSelectedNFT(null);
-            setTransactionStatus('');
-            setTransactionError('');
-            setIsConfettiVisible(false)
-          }}>X
-        </CloseButton>
+        <CloseButton onClick={() => { setModalOpen(false); setSelectedNFT(null); setTransactionStatus(''); setTransactionError(''); setIsConfettiVisible(false); }}>X</CloseButton>
           <ModalContent>
-          {selectedNFT && <StyledThirdwebNftMedia ref={ref} metadata={selectedNFT.metadata} />}
+          {selectedNFT &&   <StyledThirdwebNftMedia ref={ref} metadata={selectedNFT?.metadata} />}
           <ModalTitle>{selectedNFT?.metadata.name || 'Loading...'}</ModalTitle>
             <Slider 
               type="range" 
@@ -324,10 +322,10 @@ const MshrsShowMine: React.FC = () => {
             <PercentageBox><b>Costing</b></PercentageBox>
             <PriceBox>${sliderValue * mshrsUnitPrice}</PriceBox>
 
-              <StatusMessage>{transactionStatus}</StatusMessage>
-              {transactionError && <ErrorMessage>Error: There has been a error, please try again.</ErrorMessage>}
+            <StatusMessage>{transactionStatus}</StatusMessage>
+            {transactionError && <ErrorMessage>Error: There has been an error, please try again.</ErrorMessage>}
 
-              {transactionStatus === 'Success!' && <SuccessLink>Awesome, stream MEMAKYOU to earn royalties</SuccessLink>}
+            {transactionStatus === 'Success!' && <SuccessLink>Awesome, stream MEMAKYOU to earn royalties</SuccessLink>}
             <Web3Button
               contractAddress="0x0880432A2A4D97C7d775566f205aa3c545886430"
               action={(contract) => contract.erc1155.claim(selectedNFT?.metadata.id, sliderValue)}
@@ -342,7 +340,7 @@ const MshrsShowMine: React.FC = () => {
               onSuccess={(result) => {
                 setTransactionStatus('Success!');
                 setTransactionError('');
-                setIsConfettiVisible(true)
+                setIsConfettiVisible(true);
               }}            
               className="OverrideWeb3Button"
               isDisabled={!termsAccepted}
@@ -351,50 +349,53 @@ const MshrsShowMine: React.FC = () => {
             </Web3Button>
             
             <TermsCheckbox>
-              <input type="checkbox" id="terms" name="terms" value={termsAccepted} onChange={() => setTermsAccepted(!termsAccepted)}/>
+            <input type="checkbox" id="terms" name="terms" value={termsAccepted.toString()} onChange={() => setTermsAccepted(!termsAccepted)}/>
               <label htmlFor="terms" className={!termsAccepted ? 'error' : ''}>
-  I accept the terms of the MSHRS Agreement
-</label>
+                I accept the terms of the MSHRS Agreement
+              </label>
             </TermsCheckbox>
           </ModalContent>
         </div>
       </Modal>
 
       {hasOwnedNFTs ? (
+        <InfoSection>
+          {isLoading ? ( 
+            <p>Loading...</p> 
+          ) : (
+            ownedNFTs?.map((nft) => {
+              const quantityOwned = Number(nft.quantityOwned); // Convert to number
 
-      <InfoSection>
-        {isLoading ?  ( 
-          <p>Loading...</p> 
-        ) : (
-          ownedNFTs
-            ?.map((nft) => {
               return (
-
-                <CardContainer key={nft.metadata.id} onClick={() => (setModalOpen(true), setSelectedNFT(nft))}>
-                <NftContainer>
-                  <ThirdwebNftMedia
-                    metadata={nft.metadata}
-                    width={50} 
-                    height={50}
-                    style={{ borderRadius: "15px"}}                    onClick={() => {
-                      setSelectedNFT(nft);
-                      setModalOpen(true);
-                    }}
-                  />
-                  <NftName>You own <a>{nft.quantityOwned}</a> music shares in <a>{nft.metadata.name}</a>, a <a>{(nft.quantityOwned * sharePertoken).toFixed(3)}%</a> stake</NftName>
-                  <BuyButton><FaShoppingCart /></BuyButton>
-                </NftContainer>
+                <CardContainer key={nft.metadata.id} onClick={() => {
+                  setSelectedNFT(nft);
+                  setModalOpen(true);
+                }}>
+                  <NftContainer>
+                    <ThirdwebNftMedia
+                      metadata={nft.metadata}
+                      width={"50"}
+                      height={"50"}
+                      style={{ borderRadius: "15px" }}
+                    />
+                    <NftName>
+                      You own <a>{quantityOwned}</a> music shares in <a>{nft.metadata.name}</a>, a <a>{(quantityOwned * sharePertoken).toFixed(3)}%</a> stake
+                    </NftName>
+                    <BuyButton>
+                      <FaShoppingCart />
+                    </BuyButton>
+                  </NftContainer>
                 </CardContainer>
-              )
+              );
             })
-        )}    
-      </InfoSection>
-       ) : (
+          )}    
+        </InfoSection>
+      ) : (
         <DefaultText>😔 You have not purchased any music shares yet</DefaultText>
       )}
       </Main>
     </Container>
-    )
+  );
 }
 
-export default MshrsShowMine
+export default MshrsShowMine;

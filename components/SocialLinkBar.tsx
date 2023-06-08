@@ -55,7 +55,7 @@ const SocialLinkBar: NextPage = () => {
       <InfoSection>
         <ProfileImage src="./profile.jpg" alt="pfp" />
         <Title>@memakyou <Verified src="./verified.png" alt="pfp" /></Title>
-        <Description>Wouldn't it be cool if we collectively proved a pixel can 'make it'</Description>
+        <Description>Wouldn&apos;t it be cool if we collectively proved a pixel can &apos;make it&apos;</Description>
       </InfoSection>
       <br />
       <br />

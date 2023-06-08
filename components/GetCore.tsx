@@ -59,8 +59,8 @@ const GetCore = () => {
         <LeftDiv>
         <ThirdwebNftMedia 
             metadata={nft.metadata}
-            height={120}
-            width={120}
+            height={"120"}
+            width={"120"}
         />
         </LeftDiv>
         <RightDiv>

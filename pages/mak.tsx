@@ -73,7 +73,6 @@ const Mak: NextPage = () => {
   return (
     <Container>
       <Main>
-          {/* <TitleMain>MAK<a>FACTORY</a></TitleMain> */}
           <MshrsShowAll />
           <br/>
 

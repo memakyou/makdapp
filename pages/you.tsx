@@ -36,8 +36,6 @@ const Title = styled.h1`
   }
 `;
 
-
-
 const Card = styled.div`
   width: 100%;
   background-color: #878787;
@@ -52,14 +50,11 @@ const Card = styled.div`
 
 const DefaultText = styled.p`
   color: #272c34;
-  // margin: auto;
-  // text-align: center;
   font-size: 14px;
 `;
 
 const SubTitle = styled.h2`
-  color: #d4d4d4
-  
+  color: #d4d4d4;
 `;
 
 const You: NextPage = () => {
@@ -78,26 +73,27 @@ const You: NextPage = () => {
           <>
             <Card>
               <DefaultText>
-              ✅ You're connected to <a>MEMAKYOU</a> with <a>{address}</a>
+                ✅ You&apos;re connected to <a>MEMAKYOU</a> with <a>{address}</a>
               </DefaultText>
               {/* <p>
-                You've{' '}
+                You&apos;ve{' '}
                 <a>
                   {tokenBalance?.displayValue} ${tokenBalance?.symbol}
                 </a>{' '}
                 in your connected wallet 👜
               </p> */}
-            </Card><br></br>
-            <MshrsShowMine/>
+            </Card>
+            <br />
+            <MshrsShowMine />
             <SubTitle>#BDGS</SubTitle>
             <MyBdgs />
-            <MyMakPay />    
+            <MyMakPay />
             <p></p>
           </>
         ) : (
           <Card>
             <p>
-              You're not connected.
+              You&apos;re not connected.
               Please connect to see your wallet items.
             </p>
           </Card>

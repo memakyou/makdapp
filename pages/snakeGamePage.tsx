@@ -82,10 +82,12 @@ const SnakeGame: React.FC<SnakeGameProps> = ({ onKeyPress }) => {
         clearInterval(timer);
       };
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameOver, gameRunning]);
 
   useEffect(() => {
     checkCollision();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [snake]);
 
   useEffect(() => {
@@ -162,7 +164,7 @@ const SnakeGame: React.FC<SnakeGameProps> = ({ onKeyPress }) => {
     setSnake((prevSnake) => {
       const tail = prevSnake[prevSnake.length - 1];
       const newTailId = tail.id - 1;
- 
+
       return [...prevSnake, { id: newTailId }];
     });
   }

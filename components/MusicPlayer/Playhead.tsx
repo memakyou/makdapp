@@ -1,8 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, ChangeEvent } from 'react';
 import styled from 'styled-components';
 import Marquee from '../Marquee';
 import { FiSettings, FiInfo } from 'react-icons/fi';
 import { useWindowSize } from "react-use";
+import { Song as PlayheadSong } from '../xtypes'; // Import the Song type from xtypes
+
 
 const TrackArt = styled.img`
   width: 50px;
@@ -132,14 +134,16 @@ const Artwork = styled.img`
 
 
 interface PlayheadProps {
-  currentSong: Song | null;
+  currentSong: PlayheadSong | null;
   currentTime: number;
   duration: number;
-  onProgressBarChange: (time: number) => void;
+  onProgressBarChange: (e: ChangeEvent<HTMLInputElement>) => void; // Updated type
   showPlayerController: boolean;
   togglePlayerController: () => void;
   showTrackList: boolean;
 }
+
+
 
 interface Song {
   id: string;

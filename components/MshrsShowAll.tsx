@@ -22,7 +22,8 @@ const StyledThirdwebNftMedia = styled(ThirdwebNftMedia)`
   transition: transform 0.5s;
   box-shadow: 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24);
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-
+  width: 300px;
+  height: 300px
   &:hover {
     background-color: #ccc002;
     box-shadow: 0px 14px 28px rgba(0,0,0,0.25), 0px 10px 10px rgba(0,0,0,0.22);
@@ -303,8 +304,11 @@ const PurchaseIcon2 = styled.span`
 `;
 
 const MshrsShowAll: React.FC = () => {
+  const mshrsContract = process.env.MSHRS_CONTRACT //set up env var but not able to pass to thirdweb without being a string. will seak help from third web.
+
   const address = useAddress();
   const { contract } = useContract("0x0880432A2A4D97C7d775566f205aa3c545886430");
+
   const { data: nfts, isLoading, error } = useNFTs(contract);
 
   const { width, height } = useWindowSize();
@@ -313,6 +317,10 @@ const MshrsShowAll: React.FC = () => {
   const [transactionStatus, setTransactionStatus] = useState('');
   const [transactionError, setTransactionError] = useState('');
   const [termsAccepted, setTermsAccepted] = useState(false);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mediaRef = useRef<HTMLMediaElement>(null);
+
 
   const sendEmail = (emailContent: string) => {
     // console.log("Email content:", emailContent); // Add this console.log statement
@@ -364,15 +372,16 @@ const MshrsShowAll: React.FC = () => {
   const [isModalOpen, setModalOpen] = useState(false);
   const [sliderValue, setSliderValue] = useState(50);
 
-  const [selectedNFT, setSelectedNFT] = useState(null);
+  const [selectedNFT, setSelectedNFT] = useState<null | { metadata: any }>(null);
   const [isShippingChecked, setIsShippingChecked] = useState(false);
   const [isAddressFormVisible, setIsAddressFormVisible] = useState(false);
 
-  const handleAddressCheckboxChange = (e) => {
+  const handleAddressCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
     setIsShippingChecked(isChecked);
     setIsAddressFormVisible(isChecked);
   };
+  
 
   const handleWeb3ButtonSuccess = (result: { transactionHash: any }) => {
     setTransactionStatus('Success!');
@@ -433,8 +442,14 @@ const MshrsShowAll: React.FC = () => {
 
             <ModalContent>
             <h3>Buy Shares <PurchaseIcon2><FaShoppingCart/></PurchaseIcon2></h3>
-              {selectedNFT && <StyledThirdwebNftMedia ref={ref} metadata={selectedNFT.metadata} />}
-              <ModalTitle>{selectedNFT?.metadata.name || 'Loading...'}</ModalTitle>
+              {selectedNFT && (
+                <div ref={containerRef}>
+                <StyledThirdwebNftMedia ref={mediaRef} metadata={selectedNFT.metadata} />
+                </div>
+                )
+              }
+
+  <ModalTitle>{selectedNFT?.metadata.name || 'Loading...'}</ModalTitle>
              
               {transactionStatus !== 'Success!' && (
                 <>
@@ -518,7 +533,14 @@ const MshrsShowAll: React.FC = () => {
                   </Web3Button>
                   <PurchaseReceipt>
                     <TermsCheckbox>
-                      <input type="checkbox" id="terms" name="terms" value={termsAccepted} checked={termsAccepted} onChange={() => setTermsAccepted(!termsAccepted)}/>
+                      <input
+                        type="checkbox"
+                        id="terms"
+                        name="terms"
+                        value={termsAccepted ? 'true' : 'false'} // Convert boolean to string
+                        checked={termsAccepted} // Use boolean directly
+                        onChange={() => setTermsAccepted(!termsAccepted)}
+                      />                      
                       <label htmlFor="terms" className={!termsAccepted ? 'error' : ''}>
                         I accept the terms of the MSHRS Agreement
                       </label> 
@@ -540,8 +562,8 @@ const MshrsShowAll: React.FC = () => {
                 <NftContainer>
                   <StyledThirdwebNftMedia
                     metadata={nft.metadata}
-                    height="50px"
-                    width="50px"
+                    height={"50px"}
+                    width={"50px"}
                     style={{ borderRadius: "15px" }}
                   />
                   <NftName>{nft.metadata.name}</NftName>

@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import Playhead from './Playhead';
 import PlayerController from './PlayerController';
 import SongList from './SongList';
-import { SongListSong } from '../xtypes';
+import { SongListSong, Song as SongInterface } from '../xtypes';
+
 
 // Styled components
 const MusicPlayerContainer = styled.div`
@@ -50,12 +51,20 @@ const ProgressBar = styled.input`
 interface MusicPlayerProps {
   isOpen: boolean;
   onToggle: () => void;
-  
 }
+
+interface Song extends Omit<SongListSong, 'musicSongWriters' | 'lyricSongWriters'> {
+  trackReleaseDate: string;
+  musicSongWriters: string[];
+  lyricSongWriters: string[];
+  vocalProducer: string;
+  // Add any additional properties from the 'Song' type here
+}
+
 
 const MusicPlayer: React.FC<MusicPlayerProps> = ({ isOpen }) => {
   const [currentSong, setCurrentSong] = useState<SongListSong | null>(null);
-  const [songs, setSongs] = useState<SongListSong[]>([]);
+  const [songs, setSongs] = useState<Song[]>([]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
@@ -74,10 +83,11 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ isOpen }) => {
         setCurrentSongId(data[0].id);
       });
   }, []);
-  
+
   const handleListIconClick = () => {
     setShowTrackList(!showTrackList);
   };
+
   const toggleTrackList = () => {
     setShowTrackList((prev) => !prev);
   };
@@ -146,8 +156,16 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ isOpen }) => {
     setCurrentTime(time);
   };
 
-  const handleSongClick = (song: SongListSong) => {
-    setCurrentSong(song);
+  const handleSongClick = (song: SongInterface) => {
+    const extendedSong: SongInterface = {
+      ...song,
+      trackReleaseDate: '',
+      musicSongWriters: [],
+      lyricSongWriters: [],
+      vocalProducer: '',
+    };
+  
+    setCurrentSong(extendedSong);
     if (audioRef.current) {
       audioRef.current.pause();
       audioRef.current.currentTime = 0;
@@ -171,8 +189,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ isOpen }) => {
             duration={duration}
             onProgressBarChange={handleProgressBarChange}
             showPlayerController={showPlayerController}
-            togglePlayerController={togglePlayerController}
-          />
+            togglePlayerController={togglePlayerController} showTrackList={false}          />
           {showPlayerController && (
             <PlayerController
               play={play}

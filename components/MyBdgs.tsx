@@ -59,11 +59,11 @@ const MyBdgs: React.FC = () => {
   const { data: ownedNFTs, isLoading, error } = useOwnedNFTs(contract, address);
   
   const [showTooltip, setShowTooltip] = useState(false);
-  const [selectedNFT, setSelectedNFT] = useState(null);
+  const [selectedNFT, setSelectedNFT] = useState<any>(null);
 
-  const tooltipRef = useRef(null);
+  const tooltipRef = useRef<HTMLDivElement | null>(null);
 
-  const handleClick = (nft, event) => {
+  const handleClick = (nft: any, event: React.MouseEvent<HTMLDivElement>) => {
     if (event) {
       event.stopPropagation();
     }
@@ -71,9 +71,10 @@ const MyBdgs: React.FC = () => {
     setShowTooltip(true);
   };
   
+  
   useEffect(() => {
-    const handleOutsideClick = (event) => {
-      if (showTooltip && tooltipRef.current && !tooltipRef.current.contains(event.target)) {
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (showTooltip && tooltipRef.current && !tooltipRef.current.contains(event.target as Node)) {
         setShowTooltip(false);
       }
     };
@@ -101,8 +102,8 @@ const MyBdgs: React.FC = () => {
               >
               <ThirdwebNftMedia
                 metadata={nft.metadata}
-                width={70}
-                height={70}
+                width={"70px"}
+                height={"70px"}
                 style={{ borderRadius: '500px' }}
               />
               <Tooltip
