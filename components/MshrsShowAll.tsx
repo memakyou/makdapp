@@ -548,6 +548,7 @@ const MshrsShowAll: React.FC = () => {
                       </label> 
                     </TermsCheckbox>
                   </PurchaseReceipt>
+
                 </>
               )}
             </ModalContent>
