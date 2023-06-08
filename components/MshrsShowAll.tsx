@@ -19,11 +19,10 @@ const Main = styled.main`
 `;
 
 const StyledThirdwebNftMedia = styled(ThirdwebNftMedia)`
+
   transition: transform 0.5s;
-  box-shadow: 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24);
+  // box-shadow: 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24);
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-  width: 300px;
-  height: 300px
   &:hover {
     background-color: #ccc002;
     box-shadow: 0px 14px 28px rgba(0,0,0,0.25), 0px 10px 10px rgba(0,0,0,0.22);
@@ -446,12 +445,17 @@ const MshrsShowAll: React.FC = () => {
             <h3>Buy Shares <PurchaseIcon2><FaShoppingCart/></PurchaseIcon2></h3>
               {selectedNFT && (
                 <div ref={containerRef}>
-                <StyledThirdwebNftMedia ref={mediaRef} metadata={selectedNFT.metadata} />
+                <StyledThirdwebNftMedia 
+                  height={"150px"}
+                  width={"150px"}
+                  ref={mediaRef} 
+                  metadata={selectedNFT.metadata} 
+                />
                 </div>
                 )
               }
 
-  <ModalTitle>{selectedNFT?.metadata.name || 'Loading...'}</ModalTitle>
+              <ModalTitle>{selectedNFT?.metadata.name || 'Loading...'}</ModalTitle>
              
               {transactionStatus !== 'Success!' && (
                 <>
