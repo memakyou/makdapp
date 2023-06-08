@@ -7,9 +7,10 @@ import { Song as PlayheadSong } from '../xtypes'; // Import the Song type from x
 
 
 const TrackArt = styled.img`
-  width: 50px;
-  height: 50px;
-  border-radius: 40px;
+  width: 40px;
+  height: 40px;
+  // border-radius:16px;
+  border: #d4d4d4 solid 0.1px;
   margin-top: 0px;
 `;
 
@@ -132,6 +133,17 @@ const Artwork = styled.img`
 }
 `;
 
+const Title = styled.h3`
+  color: #00000;
+  margin-top: 0;
+  font-size: 14px;
+`;
+
+const CreditItems = styled.p`
+  color: #555;
+  font-weight: bold;
+  // margin-bottom: 10px;
+`;
 
 interface PlayheadProps {
   currentSong: PlayheadSong | null;
@@ -220,7 +232,7 @@ const Playhead: React.FC<PlayheadProps> = ({
           <>
             <TrackArt src={currentSong.trackArt} alt="Artwork" />
             <TrackName>
-              <Marquee text={`${currentSong.trackName} by ${currentSong.artist}`} />
+              <Marquee text={`${currentSong.trackName}`} />
             </TrackName>
             <InfoIcon onClick={handleInfoIconClick}>
               <FiInfo />
@@ -238,27 +250,27 @@ const Playhead: React.FC<PlayheadProps> = ({
 
       <ModalOverlay isOpen={isModalOpen}>
         <ModalContent>
-          <h3>Song Info <InfoIcon2><FiInfo/></InfoIcon2></h3>
+          <Title>Song Info <InfoIcon2><FiInfo/></InfoIcon2></Title>
           <CloseButton onClick={closeModal}>&times;</CloseButton>
           {currentSong && (
             <>     
-               <Artwork src={currentSong.trackArt}  alt="Artwork" />
+               {/* <Artwork src={currentSong.trackArt}  alt="Artwork" /> */}
               <div>
-
-              <h2>{currentSong.trackName}</h2>
-                <p><b>Artist:</b> {currentSong.artist}</p>
-                <p><b>Duration:</b> {currentSong.trackDuration}</p>
-                <p><b>Released:</b> {currentSong.trackReleaseDate}</p>
+<br/><br/>
+              <Title>{currentSong.trackName}</Title>
+                <Title>{currentSong.artist}</Title>
+                <Title>{currentSong.trackDuration}</Title>
+                <Title>{currentSong.trackReleaseDate}</Title>
                 <br></br>
-                <h2><b>CREATIVE TEAM</b></h2>
-                <p><b>Music Songwriters:</b> {currentSong.musicSongWriters}</p>
-                <p><b>Lyric Songwriters:</b> {currentSong.lyricSongWriters}</p>
-                <p><b>Vocal Producers:</b> {currentSong.vocalProducer}</p>
-                <p><b>Record Producers:</b> {currentSong.recordProducer}</p>
-                <p><b>Engineers:</b> {currentSong.engineers}</p>
-                <p><b>Mixing:</b> {currentSong.mixing}</p>
-                <p><b>Mastering:</b> {currentSong.mastering}</p>
-                <p><b>Label:</b> {currentSong.label}</p>
+                <CreditItems><b>CREATIVE TEAM</b></CreditItems>
+                <Title>Music Songwriters:<br/>{currentSong.musicSongWriters}</Title>
+                <Title>Lyric Songwriters: <br/> {currentSong.lyricSongWriters}</Title>
+                <Title>Vocal Producers:<br/> {currentSong.vocalProducer}</Title>
+                <Title>Record Producers:<br/> {currentSong.recordProducer}</Title>
+                <Title>Engineers:<br/> {currentSong.engineers}</Title>
+                <Title>Mixing:<br/> {currentSong.mixing}</Title>
+                <Title>Mastering:<br/> {currentSong.mastering}</Title>
+                <Title>Label:<br/>{currentSong.label}</Title>
                 <br></br>
             </div>
             </>
