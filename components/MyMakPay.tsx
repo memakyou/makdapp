@@ -84,7 +84,7 @@ const MyMakPay: React.FC = () => {
   return (
     <Container>
       <Main>
-      <SubTitle>MAKPAY</SubTitle>
+      <SubTitle>#COREPAY</SubTitle>
       <DefaultText>😔 You do not own a CORE token</DefaultText>
       <button>GET CORE</button>
       </Main>

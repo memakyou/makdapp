@@ -102,7 +102,7 @@ const Modal = styled.div<{ open: boolean }>`
     box-sizing: border-box;
     border-radius: 4px;
     overflow: auto; /* Add this line to enable scrolling */
-
+    -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on touch devices */
   }
 `;
 

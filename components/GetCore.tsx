@@ -67,7 +67,7 @@ const GetCore = () => {
         <Title>{nft.metadata.description}</Title>
         <CoreDataWrapper>
           <Cost>MEMBERS: {nft.supply}</Cost>
-          <Cost>TOTAL SUPPLEY: 625 🔒</Cost>
+          <Cost>TOTAL SUPPLY: 625 🔒</Cost>
         </CoreDataWrapper>
         </RightDiv>
       </Container>
