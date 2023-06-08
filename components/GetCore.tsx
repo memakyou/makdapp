@@ -59,8 +59,8 @@ const GetCore = () => {
         <LeftDiv>
         <ThirdwebNftMedia 
             metadata={nft.metadata}
-            height={"120"}
-            width={"120"}
+            height={"100%"}
+            width={"100%"}
         />
         </LeftDiv>
         <RightDiv>
@@ -68,8 +68,6 @@ const GetCore = () => {
         <CoreDataWrapper>
           <Cost>MEMBERS: {nft.supply}</Cost>
           <Cost>TOTAL SUPPLEY: 625 🔒</Cost>
-          {/* <Cost>PRICE: 10000 $MAK</Cost> */}
-          <p></p>
         </CoreDataWrapper>
         </RightDiv>
       </Container>

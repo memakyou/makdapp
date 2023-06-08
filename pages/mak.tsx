@@ -83,7 +83,7 @@ const Mak: NextPage = () => {
 
           <Card>
           <h2>GOT $MAK?</h2>
-          <p>Trade nostagia for $MAK, how old skool are you?</p>
+          <p>Join our discord to learn how to earn $MAK?</p>
           </Card>
           <br/>
 
