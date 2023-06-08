@@ -33,7 +33,7 @@ const FooterNav: React.FC = () => {
         <Container>
             <div>
                 <Link legacyBehavior href={"/terms-of-service"}>
-                    <NavLink className={router.pathname == "/terms-of-service" ? "active" : ""}>Usage Terms</NavLink>
+                    <NavLink className={router.pathname == "/terms-of-service" ? "active" : ""}>App Terms</NavLink>
                 </Link>
                 <Link legacyBehavior href={"/mshrs-agreement"}>
                     <NavLink className={router.pathname == "/mshrs-agreement" ? "active" : ""}>MSHRS Agreement</NavLink>
