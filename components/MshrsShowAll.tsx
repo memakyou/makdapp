@@ -501,8 +501,8 @@ const MshrsShowAll: React.FC = () => {
               {selectedNFT && (
                 <div ref={containerRef}>
                 <StyledThirdwebNftMedia 
-                  height={"100px"}
-                  width={"100px"}
+                  height={"125px"}
+                  width={"125px"}
                   ref={mediaRef} 
                   metadata={selectedNFT.metadata} 
                 />
