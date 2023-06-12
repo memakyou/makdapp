@@ -291,7 +291,7 @@ const PurchaseReceipt = styled.div`
   background-color: #999;
   width: 100%;
   border-radius: 6px;
-  padding: 10px;
+  padding: 16px;
   align-items: flex-start;
   justify-content: centre;
 
