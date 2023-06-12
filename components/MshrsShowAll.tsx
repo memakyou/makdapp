@@ -22,12 +22,13 @@ const Main = styled.main`
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+
 `;
 
 const StyledThirdwebNftMedia = styled(ThirdwebNftMedia)`
 
   transition: transform 0.5s;
-  // box-shadow: 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24);
+  box-shadow: 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24);
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
   &:hover {
     background-color: #ccc002;
@@ -117,7 +118,8 @@ const ModalOverlay = styled.div<{ isOpen: boolean }>`
   left: 0;
   width: 100%;
   height: 100%;
-  display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
+  padding: 0px 32px 0px 32px;
+  // display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
   align-items: center;
   justify-content: center;
   z-index: 9999; /* Keep the same z-index as before */
@@ -272,8 +274,8 @@ const TermsCheckbox = styled.div`
 const AddressForm = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  width: 100%
+  gap: 6px;
+  width: 100%;
 `;
 
 const Input = styled.input`
@@ -281,7 +283,7 @@ const Input = styled.input`
   width: 100%;
   border: 1px solid #d4d4d4;
   background-color: #d4d4d4;
-  border-radius: 0px;
+  border-radius: 6px;
   font-size: 12px;
 `;
 
@@ -314,9 +316,7 @@ const LeftDiv = styled.div`
 `;
 
 const RightDiv = styled.div`
-padding-left: 10px;
   float: right;
-  justify-content: center;
 
 `;
 
@@ -548,16 +548,16 @@ const MshrsShowAll: React.FC = () => {
 
                                 )}
               {isShippingChecked && transactionStatus !== 'Success!' && isAddressFormVisible && sliderValue >= 500 && (
-                <PurchaseReceipt>
+                // <PurchaseReceipt>
                   <AddressForm>
-                    <Input type="text" id="email" placeholder="Email" />
+                    {/* <Input type="text" id="email" placeholder="Email" /> */}
                     <Input type="text" id="streetAddress" placeholder="Street Address"/>
                     <Input type="text" id="city" placeholder="City"/>
                     <Input type="text" id="state" placeholder="State"/>
                     <Input type="text" id="zipEir" placeholder="Zip/Eircode"/>
                     <Input type="text" id="country" placeholder="Country"/>
                   </AddressForm>
-                </PurchaseReceipt>
+                // </PurchaseReceipt>
               )}
 
               
