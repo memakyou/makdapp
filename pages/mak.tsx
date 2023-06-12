@@ -4,7 +4,7 @@ import MshrsShowAll from '../components/MshrsShowAll';
 import GetCore from '../components/GetCore';
 
 const Container = styled.div`
-  padding: 0 2rem; 
+  padding: 24px; 
 `;
 
 const Main = styled.main`
@@ -43,7 +43,7 @@ const Card = styled.div`
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
   
   &:hover {
-    background-color: #ccc002;
+    background-color: #7289da;
     box-shadow: 0px 14px 28px rgba(0,0,0,0.25), 0px 10px 10px rgba(0,0,0,0.22);
     cursor: pointer;
 
@@ -56,7 +56,8 @@ const Card2 = styled.div`
   padding: 16px;
   box-shadow: 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24);
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
-  
+  justify-content: space-between;
+
   &:hover {
     box-shadow: 0px 14px 28px rgba(0,0,0,0.25), 0px 10px 10px rgba(0,0,0,0.22);
 
@@ -67,6 +68,11 @@ const TitleMain = styled.h1`
   font-size: 16px;
   color: #e7e8e8;
   text-align: left;
+`;
+
+const Cost = styled.p`
+  color: #141a20;
+  
 `;
 
 const Mak: NextPage = () => {
@@ -82,8 +88,8 @@ const Mak: NextPage = () => {
           <br/>
 
           <Card>
-          <h2>GOT $MAK?</h2>
-          <p>Join our discord and learn how to claim $MAK Tokens</p>
+          <h3>GOT <a>$MAK?</a></h3>
+          <Cost>Join our discord and learn how to claim <u>$MAK</u> Tokens</Cost>
           </Card>
           <br/>
 

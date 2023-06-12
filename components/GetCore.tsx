@@ -5,32 +5,31 @@ import { ThirdwebNftMedia, useContract, useNFT } from "@thirdweb-dev/react";
 
 const Container = styled.div`
   display: flex;
-  gap: 20px;
   padding: 0px;
+  gap: 2rem;
+  justify-content: centre;
+
+
 `;
 
 const LeftDiv = styled.div`
-  flex: 1;
+  // flex: 1;
 `;
 
 const RightDiv = styled.div`
-  flex: 1;
+  flex: 2;
+  
 `;
 
 const Title = styled.h3`
   color: #00000;
   margin-top: 0;
-  font-size: 14px;
+  font-size: 12px;
 `;
 
-const Description = styled.p`
-  color: #0f1318;
-`;
-
-const Cost = styled.p`
-  color: #555;
-  font-weight: bold;
-  // margin-bottom: 10px;
+const Cost = styled.h4`
+  color: #141a20;
+  
 `;
 
 const CoreDataWrapper = styled.div`
@@ -39,10 +38,7 @@ const CoreDataWrapper = styled.div`
   font-size: 12px;
 `;
 
-CoreDataWrapper
-
 const GetCore = () => {
-    const [minting, setMinting] = useState(false);
     const { contract } = useContract("0x7016eb12fa75A763467876F5A352eFe10d3013E1");
     const { data: nft, isLoading, error } = useNFT(contract, "34");
 
@@ -59,17 +55,18 @@ const GetCore = () => {
         <LeftDiv>
         <ThirdwebNftMedia 
             metadata={nft.metadata}
-            height={"100%"}
-            width={"100%"}
+            height={"50px"}
+            width={"50px"}
+            style={{ borderRadius: "6px" }}
         />
         </LeftDiv>
         <RightDiv>
-        <Title>{nft.metadata.description}</Title>
+        <Title>CORE 0<a>11</a>000<a>11</a></Title>
         <CoreDataWrapper>
-          <Cost>MEMBERS: {nft.supply}</Cost>
-          <Cost>TOTAL SUPPLY: 625 🔒</Cost>
+          <Cost>MEMBERS: {nft.supply} 🔒</Cost>
         </CoreDataWrapper>
         </RightDiv>
+        
       </Container>
       
     );

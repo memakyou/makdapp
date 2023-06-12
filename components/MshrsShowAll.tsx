@@ -5,8 +5,6 @@ import { useWindowSize } from "react-use";
 import { useEffect, useRef, useState } from "react";
 import Confetti from 'react-confetti';
 import emailjs from 'emailjs-com';
-import Link from 'next/link';
-import { DefaultTheme } from "styled-components";
 
 
 interface ModalProps {
@@ -15,13 +13,14 @@ interface ModalProps {
 
 const Container = styled.div`
   // padding: 0 2rem;
+
 `;
 
 const Main = styled.main`
   padding: 1rem 0;
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.8rem;
 
 `;
 
@@ -158,7 +157,7 @@ const CloseButton = styled.button`
 
 const ModalTitle = styled.h1`
   font-size: 14px;
-  color: black;
+  color: #141a20;
   margin-top: 0px;
 `;
 
@@ -219,18 +218,18 @@ const TextBox2 = styled.input`
   // text-align: center;
   border: none;
   background: none;
-  color: black;
+  color: #141a20;
   font-size: 12px;
 `;
 
 const PercentageBox = styled.div`
-  color: black;
+  color: #141a20;
   // text-align: center;
   font-size: 12px;
 `;
 
 const PercentageBox1 = styled.div`
-  color: black;
+  color: #141a20;
   // text-align: center;
   font-size: 12px;
 `;
@@ -318,6 +317,7 @@ const LeftDiv = styled.div`
 const RightDiv = styled.div`
   float: left;
   padding-left: 16px;
+  
 `;
 
 const ButtonContent = styled.div<{ open?: boolean }>`

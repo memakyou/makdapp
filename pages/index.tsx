@@ -48,6 +48,11 @@ const Card2 = styled.div`
   }
 `;
 
+const Cost = styled.p`
+  color: #141a20;
+  
+`;
+
 const Home: NextPage = () => {
   const openNewTab = (url: string) => {
     window.open(url, "_blank");
@@ -60,15 +65,15 @@ const Home: NextPage = () => {
         <div>
           <SocialMediaLinks />
           <Card onClick={() => openNewTab("https://twitter.com")}>
-            <h1>VISIT MAKWRLD 🌎</h1><p>Come get lost in the magical world of creation</p>
+            <h3>VISIT MAKWRLD 🌎</h3><Cost>Come get lost in the magical world of creation</Cost>
           </Card>
           <br/>
           <Card>
-            <h1>ART IS A HORSE 🎥</h1><p>A short film that explains nothing</p>
+            <h3>ART IS A HORSE 🎥</h3><Cost>A short film that explains nothing</Cost>
           </Card>
           <br/>
           <Card onClick={() => openNewTab("https://docs.google.com/forms/d/e/1FAIpQLSdr0fgkl-tu1NZbiFGB1sDTxMrz3m8YcqO7tBwz9hYrvWjsug/viewform")}>
-            <h1>HILLTOP BASH 🎟️ ✈️ 🇮🇪</h1><p>Claim your interest</p>
+            <h3>HILLTOP BASH 🎟️ ✈️ 🇮🇪</h3><Cost>Join the waitlist</Cost>
           </Card>
         </div>
       </Main>
