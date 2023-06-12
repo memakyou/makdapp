@@ -9,9 +9,8 @@ import { Song as PlayheadSong } from '../xtypes'; // Import the Song type from x
 const TrackArt = styled.img`
   width: 40px;
   height: 40px;
-  // border-radius:16px;
-  border: #d4d4d4 solid 0.1px;
-  margin-top: 0px;
+  border-radius:6px;
+  margin-top: 5px;
 `;
 
 const TrackName = styled.div`

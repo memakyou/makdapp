@@ -501,8 +501,9 @@ const MshrsShowAll: React.FC = () => {
               {selectedNFT && (
                 <div ref={containerRef}>
                 <StyledThirdwebNftMedia 
-                  height={"90px"}
-                  width={"90px"}
+                  height={"70px"}
+                  width={"70px"}
+                  style={{ borderRadius: "6px" }}
                   ref={mediaRef} 
                   metadata={selectedNFT.metadata} 
                 />
@@ -514,22 +515,7 @@ const MshrsShowAll: React.FC = () => {
               <ModalTitle>{selectedNFT?.metadata.name || 'Loading...'}</ModalTitle>
 
               <PercentageBox><b>Tokens:</b><TextBox2 type="text" value={sliderValue} readOnly /></PercentageBox>
-                <PercentageBox><b>Shares:</b> {(sharePertoken * sliderValue).toFixed(4)}%</PercentageBox>
-                <br/>
-                {sliderValue >= 500 && transactionStatus !== 'Success!' && (
-                <TermsCheckbox>
-                  <label htmlFor="shipping"><PercentageBox>🎁 Shipping Address</PercentageBox></label>
-                  <input
-                    type="checkbox"
-                    id="shipping"
-                    name="shipping"
-                    checked={isShippingChecked}
-                    onChange={handleAddressCheckboxChange}
-                  />
-                </TermsCheckbox>
-
-                  )}
-             
+                <PercentageBox><b>Shares:</b> {(sharePertoken * sliderValue).toFixed(4)}%</PercentageBox>                
              </RightDiv>
               </PurchaseReceipt>    
 
@@ -546,7 +532,21 @@ const MshrsShowAll: React.FC = () => {
                   </ProgressBarContainer>
                 </>
               )}
+                            {sliderValue >= 500 && transactionStatus !== 'Success!' && (
+                              <PurchaseReceipt>
+                              <TermsCheckbox>
+                                <label htmlFor="shipping"><PercentageBox>🎁 Shipping Address</PercentageBox></label>
+                                <input
+                                  type="checkbox"
+                                  id="shipping"
+                                  name="shipping"
+                                  checked={isShippingChecked}
+                                  onChange={handleAddressCheckboxChange}
+                                />
+                              </TermsCheckbox>
+                              </PurchaseReceipt>
 
+                                )}
               {isShippingChecked && transactionStatus !== 'Success!' && isAddressFormVisible && sliderValue >= 500 && (
                 <PurchaseReceipt>
                   <AddressForm>
@@ -560,6 +560,8 @@ const MshrsShowAll: React.FC = () => {
                 </PurchaseReceipt>
               )}
 
+              
+
               {transactionStatus && (
                 <PurchaseStatusBox>
                   <StatusMessage>{transactionStatus}</StatusMessage>
@@ -567,6 +569,8 @@ const MshrsShowAll: React.FC = () => {
                   {transactionStatus === 'Success!' && <SuccessLink>Now stream MEMAKYOU to earn royalties</SuccessLink>}
                 </PurchaseStatusBox>
               )}
+
+              
 
               {transactionStatus !== 'Success!' && (
                 <>
@@ -645,7 +649,7 @@ const MshrsShowAll: React.FC = () => {
                     metadata={nft.metadata}
                     height={"50px"}
                     width={"50px"}
-                    style={{ borderRadius: "15px" }}
+                    style={{ borderRadius: "6px" }} 
                   />
                   <NftName>{nft.metadata.name}</NftName>
                   <BuyButton><FaShoppingCart /></BuyButton>
