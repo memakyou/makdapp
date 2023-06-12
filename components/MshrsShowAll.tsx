@@ -458,6 +458,7 @@ const MshrsShowAll: React.FC = () => {
     setIsShippingChecked(false);
     setIsAddressFormVisible(false);
     setTermsAccepted(false); // Reset the checkbox state
+    setBuyButtonOpen(false);
   };
 
   return (
@@ -527,7 +528,7 @@ const MshrsShowAll: React.FC = () => {
               )}
               
               
-              {sliderValue >= 500 && (
+              {sliderValue >= 500 && transactionStatus !== 'Success!' && (
                 <PurchaseReceipt>
                 <TermsCheckbox>
                   <label htmlFor="shipping">🎁 Shipping Address</label>
@@ -568,7 +569,15 @@ const MshrsShowAll: React.FC = () => {
                 <>
                  
 
-                  <PurchaseButton className="OverrideWeb3Button" onClick={handleButtonClick}>PURCHASE €{(sliderValue * mshrsUnitPrice).toFixed(2)}</PurchaseButton>
+               {!isBuyButtonOpen &&  (
+                <PurchaseButton 
+                className="OverrideWeb3Button"  
+                onClick={handleButtonClick}
+                disabled={!termsAccepted}
+                >
+                  PURCHASE €{(sliderValue * mshrsUnitPrice).toFixed(2)}
+                </PurchaseButton>
+               )}
 
                   <ButtonContent open={isBuyButtonOpen}>
 
@@ -592,8 +601,10 @@ const MshrsShowAll: React.FC = () => {
                     className="OverrideWeb3Button"
                     isDisabled={!termsAccepted}
                   >
-                    MATIC {(sliderValue * mshrsPricePerTokenMatic).toFixed(2)}
+                    {(sliderValue * mshrsPricePerTokenMatic).toFixed(2)} MATIC
                   </Web3Button>
+                  <PurchaseButton className="OverrideWeb3Button" onClick={handleButtonClick}>{(sliderValue * mshrsUnitPrice).toFixed(2)} EUR</PurchaseButton>
+
                   </ButtonContent>
                   <PurchaseReceipt>
                     <TermsCheckbox>
