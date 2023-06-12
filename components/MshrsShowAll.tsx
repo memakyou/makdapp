@@ -157,6 +157,7 @@ const CloseButton = styled.button`
 const ModalTitle = styled.h1`
   font-size: 14px;
   color: black;
+  margin-top: 0px;
 `;
 
 const ModalContent = styled.div`
@@ -290,6 +291,7 @@ const PurchaseReceipt = styled.div`
   border-radius: 6px;
   padding: 10px;
   align-items: flex-start;
+  justify-content: centre;
 
 `;
 
@@ -526,7 +528,7 @@ const MshrsShowAll: React.FC = () => {
                   />
                 </TermsCheckbox>
 
-              )}
+                  )}
              
              </RightDiv>
               </PurchaseReceipt>    

@@ -85,7 +85,7 @@ const You: NextPage = () => {
             </Card>
             <br />
             <SubTitle>#MSHRS</SubTitle>
-            <MshrsShowMine />
+            {/* <MshrsShowMine /> */}
             <SubTitle>#BDGS</SubTitle>
             <MyBdgs />
             <MyMakPay />

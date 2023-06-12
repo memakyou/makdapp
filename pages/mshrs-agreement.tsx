@@ -34,6 +34,11 @@ const Title = styled.h1`
   }
 `;
 
+const DefaultText = styled.p`
+  color: #ccc002;
+  font-size: 10px;
+`;
+
 const MshrsAgreement: NextPage = () => {
   const [showBasicExplanation, setShowBasicExplanation] = useState(false);
   const address = useAddress();
@@ -253,8 +258,8 @@ const MshrsAgreement: NextPage = () => {
 
             <p>IN WITNESS WHEREOF, the parties have executed this Contract as of the date first above written.</p>
 
-            <p>ARTIST: MEMAKYOU</p>
-            <p>BUYER: {address}</p>
+            <p>ARTIST:<br/> <DefaultText>MEMAKYOU</DefaultText></p>
+            <p>BUYER: <br/><DefaultText>{address}</DefaultText></p>
           </>
         )}
       </Main>
