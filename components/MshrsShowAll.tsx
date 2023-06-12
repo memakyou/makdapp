@@ -313,17 +313,14 @@ const PurchaseIcon2 = styled.span`
 const LeftDiv = styled.div`
   float: left;
   justify-content: center;
+  width: 30%;
 `;
 
 const RightDiv = styled.div`
   float: right;
+  padding-left: 16px;
+  width: 70%;
 
-`;
-
-const CoreDataWrapper = styled.div`
-  color: #d4d4d4;
-  font-weight: bold;
-  font-size: 12px;
 `;
 
 const ButtonContent = styled.div<{ open?: boolean }>`
