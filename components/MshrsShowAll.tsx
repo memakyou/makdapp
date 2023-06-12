@@ -312,6 +312,7 @@ const LeftDiv = styled.div`
 `;
 
 const RightDiv = styled.div`
+padding-left: 10px;
   float: right;
   justify-content: center;
 
@@ -490,7 +491,6 @@ const MshrsShowAll: React.FC = () => {
 
             <ModalContent>
             <h3>Purchase Shares <PurchaseIcon2><FaShoppingCart/></PurchaseIcon2></h3>
-            <br/><br/>
               <PercentageBox1>Order Summary:</PercentageBox1>
               
 
@@ -511,11 +511,8 @@ const MshrsShowAll: React.FC = () => {
               <RightDiv>
               <ModalTitle>{selectedNFT?.metadata.name || 'Loading...'}</ModalTitle>
 
-<PercentageBox><b>Tokens:</b><TextBox2 type="text" value={sliderValue} readOnly /></PercentageBox>
-  <PercentageBox><b>Shares:</b> {(sharePertoken * sliderValue).toFixed(4)}%</PercentageBox>
-<CoreDataWrapper>
-          
-              </CoreDataWrapper>
+              <PercentageBox><b>Tokens:</b><TextBox2 type="text" value={sliderValue} readOnly /></PercentageBox>
+                <PercentageBox><b>Shares:</b> {(sharePertoken * sliderValue).toFixed(4)}%</PercentageBox>
               </RightDiv>
               </PurchaseReceipt>    
 
@@ -612,8 +609,9 @@ const MshrsShowAll: React.FC = () => {
                   <PurchaseButton className="OverrideWeb3Button" onClick={handleButtonClick}>{(sliderValue * mshrsUnitPrice).toFixed(2)} EURO</PurchaseButton>
 
                   </ButtonContent>
+                  {!isBuyButtonOpen &&  (
                   <PurchaseReceipt>
-                    <TermsCheckbox>
+                   <TermsCheckbox>
                       <input
                         type="checkbox"
                         id="terms"
@@ -627,6 +625,7 @@ const MshrsShowAll: React.FC = () => {
                       </label> 
                     </TermsCheckbox>
                   </PurchaseReceipt>
+                  )}
 
                 </>
               )}
