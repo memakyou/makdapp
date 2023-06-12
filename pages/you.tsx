@@ -50,7 +50,7 @@ const Card = styled.div`
 
 const DefaultText = styled.p`
   color: #272c34;
-  font-size: 14px;
+  font-size: 10px;
 `;
 
 const SubTitle = styled.h2`
@@ -95,7 +95,7 @@ const You: NextPage = () => {
           <Card>
             <p>
               You&apos;re not connected.
-              Please connect to see your wallet items.
+              Please connect your wallet to see your items.
             </p>
           </Card>
         )}

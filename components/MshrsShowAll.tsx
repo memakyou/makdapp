@@ -149,9 +149,8 @@ const CloseButton = styled.button`
 `;
 
 const ModalTitle = styled.h1`
-  margin-bottom: 20px;
-  font-size: 16px;
-  color: black;
+  font-size: 14px;
+  color: #444444;
 `;
 
 const ModalContent = styled.div`
@@ -178,11 +177,12 @@ const Slider = styled.input`
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
     border: none;
-    height: 16px;
-    width: 16px;
+    height: 20px;
+    width: 20px;
     border-radius: 0%;
+    border: #333 solid 1px;
     background: #ccc002;
-    margin-top: -4px;
+    margin-top: -7px;
   }
 `;
 
@@ -190,7 +190,8 @@ const ProgressBarContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 16px;
+  margin-top: 15px;
+  margin-bottom: 15px;
   width: 100%;
 `;
 
@@ -282,16 +283,11 @@ const PurchaseReceipt = styled.div`
   width: 100%;
   border-radius: 6px;
   padding: 10px;
+  align-items: flex-start;
+
 `;
 
 const PurchaseStatusBox = styled.div`
-  background-color: #999;
-  width: 100%;
-  border-radius: 6px;
-  padding: 10px;
-`;
-
-const a1 = styled.a`
   background-color: #999;
   width: 100%;
   border-radius: 6px;
@@ -302,6 +298,44 @@ const PurchaseIcon2 = styled.span`
   font-size: 16px;
   margin-right: 10px;
   color: ##e7e8e8;
+`;
+
+const LeftDiv = styled.div`
+  float: left;
+  justify-content: center;
+`;
+
+const RightDiv = styled.div`
+  float: right;
+  justify-content: center;
+
+`;
+
+const CoreDataWrapper = styled.div`
+  color: #d4d4d4;
+  font-weight: bold;
+  font-size: 12px;
+`;
+
+const ButtonContent = styled.div`
+  display: ${({ open }) => (open ? 'block' : 'none')};
+  width: 100%;
+  // background-color: #f1f1f1;
+  // padding: 16px;
+  // margin-top: 8px;
+`;
+
+const PurchaseButton = styled.button`
+background: none;
+border: none;
+cursor: pointer;
+font-size: 14px;
+margin-left: auto; /* Added this line */
+padding: 12px;
+
+${CardContainer}:hover & {
+  color: #ccc002;
+}
 `;
 
 const MshrsShowAll: React.FC = () => {
@@ -318,6 +352,11 @@ const MshrsShowAll: React.FC = () => {
   const [transactionStatus, setTransactionStatus] = useState('');
   const [transactionError, setTransactionError] = useState('');
   const [termsAccepted, setTermsAccepted] = useState(false);
+  const [isBuyButtonOpen, setBuyButtonOpen] = useState(false);
+
+  const handleButtonClick = () => {
+    setBuyButtonOpen(!isBuyButtonOpen);
+  };
 
   const containerRef = useRef<HTMLDivElement>(null);
   const mediaRef = useRef<HTMLMediaElement>(null);
@@ -367,6 +406,7 @@ const MshrsShowAll: React.FC = () => {
   // pricing logistics
   const sharePertoken = 0.0002;
   const mshrsUnitPrice = 0.65;
+  const mshrsPricePerTokenMatic = 1.10;
   const mshrsUnitMinOrder = 20;
   const mshrsUnitMaxOrder = 5000;
 
@@ -442,21 +482,36 @@ const MshrsShowAll: React.FC = () => {
             <ModalOverlay isOpen={isModalOpen}>
 
             <ModalContent>
-            <h3>Buy Shares <PurchaseIcon2><FaShoppingCart/></PurchaseIcon2></h3>
+            <h3>Purchase Shares <PurchaseIcon2><FaShoppingCart/></PurchaseIcon2></h3>
+            <br/><br/>
+              <PercentageBox1>Order Summary:</PercentageBox1>
+              
+
+              <PurchaseReceipt>
+              <LeftDiv>
               {selectedNFT && (
                 <div ref={containerRef}>
                 <StyledThirdwebNftMedia 
-                  height={"150px"}
-                  width={"150px"}
+                  height={"100px"}
+                  width={"100px"}
                   ref={mediaRef} 
                   metadata={selectedNFT.metadata} 
                 />
                 </div>
                 )
-              }
-
+              }          
+              </LeftDiv>
+              <RightDiv>
               <ModalTitle>{selectedNFT?.metadata.name || 'Loading...'}</ModalTitle>
-             
+
+<PercentageBox><b>Tokens:</b><TextBox2 type="text" value={sliderValue} readOnly /></PercentageBox>
+  <PercentageBox><b>Shares:</b> {(sharePertoken * sliderValue).toFixed(4)}%</PercentageBox>
+<CoreDataWrapper>
+          
+              </CoreDataWrapper>
+              </RightDiv>
+              </PurchaseReceipt>    
+
               {transactionStatus !== 'Success!' && (
                 <>
                   <ProgressBarContainer>
@@ -470,16 +525,11 @@ const MshrsShowAll: React.FC = () => {
                   </ProgressBarContainer>
                 </>
               )}
-
-              <br/>
-              <PercentageBox1>Order Summary:</PercentageBox1>
-              <PurchaseReceipt>
-                <PercentageBox><b>Tokens:</b><TextBox2 type="text" value={sliderValue} readOnly /></PercentageBox>
-                <PercentageBox><b>Shares:</b> {(sharePertoken * sliderValue).toFixed(4)}%</PercentageBox>
+              
               
               {sliderValue >= 500 && (
+                <PurchaseReceipt>
                 <TermsCheckbox>
-                  <br/><br/>
                   <label htmlFor="shipping">🎁 Shipping Address</label>
                   <input
                     type="checkbox"
@@ -489,8 +539,9 @@ const MshrsShowAll: React.FC = () => {
                     onChange={handleAddressCheckboxChange}
                   />
                 </TermsCheckbox>
+                </PurchaseReceipt>
+
               )}
-              </PurchaseReceipt>
 
               {isShippingChecked && transactionStatus !== 'Success!' && isAddressFormVisible && sliderValue >= 500 && (
                 <PurchaseReceipt>
@@ -515,6 +566,12 @@ const MshrsShowAll: React.FC = () => {
 
               {transactionStatus !== 'Success!' && (
                 <>
+                 
+
+                  <PurchaseButton className="OverrideWeb3Button" onClick={handleButtonClick}>PURCHASE €{(sliderValue * mshrsUnitPrice).toFixed(2)}</PurchaseButton>
+
+                  <ButtonContent open={isBuyButtonOpen}>
+
                   <Web3Button
                     contractAddress="0x0880432A2A4D97C7d775566f205aa3c545886430"
                     action={(contract) => contract.erc1155.claim(selectedNFT?.metadata.id, sliderValue)}
@@ -535,8 +592,9 @@ const MshrsShowAll: React.FC = () => {
                     className="OverrideWeb3Button"
                     isDisabled={!termsAccepted}
                   >
-                    PURCHASE €{(sliderValue * mshrsUnitPrice).toFixed(2)}
+                    MATIC {(sliderValue * mshrsPricePerTokenMatic).toFixed(2)}
                   </Web3Button>
+                  </ButtonContent>
                   <PurchaseReceipt>
                     <TermsCheckbox>
                       <input
