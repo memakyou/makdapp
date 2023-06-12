@@ -6,6 +6,12 @@ import { useEffect, useRef, useState } from "react";
 import Confetti from 'react-confetti';
 import emailjs from 'emailjs-com';
 import Link from 'next/link';
+import { DefaultTheme } from "styled-components";
+
+
+interface ModalProps {
+  open?: boolean;
+}
 
 const Container = styled.div`
   // padding: 0 2rem;
@@ -78,7 +84,7 @@ const BuyButton = styled.button`
   }
 `;
 
-const Modal = styled.div<{ open: boolean }>`
+const Modal = styled.div<ModalProps>`
   position: fixed;
   top: 0;
   left: 0;
@@ -317,7 +323,7 @@ const CoreDataWrapper = styled.div`
   font-size: 12px;
 `;
 
-const ButtonContent = styled.div`
+const ButtonContent = styled.div<{ open?: boolean }>`
   display: ${({ open }) => (open ? 'block' : 'none')};
   width: 100%;
   // background-color: #f1f1f1;
@@ -603,7 +609,7 @@ const MshrsShowAll: React.FC = () => {
                   >
                     {(sliderValue * mshrsPricePerTokenMatic).toFixed(2)} MATIC
                   </Web3Button>
-                  <PurchaseButton className="OverrideWeb3Button" onClick={handleButtonClick}>{(sliderValue * mshrsUnitPrice).toFixed(2)} EUR</PurchaseButton>
+                  <PurchaseButton className="OverrideWeb3Button" onClick={handleButtonClick}>{(sliderValue * mshrsUnitPrice).toFixed(2)} EURO</PurchaseButton>
 
                   </ButtonContent>
                   <PurchaseReceipt>
