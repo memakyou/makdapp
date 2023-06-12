@@ -156,7 +156,7 @@ const CloseButton = styled.button`
 
 const ModalTitle = styled.h1`
   font-size: 14px;
-  color: #444444;
+  color: black;
 `;
 
 const ModalContent = styled.div`
@@ -216,18 +216,18 @@ const TextBox2 = styled.input`
   // text-align: center;
   border: none;
   background: none;
-  color: #444;
+  color: black;
   font-size: 12px;
 `;
 
 const PercentageBox = styled.div`
-  color: #444;
+  color: black;
   // text-align: center;
   font-size: 12px;
 `;
 
 const PercentageBox1 = styled.div`
-  color: #444;
+  color: black;
   // text-align: center;
   font-size: 12px;
 `;
@@ -513,7 +513,22 @@ const MshrsShowAll: React.FC = () => {
 
               <PercentageBox><b>Tokens:</b><TextBox2 type="text" value={sliderValue} readOnly /></PercentageBox>
                 <PercentageBox><b>Shares:</b> {(sharePertoken * sliderValue).toFixed(4)}%</PercentageBox>
-              </RightDiv>
+                <br/>
+                {sliderValue >= 500 && transactionStatus !== 'Success!' && (
+                <TermsCheckbox>
+                  <label htmlFor="shipping"><PercentageBox>🎁 Shipping Address</PercentageBox></label>
+                  <input
+                    type="checkbox"
+                    id="shipping"
+                    name="shipping"
+                    checked={isShippingChecked}
+                    onChange={handleAddressCheckboxChange}
+                  />
+                </TermsCheckbox>
+
+              )}
+             
+             </RightDiv>
               </PurchaseReceipt>    
 
               {transactionStatus !== 'Success!' && (
@@ -528,23 +543,6 @@ const MshrsShowAll: React.FC = () => {
                     />
                   </ProgressBarContainer>
                 </>
-              )}
-              
-              
-              {sliderValue >= 500 && transactionStatus !== 'Success!' && (
-                <PurchaseReceipt>
-                <TermsCheckbox>
-                  <label htmlFor="shipping">🎁 Shipping Address</label>
-                  <input
-                    type="checkbox"
-                    id="shipping"
-                    name="shipping"
-                    checked={isShippingChecked}
-                    onChange={handleAddressCheckboxChange}
-                  />
-                </TermsCheckbox>
-                </PurchaseReceipt>
-
               )}
 
               {isShippingChecked && transactionStatus !== 'Success!' && isAddressFormVisible && sliderValue >= 500 && (
