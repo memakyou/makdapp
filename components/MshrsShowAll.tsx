@@ -291,7 +291,7 @@ const PurchaseReceipt = styled.div`
   background-color: #999;
   width: 100%;
   border-radius: 6px;
-  padding: 16px;
+  padding: 6px;
   align-items: flex-start;
   justify-content: centre;
 
@@ -312,13 +312,12 @@ const PurchaseIcon2 = styled.span`
 
 const LeftDiv = styled.div`
   float: left;
-  justify-content: center;
+  // justify-content: center;
 `;
 
 const RightDiv = styled.div`
-  float: right;
+  float: left;
   padding-left: 16px;
-
 `;
 
 const ButtonContent = styled.div<{ open?: boolean }>`
@@ -496,8 +495,8 @@ const MshrsShowAll: React.FC = () => {
               {selectedNFT && (
                 <div ref={containerRef}>
                 <StyledThirdwebNftMedia 
-                  height={"50px"}
-                  width={"50px"}
+                  height={"60px"}
+                  width={"60px"}
                   style={{ borderRadius: "6px" }}
                   ref={mediaRef} 
                   metadata={selectedNFT.metadata} 
