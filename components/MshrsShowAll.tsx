@@ -1,4 +1,4 @@
-import { useContract, useContractRead, useContractWrite, useNFTs, useMintNFT, ThirdwebNftMedia, useAddress, Web3Button } from "@thirdweb-dev/react";
+import { useContract, useContractRead, useContractWrite, useNFTs, useMintNFT, ThirdwebNftMedia, useAddress, Web3Button, ConnectWallet } from "@thirdweb-dev/react";
 import styled from "styled-components";
 import { FaShoppingCart } from "react-icons/fa";
 import { useWindowSize } from "react-use";
@@ -583,6 +583,7 @@ const MshrsShowAll: React.FC = () => {
 
                   <ButtonContent open={isBuyButtonOpen}>
 
+            
                   <Web3Button
                     contractAddress="0x0880432A2A4D97C7d775566f205aa3c545886430"
                     action={(contract) => contract.erc1155.claim(selectedNFT?.metadata.id, sliderValue)}
@@ -605,13 +606,20 @@ const MshrsShowAll: React.FC = () => {
                   >
                     {(sliderValue * mshrsPricePerTokenMatic).toFixed(2)} MATIC
                   </Web3Button>
+                  {address && (
                   <CrossmintPayButton
                     className="OverrideWeb3Button"
                     clientId="f03719f5-3ca6-4376-90ce-b008b6de5f00"
-                    mintConfig={{"type":"thirdweb-edition-drop","totalPrice":"0.00","quantity":sliderValue, "tokenId":selectedNFT?.metadata.id}}
-                    environment="staging"
-                    mintTo={address}
-                  />
+                    mintConfig={{
+                      type: "thirdweb-edition-drop",
+                      totalPrice: "0.00",
+                      quantity: sliderValue,
+                      tokenId: selectedNFT?.metadata.id
+                    }}
+                  environment="staging"
+                  mintTo={address}
+                />
+              )}
                   </ButtonContent>
                   {!isBuyButtonOpen &&  (
                   <PurchaseReceipt>
