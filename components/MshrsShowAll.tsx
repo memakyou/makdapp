@@ -5,6 +5,7 @@ import { useWindowSize } from "react-use";
 import { useEffect, useRef, useState } from "react";
 import Confetti from 'react-confetti';
 import emailjs from 'emailjs-com';
+import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
 
 
 interface ModalProps {
@@ -604,8 +605,13 @@ const MshrsShowAll: React.FC = () => {
                   >
                     {(sliderValue * mshrsPricePerTokenMatic).toFixed(2)} MATIC
                   </Web3Button>
-                  <PurchaseButton className="OverrideWeb3Button" onClick={handleButtonClick}>{(sliderValue * mshrsUnitPrice).toFixed(2)} EURO</PurchaseButton>
-
+                  <CrossmintPayButton
+                    className="OverrideWeb3Button"
+                    clientId="f03719f5-3ca6-4376-90ce-b008b6de5f00"
+                    mintConfig={{"type":"thirdweb-edition-drop","totalPrice":"0.00","quantity":sliderValue, "tokenId":selectedNFT?.metadata.id}}
+                    environment="staging"
+                    mintTo={address}
+                  />
                   </ButtonContent>
                   {!isBuyButtonOpen &&  (
                   <PurchaseReceipt>

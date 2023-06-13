@@ -71,6 +71,7 @@ const TitleMain = styled.h1`
 `;
 
 const Cost = styled.p`
+font-size: 12px;
   color: #141a20;
   
 `;
@@ -89,7 +90,7 @@ const Mak: NextPage = () => {
 
           <Card>
           <h3>GOT <a>$MAK?</a></h3>
-          <Cost>Join our discord and learn how to claim <u>$MAK</u> Tokens</Cost>
+          <Cost>Join us on discord to learn about <u>$MAK</u> bounties & rewards</Cost>
           </Card>
           <br/>
 
