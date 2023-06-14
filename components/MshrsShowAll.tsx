@@ -593,7 +593,9 @@ const MshrsShowAll: React.FC = () => {
                   PURCHASE €{(sliderValue * mshrsUnitPrice).toFixed(2)}
                 </PurchaseButton>
                )}
-
+               {isBuyButtonOpen && address &&(
+                <PercentageBox1>Pay with:</PercentageBox1>
+                )}
                   <ButtonContent open={isBuyButtonOpen}>
             
                   <Web3Button
