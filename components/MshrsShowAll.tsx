@@ -502,8 +502,8 @@ const MshrsShowAll: React.FC = () => {
               {selectedNFT && (
                 <div ref={containerRef}>
                 <StyledThirdwebNftMedia 
-                  height={"60px"}
-                  width={"60px"}
+                  height={"50px"}
+                  width={"50px"}
                   style={{ borderRadius: "6px" }}
                   ref={mediaRef} 
                   metadata={selectedNFT.metadata} 
@@ -515,8 +515,10 @@ const MshrsShowAll: React.FC = () => {
               <RightDiv>
               <ModalTitle>{selectedNFT?.metadata.name || 'Loading...'}</ModalTitle>
 
-              <PercentageBox>Tokens:<TextBox2 type="text" value={sliderValue} readOnly /></PercentageBox>
-                <PercentageBox>Shares: {(sharePertoken * sliderValue).toFixed(4)}%</PercentageBox>                
+              <PercentageBox>{sliderValue} Tokens</PercentageBox>
+              <PercentageBox>{(sharePertoken * sliderValue).toFixed(4)}% Song Share</PercentageBox>                
+              <PercentageBox><a>€ {(sliderValue * mshrsUnitPrice).toFixed(2)}</a></PercentageBox>
+
              </RightDiv>
               </NftContainer>    
               </CardContainer>
@@ -537,7 +539,7 @@ const MshrsShowAll: React.FC = () => {
                   )}
                 </>
               )}
-                            {sliderValue >= 500 && transactionStatus !== 'Success!' && (
+                            {sliderValue >= 1000 && transactionStatus !== 'Success!' && (
                               <PurchaseReceipt>
                               <TermsCheckbox>
                                 <label htmlFor="shipping"><PercentageBox1>🎁 Shipping Address</PercentageBox1></label>
