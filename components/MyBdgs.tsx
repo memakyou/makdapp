@@ -53,6 +53,14 @@ const NftName = styled.p`
   
 `;
 
+const DefaultText = styled.p`
+  color: #272c34;
+  margin: auto;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom:20px;
+`;
+
 const MyBdgs: React.FC = () => {
   const { contract } = useContract("0xBBC9956157e7cb58404F1B02cEaE029971aB6bbe");
   const address = useAddress()  
@@ -119,7 +127,7 @@ const MyBdgs: React.FC = () => {
           ))
         ) : (
           <>
-            <p>😔 You have not earned any supporter badges yet</p>
+            <DefaultText><h1>😔</h1> You have not earned any supporter badges yet</DefaultText>
           </>
         )}
       </Main>

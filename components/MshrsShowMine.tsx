@@ -4,7 +4,8 @@ import { useState, useRef, useEffect, RefObject, Ref } from 'react';
 import useWindowSize from 'react-use/lib/useWindowSize'
 import Confetti from 'react-confetti'
 import { FaShoppingCart } from "react-icons/fa";
- 
+import { IoIosStats } from "react-icons/io";
+
 // Define your styled components
 const Container = styled.div`
 // padding: 0 2rem;
@@ -309,51 +310,7 @@ const MshrsShowMine: React.FC = () => {
         <CloseButton onClick={() => { setModalOpen(false); setSelectedNFT(null); setTransactionStatus(''); setTransactionError(''); setIsConfettiVisible(false); }}>X</CloseButton>
           <ModalContent>
           {selectedNFT &&   <StyledThirdwebNftMedia ref={ref} metadata={selectedNFT?.metadata} />}
-          <ModalTitle>{selectedNFT?.metadata.name || 'Loading...'}</ModalTitle>
-            <Slider 
-              type="range" 
-              min="5" 
-              max="1000" 
-              value={sliderValue} 
-              onChange={(e) => setSliderValue(parseInt(e.target.value))} 
-            />
-            <TextBox type="text" value={sliderValue} readOnly />
-            <PercentageBox>Purchasing <PercentageBoxSum>{(sharePertoken * sliderValue).toFixed(4)}%</PercentageBoxSum> Music Shares</PercentageBox>
-            <PercentageBox><b>Costing</b></PercentageBox>
-            <PriceBox>${sliderValue * mshrsUnitPrice}</PriceBox>
-
-            <StatusMessage>{transactionStatus}</StatusMessage>
-            {transactionError && <ErrorMessage>Error: There has been an error, please try again.</ErrorMessage>}
-
-            {transactionStatus === 'Success!' && <SuccessLink>Awesome, stream MEMAKYOU to earn royalties</SuccessLink>}
-            <Web3Button
-              contractAddress="0x0880432A2A4D97C7d775566f205aa3c545886430"
-              action={(contract) => contract.erc1155.claim(selectedNFT?.metadata.id, sliderValue)}
-              onError={(error) => {
-                setTransactionStatus('Error');
-                setTransactionError(error.message);
-              }}
-              onSubmit={() => {
-                setTransactionStatus('Transaction submitted');
-                setTransactionError('');
-              }}
-              onSuccess={(result) => {
-                setTransactionStatus('Success!');
-                setTransactionError('');
-                setIsConfettiVisible(true);
-              }}            
-              className="OverrideWeb3Button"
-              isDisabled={!termsAccepted}
-            >
-              CONFIRM PURCHASE!
-            </Web3Button>
-            
-            <TermsCheckbox>
-            <input type="checkbox" id="terms" name="terms" value={termsAccepted.toString()} onChange={() => setTermsAccepted(!termsAccepted)}/>
-              <label htmlFor="terms" className={!termsAccepted ? 'error' : ''}>
-                I accept the terms of the MSHRS Agreement
-              </label>
-            </TermsCheckbox>
+          <ModalTitle>{selectedNFT?.metadata.name || 'Loading...'}</ModalTitle> 
           </ModalContent>
         </div>
       </Modal>
@@ -374,15 +331,15 @@ const MshrsShowMine: React.FC = () => {
                   <NftContainer>
                     <ThirdwebNftMedia
                       metadata={nft.metadata}
-                      width={"50"}
-                      height={"50"}
-                      style={{ borderRadius: "15px" }}
+                      width={"50px"}
+                      height={"50px"}
+                      style={{ borderRadius: "6px" }}
                     />
                     <NftName>
                       You own <a>{quantityOwned}</a> music shares in <a>{nft.metadata.name}</a>, a <a>{(quantityOwned * sharePertoken).toFixed(3)}%</a> stake
                     </NftName>
                     <BuyButton>
-                      <FaShoppingCart />
+                      <IoIosStats />
                     </BuyButton>
                   </NftContainer>
                 </CardContainer>
@@ -391,7 +348,7 @@ const MshrsShowMine: React.FC = () => {
           )}    
         </InfoSection>
       ) : (
-        <DefaultText>😔 You have not purchased any music shares yet</DefaultText>
+        <DefaultText><h1>😔</h1> You have not purchased any music shares yet</DefaultText>
       )}
       </Main>
     </Container>

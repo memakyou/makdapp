@@ -6,12 +6,12 @@ import MyBdgs from '../components/MyBdgs';
 import MyMakPay from '../components/MyMakPay';
 
 const Container = styled.div`
-  padding: 0 2rem;
+padding: 24px; 
 `;
 
 const Main = styled.main`
   min-height: 100vh;
-  padding: 1rem 0;
+  padding: 1rem 0; 
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -55,7 +55,9 @@ const DefaultText = styled.p`
 
 const SubTitle = styled.h2`
   color: #d4d4d4;
-`;
+  text-align: left;
+  font-size: 14px;
+  `;
 
 const You: NextPage = () => {
   const address = useAddress();
@@ -71,25 +73,14 @@ const You: NextPage = () => {
       <Main>
         {isConnected ? (
           <>
-            <Card>
-              <DefaultText>
-                ✅ You&apos;re connected to <a>MEMAKYOU</a> with <a>{address}</a>
-              </DefaultText>
-              {/* <p>
-                You&apos;ve{' '}
-                <a>
-                  {tokenBalance?.displayValue} ${tokenBalance?.symbol}
-                </a>{' '}
-                in your connected wallet 👜
-              </p> */}
-            </Card>
-            <br />
-            <SubTitle>#MSHRS</SubTitle>
-            {/* <MshrsShowMine /> */}
-            <SubTitle>#BDGS</SubTitle>
+            <div>
+            <SubTitle>MUSIC SHARES</SubTitle>
+            <MshrsShowMine />
+            <SubTitle>BADGES</SubTitle>
             <MyBdgs />
+            <SubTitle>CORE 0<a>11</a>000<a>11</a></SubTitle>
             <MyMakPay />
-            <p></p>
+            </div>
           </>
         ) : (
           <Card>

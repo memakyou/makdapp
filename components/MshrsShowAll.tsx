@@ -5,7 +5,7 @@ import { useWindowSize } from "react-use";
 import { useEffect, useRef, useState } from "react";
 import Confetti from 'react-confetti';
 import emailjs from 'emailjs-com';
-import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
+import { CrossmintPayButton, CrossmintPaymentElement } from "@crossmint/client-sdk-react-ui";
 
 
 interface ModalProps {
@@ -342,6 +342,13 @@ ${CardContainer}:hover & {
 }
 `;
 
+const SubTitle = styled.h2`
+  color: #d4d4d4;
+  text-align: left;
+  font-size: 14px;
+  `;
+
+
 const MshrsShowAll: React.FC = () => {
   const mshrsContract = process.env.MSHRS_CONTRACT //set up env var but not able to pass to thirdweb without being a string. will seak help from third web.
 
@@ -467,7 +474,7 @@ const MshrsShowAll: React.FC = () => {
 
   return (
     <Container>
-      <h2>MUSIC SHARES <a>$MSHRS</a></h2>
+      <SubTitle>MUSIC SHARES</SubTitle>
       <Main>
         {isConfettiVisible && 
           <Confetti
@@ -570,6 +577,7 @@ const MshrsShowAll: React.FC = () => {
               {transactionStatus !== 'Success!' && (
                 <>
                  
+                {/* <PercentageBox1>How would you like to pay?</PercentageBox1> */}
 
                {!isBuyButtonOpen &&  (
                 <PurchaseButton 
@@ -582,7 +590,6 @@ const MshrsShowAll: React.FC = () => {
                )}
 
                   <ButtonContent open={isBuyButtonOpen}>
-
             
                   <Web3Button
                     contractAddress="0x0880432A2A4D97C7d775566f205aa3c545886430"
@@ -604,11 +611,26 @@ const MshrsShowAll: React.FC = () => {
                     className="OverrideWeb3Button"
                     isDisabled={!termsAccepted}
                   >
-                    {(sliderValue * mshrsPricePerTokenMatic).toFixed(2)} MATIC
+                    MATIC
                   </Web3Button>
                   {address && (
+                    <>
                   <CrossmintPayButton
-                    className="OverrideWeb3Button"
+                  className="OverrideCrossMintButtonETH"
+                  clientId="f03719f5-3ca6-4376-90ce-b008b6de5f00"
+                  paymentMethod="ETH"
+                  mintConfig={{
+                    type: "thirdweb-edition-drop",
+                    totalPrice: "0.00",
+                    quantity: sliderValue,
+                    tokenId: selectedNFT?.metadata.id
+                  }}
+                  
+                  environment="staging"
+                  mintTo={address}
+                />
+                  <CrossmintPayButton
+                    className="OverrideCrossMintButton"
                     clientId="f03719f5-3ca6-4376-90ce-b008b6de5f00"
                     mintConfig={{
                       type: "thirdweb-edition-drop",
@@ -616,10 +638,46 @@ const MshrsShowAll: React.FC = () => {
                       quantity: sliderValue,
                       tokenId: selectedNFT?.metadata.id
                     }}
-                  environment="staging"
-                  mintTo={address}
-                />
+                    
+                    environment="staging"
+                    mintTo={address}
+                  />
+                  </>
               )}
+
+{/* <div>
+      <CrossmintPaymentElement
+        clientId="f03719f5-3ca6-4376-90ce-b008b6de5f00"
+        environment="staging"
+        recipient={{
+          email: "me@isthatmak.io",
+          wallet: address
+        }}
+        uiConfig={{
+          colors: {
+                background: '#d4d4d4',
+                backgroundSecondary: '#d4d4d4',
+                backgroundTertiary: '#EEEEEE',
+                textPrimary: '#FFFFFF',
+                textSecondary: '#EEEEEE',
+                accent: '#d4d4d4',
+                danger: '#FFC300',
+                textLink: '#ccc002'
+            },
+            fontSizeBase: '0.91rem',
+            spacingUnit: '0.274rem',
+            borderRadius: '4px',
+            fontWeightPrimary: '400',
+            fontWeightSecondary: '500'
+        }}
+        mintConfig={{
+          type: "thirdweb-edition-drop",
+          totalPrice: "0.00",
+          quantity: sliderValue,
+          tokenId: selectedNFT?.metadata.id
+        }}
+      />
+    </div> */}
                   </ButtonContent>
                   {!isBuyButtonOpen &&  (
                   <PurchaseReceipt>

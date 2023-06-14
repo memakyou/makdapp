@@ -20,6 +20,7 @@ const NavLink = styled.a`
   font-weight: bold;
   margin-right: 20px;
   color: black;
+  cursor: pointer;
 
   &:hover {
     border-bottom: 5px solid #ccc002;

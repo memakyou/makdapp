@@ -1,11 +1,13 @@
 import { ThirdwebNftMedia, useAddress, useContract, useOwnedNFTs, useClaimNFT, Web3Button } from '@thirdweb-dev/react'
 import styled from 'styled-components'
 import { useState } from 'react'
+import GetCore from './GetCore';
 
 // Define your styled components
 
 const Container = styled.div`
   padding: 0 2rem;
+  width: 100%;
 `;
 
 const Main = styled.main`
@@ -14,14 +16,7 @@ const Main = styled.main`
   display: flex;
   flex-direction: column;
   align-items: center; 
-`;
-
-const Item = styled.div`
-  // box-shadow: 5px 5px 5px 0px rgba(0, 0, 0, 0.048);
-  // align-self: flex-start; /* Add this line to align items to the top */
-
-  &:hover {
-  }
+  
 `;
 
 const StyledThirdwebNftMedia = styled(ThirdwebNftMedia)`
@@ -35,16 +30,6 @@ const StyledThirdwebNftMedia = styled(ThirdwebNftMedia)`
 }
 `;
 
-const TextBox = styled.input`
-  width: 100%;
-  margin: 10px 0;  
-  text-align: center;
-  border: none;
-  background: none;
-  color: black;
-  font-size: 20px;
-`;
-
 const DefaultText = styled.p`
   color: #272c34;
   margin: auto;
@@ -53,21 +38,11 @@ const DefaultText = styled.p`
   padding-bottom:20px;
 `;
 
-const NftContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 2rem;
-  width: 100%;
-`;
-
-const NftName = styled.p`
-  margin-right: auto; /* Added this line */
-`;
-
 const SubTitle = styled.h2`
   color: #d4d4d4
 `;
+
+
 
 
 
@@ -84,8 +59,7 @@ const MyMakPay: React.FC = () => {
   return (
     <Container>
       <Main>
-      <SubTitle>#COREPAY</SubTitle>
-      <DefaultText>😔 You do not own a CORE token</DefaultText>
+      <DefaultText><h1>😔</h1> You do not own a CORE token</DefaultText>
       <button>GET CORE</button>
       </Main>
     </Container>

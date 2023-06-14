@@ -8,13 +8,12 @@ const Container = styled.div`
 `;
 
 const Main = styled.main`
-  min-height: 100vh;
-  // padding: 4rem 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  // justify-content: center;
-  align-items: center;
+min-height: 100vh;
+padding: 1rem 0; 
+flex: 1;
+display: flex;
+flex-direction: column;
+align-items: center;
 `;
 
 const Title = styled.h1`
@@ -93,7 +92,6 @@ const Mak: NextPage = () => {
           <Cost>Join us on discord to learn about <u>$MAK</u> bounties & rewards</Cost>
           </Card>
           <br/>
-
       </Main>
     </Container>
   );
