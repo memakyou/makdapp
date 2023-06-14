@@ -52,7 +52,8 @@ const NftName = styled.p`
 const CardContainer = styled.div`
   width: 100%;
   border-radius: 8px;
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.9);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.390);
+
   background-color: #141a20;
   padding: 16px;
   display: flex;
@@ -118,7 +119,7 @@ const ModalOverlay = styled.div<{ isOpen: boolean }>`
   left: 0;
   width: 100%;
   height: 100%;
-  padding: 0px 32px 0px 32px;
+  padding: 0px 24px 0px 24px;
   // display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
   align-items: center;
   justify-content: center;
@@ -158,7 +159,7 @@ const CloseButton = styled.button`
 
 const ModalTitle = styled.h1`
   font-size: 14px;
-  color: #141a20;
+  color: #e7e8e8;
   margin-top: 0px;
 `;
 
@@ -219,12 +220,12 @@ const TextBox2 = styled.input`
   // text-align: center;
   border: none;
   background: none;
-  color: #141a20;
+  color: #e7e8e8;
   font-size: 12px;
 `;
 
 const PercentageBox = styled.div`
-  color: #141a20;
+  color: #e7e8e8;
   // text-align: center;
   font-size: 12px;
 `;
@@ -294,7 +295,6 @@ const PurchaseReceipt = styled.div`
   padding: 6px;
   align-items: flex-start;
   justify-content: centre;
-
 `;
 
 const PurchaseStatusBox = styled.div`
@@ -496,9 +496,8 @@ const MshrsShowAll: React.FC = () => {
             <ModalContent>
             <h3>Purchase Shares <PurchaseIcon2><FaShoppingCart/></PurchaseIcon2></h3>
               <PercentageBox1>Order Summary:</PercentageBox1>
-              
-
-              <PurchaseReceipt>
+              <CardContainer>
+              <NftContainer>
               <LeftDiv>
               {selectedNFT && (
                 <div ref={containerRef}>
@@ -516,13 +515,15 @@ const MshrsShowAll: React.FC = () => {
               <RightDiv>
               <ModalTitle>{selectedNFT?.metadata.name || 'Loading...'}</ModalTitle>
 
-              <PercentageBox><b>Tokens:</b><TextBox2 type="text" value={sliderValue} readOnly /></PercentageBox>
-                <PercentageBox><b>Shares:</b> {(sharePertoken * sliderValue).toFixed(4)}%</PercentageBox>                
+              <PercentageBox>Tokens:<TextBox2 type="text" value={sliderValue} readOnly /></PercentageBox>
+                <PercentageBox>Shares: {(sharePertoken * sliderValue).toFixed(4)}%</PercentageBox>                
              </RightDiv>
-              </PurchaseReceipt>    
-
+              </NftContainer>    
+              </CardContainer>
               {transactionStatus !== 'Success!' && (
                 <>
+                  <br/>
+
                   {!isBuyButtonOpen &&(
                   <ProgressBarContainer>
                     <Slider 
@@ -539,7 +540,7 @@ const MshrsShowAll: React.FC = () => {
                             {sliderValue >= 500 && transactionStatus !== 'Success!' && (
                               <PurchaseReceipt>
                               <TermsCheckbox>
-                                <label htmlFor="shipping"><PercentageBox>🎁 Shipping Address</PercentageBox></label>
+                                <label htmlFor="shipping"><PercentageBox1>🎁 Shipping Address</PercentageBox1></label>
                                 <input
                                   type="checkbox"
                                   id="shipping"
@@ -689,6 +690,7 @@ const MshrsShowAll: React.FC = () => {
                   <NftName>{nft.metadata.name}</NftName>
                   <BuyButton><FaShoppingCart /></BuyButton>
                 </NftContainer>
+                
               </CardContainer>
             );
           })
