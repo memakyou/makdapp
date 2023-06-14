@@ -5,7 +5,7 @@ import { useWindowSize } from "react-use";
 import { useEffect, useRef, useState } from "react";
 import Confetti from 'react-confetti';
 import emailjs from 'emailjs-com';
-import { CrossmintPayButton, CrossmintPaymentElement } from "@crossmint/client-sdk-react-ui";
+import { CrossmintPayButton } from "@crossmint/client-sdk-react-ui";
 
 
 interface ModalProps {
@@ -419,7 +419,7 @@ const MshrsShowAll: React.FC = () => {
   const mshrsUnitPrice = 0.65;
   const mshrsPricePerTokenMatic = 1.10;
   const mshrsUnitMinOrder = 20;
-  const mshrsUnitMaxOrder = 5000;
+  const mshrsUnitMaxOrder = 2500;
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [sliderValue, setSliderValue] = useState(50);
@@ -523,6 +523,7 @@ const MshrsShowAll: React.FC = () => {
 
               {transactionStatus !== 'Success!' && (
                 <>
+                  {!isBuyButtonOpen &&(
                   <ProgressBarContainer>
                     <Slider 
                       type="range" 
@@ -532,6 +533,7 @@ const MshrsShowAll: React.FC = () => {
                       onChange={(e) => setSliderValue(parseInt(e.target.value))} 
                     />
                   </ProgressBarContainer>
+                  )}
                 </>
               )}
                             {sliderValue >= 500 && transactionStatus !== 'Success!' && (
@@ -611,7 +613,7 @@ const MshrsShowAll: React.FC = () => {
                     className="OverrideWeb3Button"
                     isDisabled={!termsAccepted}
                   >
-                    MATIC
+                    MATIC native
                   </Web3Button>
                   {address && (
                     <>
@@ -645,39 +647,6 @@ const MshrsShowAll: React.FC = () => {
                   </>
               )}
 
-{/* <div>
-      <CrossmintPaymentElement
-        clientId="f03719f5-3ca6-4376-90ce-b008b6de5f00"
-        environment="staging"
-        recipient={{
-          email: "me@isthatmak.io",
-          wallet: address
-        }}
-        uiConfig={{
-          colors: {
-                background: '#d4d4d4',
-                backgroundSecondary: '#d4d4d4',
-                backgroundTertiary: '#EEEEEE',
-                textPrimary: '#FFFFFF',
-                textSecondary: '#EEEEEE',
-                accent: '#d4d4d4',
-                danger: '#FFC300',
-                textLink: '#ccc002'
-            },
-            fontSizeBase: '0.91rem',
-            spacingUnit: '0.274rem',
-            borderRadius: '4px',
-            fontWeightPrimary: '400',
-            fontWeightSecondary: '500'
-        }}
-        mintConfig={{
-          type: "thirdweb-edition-drop",
-          totalPrice: "0.00",
-          quantity: sliderValue,
-          tokenId: selectedNFT?.metadata.id
-        }}
-      />
-    </div> */}
                   </ButtonContent>
                   {!isBuyButtonOpen &&  (
                   <PurchaseReceipt>
