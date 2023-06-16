@@ -43,7 +43,7 @@ const TrackContainerTheVault = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding-left: 16px;
+  padding-left: 13px;
   position: relative;
   cursor: pointer; /* Add cursor pointer for the clickable effect */
 
@@ -98,7 +98,7 @@ const TrackName = styled.div`
   color: #d4d4d4;
   flex: 1;
   margin-left: 1rem;
-  font-size: 16px;
+  font-size: 14px;
 `;
 
 const TrackDuration = styled.div`

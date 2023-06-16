@@ -10,15 +10,16 @@ const Container = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: #878787;
-  padding: 0px 24px;
+  padding: 0px 24px 0px;
   position: sticky;
+  height: 50px;
   top: 0;
 `;
 
 const NavLink = styled.a`
   font-size: medium;
   font-weight: bold;
-  margin-right: 20px;
+  margin-right: 24px;
   color: black;
   cursor: pointer;
 
@@ -29,8 +30,8 @@ const NavLink = styled.a`
 
 const ActiveNavLink = styled(NavLink)`
   font-size: large;
-  color: #ccc002;
-  border-bottom: 5px solid #d1d1d1;
+  color: #d4d4d4;
+  border-bottom: 5px solid #ccc002;
 `;
 
 const Bal = styled.p`

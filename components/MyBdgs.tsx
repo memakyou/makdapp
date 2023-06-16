@@ -15,7 +15,8 @@ const Main = styled.main`
   flex-wrap: wrap; /* Added this line to wrap items to a new row */
   justify-content: center; /* Added this line to center items horizontally */
   gap: 1rem; /* Added this line to add spacing between elements */
-`;
+  z-index: 1;
+  `;
 
 const NftContainer1 = styled.div`
   position: relative; /* Added this line to position the tooltip */
@@ -24,7 +25,7 @@ const NftContainer1 = styled.div`
   gap: 4rem;
   margin-bottom: 1rem; /* Added this line to create a gap between rows */
   cursor: pointer; /* Added this line to indicate the element is clickable */
-  // z-index: -1
+  // z-index: 1;
 `;
 
 const Tooltip = styled.div<{ show: boolean }>`

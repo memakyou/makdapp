@@ -148,7 +148,7 @@ const CloseButton = styled.button`
   background: none;
   border: none;
   font-size: 1.5em;
-  color: #fff;
+  color: #e7e8e8;
   cursor: pointer;
   z-index: 10000; 
 
@@ -348,6 +348,13 @@ const SubTitle = styled.h2`
   font-size: 14px;
   `;
 
+  const Title = styled.h3`
+  color: #00000;
+  margin-top: 0;
+  font-size: 14px;
+  padding-top:20px
+`; 
+
 
 const MshrsShowAll: React.FC = () => {
   const mshrsContract = process.env.MSHRS_CONTRACT //set up env var but not able to pass to thirdweb without being a string. will seak help from third web.
@@ -490,11 +497,11 @@ const MshrsShowAll: React.FC = () => {
         }
         <Modal open={isModalOpen}>
           <div>
-            <CloseButton onClick={handleModalClose}>X</CloseButton>
+            <CloseButton onClick={handleModalClose}>&times;</CloseButton>
             <ModalOverlay isOpen={isModalOpen}>
 
             <ModalContent>
-            <h3>Purchase Shares <PurchaseIcon2><FaShoppingCart/></PurchaseIcon2></h3>
+            <Title>PURCHASE SHARES <PurchaseIcon2><FaShoppingCart/></PurchaseIcon2></Title>
               <PercentageBox1>Order Summary:</PercentageBox1>
               <CardContainer>
               <NftContainer>

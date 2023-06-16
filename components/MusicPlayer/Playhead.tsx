@@ -11,11 +11,13 @@ const TrackArt = styled.img`
   height: 40px;
   border-radius:6px;
   margin-top: 5px;
+  
 `;
 
 const TrackName = styled.div`
   color: #aaaaaa;
   flex: 1;
+  font-size:14px;
 
   &:hover {
     color: #ccc002;
@@ -70,7 +72,7 @@ const ModalOverlay = styled.div<{ isOpen: boolean }>`
   display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
   align-items: center;
   justify-content: center;
-  // z-index: 10000;
+  z-index: 10000;
   background: linear-gradient(45deg, #ccc002, #333);
   background-size: 400% 400%;
   animation: gradientAnimation 10s ease-in-out infinite;
@@ -110,6 +112,7 @@ const CloseButton = styled.button`
   border: none;
   font-size: 1.5em;
   color: #aaa;
+  cursor: pointer; /* Added this line to indicate the element is clickable */
 
   &:hover {
     color: #ccc002;
@@ -124,6 +127,7 @@ const Artwork = styled.img`
   box-shadow: 0px 1px 3px rgba(0,0,0,0.12), 0px 1px 2px rgba(0,0,0,0.24);
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
   border-radius: 6px;
+  cursor: pointer; /* Added this line to indicate the element is clickable */
 
 &:hover {
   background-color: #ccc002;
@@ -137,6 +141,7 @@ const Artwork2 = styled.img<{ isFullscreen: boolean; }>`
   transition: transform 0.5s;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.12), 0px 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer; /* Added this line to indicate the element is clickable */
 
   &:hover {
     background-color: #ccc002;
@@ -149,7 +154,7 @@ const Title = styled.h3`
   color: #00000;
   margin-top: 0;
   font-size: 14px;
-`;
+`; 
 
 const CardContainer = styled.div`
   width: 100%;
@@ -233,7 +238,6 @@ const FullscreenOverlay = styled.div<{ isFullscreen: boolean }>`
   left: 0;
   width: 100%;
   height: 100%;
-  background: #d4d4d4;
   display: ${({ isFullscreen }) => (isFullscreen ? 'flex' : 'none')};
   align-items: center;
   justify-content: center;
@@ -347,13 +351,16 @@ const Playhead: React.FC<PlayheadProps> = ({
     {currentSong && (
       <ModalBackgroundImage src={currentSong.trackArt} alt="Background Artwork" />
     )}
-    <Title>Song Info <InfoIcon2><FiInfo/></InfoIcon2></Title>
+    <Title>SONG INFO <InfoIcon2><FiInfo/></InfoIcon2></Title>
     <br/>
     <CloseButton onClick={closeModal}>&times;</CloseButton>
     {currentSong && (
       <>
         <FullscreenOverlay isFullscreen={isFullscreen}>
           {/* Content of the fullscreen overlay */}
+          {currentSong && (
+      <ModalBackgroundImage src={currentSong.trackArt} alt="Background Artwork" />
+    )}
           {currentSong && (
             <Artwork2
             src={currentSong.trackArt}

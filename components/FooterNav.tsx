@@ -8,7 +8,7 @@ const Container = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  background-color: #878787;
+//   background-color: #878787;
   padding: 0px 24px;
   position: sticky;
   top: 0;
