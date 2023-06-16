@@ -145,8 +145,6 @@ const Artwork2 = styled.img<{ isFullscreen: boolean; }>`
 `;
 
 
-
-
 const Title = styled.h3`
   color: #00000;
   margin-top: 0;

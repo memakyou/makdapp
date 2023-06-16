@@ -1,4 +1,4 @@
-import { ThirdwebNftMedia, useAddress, useContract, useOwnedNFTs, useClaimNFT, Web3Button } from '@thirdweb-dev/react'
+import { ThirdwebNftMedia, useAddress, useContract, useOwnedNFTs, useClaimNFT, Web3Button, Token } from '@thirdweb-dev/react'
 import styled from 'styled-components'
 import { useState, useRef, useEffect, RefObject, Ref } from 'react';
 import useWindowSize from 'react-use/lib/useWindowSize'
@@ -58,8 +58,8 @@ const Modal = styled.div<{ open: boolean }>`
   height: 100%;
   background: #d4d4d4;
   display: ${({ open }) => (open ? "block" : "none")};
-  z-index: 9999; /* Keep the same z-index as before */
-
+  z-index: 9999; 
+  
   & > div {
     width: 100%;
     height: 100%;
@@ -219,7 +219,7 @@ const NftContainer = styled.div`
   justify-content: space-between;
   gap: 2rem;
   width: 100%;
-  cursor: pointer; /* Add this line to make the container clickable */
+  // cursor: pointer; /* Add this line to make the container clickable */
 
 `;
 
@@ -240,6 +240,13 @@ const BuyButton = styled.button`
     color: #ccc002;
   }
 `;
+
+const Title = styled.h3`
+  color: #0f1318;
+  margin-top: 0;
+  font-size: 14px;
+`;
+
 
 const MshrsShowMine: React.FC = () => {
   const { width, height } = useWindowSize()
@@ -310,7 +317,10 @@ const MshrsShowMine: React.FC = () => {
         <CloseButton onClick={() => { setModalOpen(false); setSelectedNFT(null); setTransactionStatus(''); setTransactionError(''); setIsConfettiVisible(false); }}>X</CloseButton>
           <ModalContent>
           {selectedNFT &&   <StyledThirdwebNftMedia ref={ref} metadata={selectedNFT?.metadata} />}
-          <ModalTitle>{selectedNFT?.metadata.name || 'Loading...'}</ModalTitle> 
+          {/* <Title>{selectedNFT?.metadata.name || 'Loading...'}</Title> 
+          <Title>Remaining Supply</Title> 
+          <Title>Total Supply</Title> 
+          <Title>{selectedNFT?.metadata.description || 'Loading...'}</Title>  */}
           </ModalContent>
         </div>
       </Modal>
@@ -326,7 +336,7 @@ const MshrsShowMine: React.FC = () => {
               return (
                 <CardContainer key={nft.metadata.id} onClick={() => {
                   setSelectedNFT(nft);
-                  setModalOpen(true);
+                  // setModalOpen(true);
                 }}>
                   <NftContainer>
                     <ThirdwebNftMedia
@@ -339,7 +349,7 @@ const MshrsShowMine: React.FC = () => {
                       You own <a>{quantityOwned}</a> music shares in <a>{nft.metadata.name}</a>, a <a>{(quantityOwned * sharePertoken).toFixed(3)}%</a> stake
                     </NftName>
                     <BuyButton>
-                      <IoIosStats />
+                      {/* <IoIosStats /> */}
                     </BuyButton>
                   </NftContainer>
                 </CardContainer>

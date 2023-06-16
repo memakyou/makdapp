@@ -12,6 +12,7 @@ const Container = styled.div`
   background-color: #878787;
   height: 100px;
   padding: 20px;
+  z-index: 9999;
 `;
 
 const LogoImage = styled(Image)`
