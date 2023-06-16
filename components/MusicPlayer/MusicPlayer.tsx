@@ -70,7 +70,7 @@ const MusicPlayer: React.FC<MusicPlayerProps> = ({ isOpen }) => {
   const [duration, setDuration] = useState(0);
   const [currentSongId, setCurrentSongId] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [showPlayerController, setShowPlayerController] = useState(false);
+  const [showPlayerController, setShowPlayerController] = useState(true);
   const [showSongList, setShowSongList] = useState(false);
   const [showTrackList, setShowTrackList] = useState(false);
 

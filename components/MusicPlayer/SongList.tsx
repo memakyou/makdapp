@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { RiPlayLine } from 'react-icons/ri';
+import {AiFillLock} from 'react-icons/ai'
 import { SongListSong, Song } from '../xtypes';
+import TheVaultImage from '../../public/art/cover/vault.jpg';
+import Image from 'next/image';
 
 const Container = styled.div`
   // padding: 0 2rem;
@@ -34,6 +37,41 @@ const TrackContainer = styled.div`
   }
 `;
 
+const TrackContainerTheVault = styled.div`
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-left: 16px;
+  position: relative;
+  cursor: pointer; /* Add cursor pointer for the clickable effect */
+
+  &:hover {
+    .track-id {
+      display: none;
+    }
+
+    .play-icon {
+      display: flex;
+    }
+  }
+`;
+
+const TrackArtVaultWrapper = styled.div`
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
+  overflow: hidden;
+`;
+
+const TrackArtVault = styled(Image)`
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
+`;
+
+
 const TrackId = styled.div`
   margin-right: 1rem;
   color: #d4d4d4;
@@ -60,6 +98,7 @@ const TrackName = styled.div`
   color: #d4d4d4;
   flex: 1;
   margin-left: 1rem;
+  font-size: 16px;
 `;
 
 const TrackDuration = styled.div`
@@ -74,6 +113,13 @@ const PlayIcon = styled(RiPlayLine)`
   font-size: 20px;
   color: #ccc002;
   margin-right: 1rem;
+`;
+
+const LockIcon = styled(AiFillLock)`
+  font-size: 20px;
+  color: #ccc002;
+  margin-right: 1rem;
+  
 `;
 
 interface SongListProps {
@@ -100,6 +146,18 @@ const SongList: React.FC<SongListProps> = ({
     <Container>
       {showSongList && (
         <Main>
+          <TrackContainerTheVault>
+          <TrackId>
+                  <LockIcon className="play-icon" />
+                  <span className="track-id">0</span>
+                </TrackId>
+            <TrackArtVault 
+              src={TheVaultImage} 
+              alt="The Vault" />
+            <TrackName><a>Unreleased Music - 7 Tracks</a></TrackName>
+            <TrackDuration></TrackDuration>
+          </TrackContainerTheVault>
+          
           {songs.length > 0 ? (
             songs.map((song) => (
               <TrackContainer key={song.id} onClick={() => handleSongClick(song)}>

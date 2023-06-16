@@ -1,4 +1,4 @@
-import { ThirdwebNftMedia, useAddress, useContract, useOwnedNFTs, useClaimNFT, Web3Button } from '@thirdweb-dev/react'
+import { ThirdwebNftMedia, useAddress, useContract, useOwnedNFTs } from '@thirdweb-dev/react'
 import styled from 'styled-components'
 import { useState, useEffect, useRef } from 'react'
 

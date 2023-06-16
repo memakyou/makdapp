@@ -537,7 +537,7 @@ const MshrsShowAll: React.FC = () => {
                     />
                   </ProgressBarContainer>
                   )}
-                </>
+                </> 
               )}
                             {sliderValue >= 1000 && transactionStatus !== 'Success!' && (
                               <PurchaseReceipt>
@@ -552,7 +552,6 @@ const MshrsShowAll: React.FC = () => {
                                 />
                               </TermsCheckbox>
                               </PurchaseReceipt>
-
                                 )}
               {isShippingChecked && transactionStatus !== 'Success!' && isAddressFormVisible && sliderValue >= 500 && (
                 // <PurchaseReceipt>
