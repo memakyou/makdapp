@@ -18,24 +18,6 @@ const Main = styled.main`
   align-items: center;
 `;
 
-const Title = styled.h1`
-  margin: 0;
-  line-height: 1.15;
-  font-size: 1rem;
-  text-align: center;
-
-  a {
-    color: #ccc002;
-    text-decoration: none;
-
-    &:hover,
-    &:focus,
-    &:active {
-      text-decoration: underline;
-    }
-  }
-`;
-
 const Card = styled.div`
   width: 100%;
   background-color: #878787;
@@ -48,11 +30,6 @@ const Card = styled.div`
   }
 `;
 
-const DefaultText = styled.p`
-  color: #272c34;
-  font-size: 10px;
-`;
-
 const SubTitle = styled.h2`
   color: #d4d4d4;
   text-align: left;
@@ -61,11 +38,6 @@ const SubTitle = styled.h2`
 
 const You: NextPage = () => {
   const address = useAddress();
-  const tokenContractAddress = "0x37524Cf8f213C2EE089bbC9b95ECf1978BcFA2A7";
-  const { contract: tokenContract } = useContract(tokenContractAddress, "token");
-
-  const { data: tokenBalance } = useTokenBalance(tokenContract, address);
-
   const isConnected = Boolean(address);
 
   return (
@@ -78,7 +50,7 @@ const You: NextPage = () => {
             <MshrsShowMine />
             <SubTitle>BADGES</SubTitle>
             <MyBdgs />
-            <SubTitle>CORE 0<a>11</a>000<a>11</a></SubTitle>
+            <SubTitle>CORE<a>PAY</a> 0<a>11</a>000<a>11</a></SubTitle>
             <MyMakPay />
             </div>
           </>

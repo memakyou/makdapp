@@ -35,7 +35,7 @@ padding-right: 24px;
 position: relative;
 background-size: cover;
 background-position: center;
-`;
+`;  
 
 const ControlIcon = styled.span<{ showControls: boolean; showTrackList: boolean }>`
   font-size: 20px;

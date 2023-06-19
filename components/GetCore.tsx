@@ -40,7 +40,7 @@ const CoreDataWrapper = styled.div`
 
 const GetCore = () => {
     const { contract } = useContract("0x7016eb12fa75A763467876F5A352eFe10d3013E1");
-    const { data: nft, isLoading, error } = useNFT(contract, "34");
+    const { data: nft, isLoading, error } = useNFT(contract, "123");
 
     if (isLoading) return <div>Loading...</div>;
     if (error || !nft) return <div>NFT not found</div>;
