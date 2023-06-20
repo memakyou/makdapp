@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from 'react';
 import styled from 'styled-components';
-import { ThirdwebNftMedia, useAddress, useContract, useNFT, useOwnedNFTs } from "@thirdweb-dev/react";
+import { ThirdwebNftMedia, useAddress, useContract, useOwnedNFTs } from "@thirdweb-dev/react";
 import { BsCashStack } from "react-icons/bs";
+import { useRouter } from 'next/router';
 
 // Define your styled components
 const Container = styled.div`
@@ -28,7 +28,7 @@ const CardContainer = styled.div`
 width: 100%;
 border-radius: 8px;
 box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.9);
-background-color: #141a20;
+background-color: #878787;
 padding: 16px;
 display: flex;
 flex-direction: row;
@@ -59,14 +59,16 @@ const NftContainer = styled.div`
 const NftName = styled.p`
   margin-right: auto; /* Added this line */
   font-size: 12px;
+  color: #141a20;
+
 `;
 
 const BuyButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1.5rem;
-  color: #d4d4d4;
+  font-size: 24px;
+  color: #141a20;
   margin-left: auto; /* Added this line */
 
   ${CardContainer}:hover & {
@@ -74,26 +76,34 @@ const BuyButton = styled.button`
   }
 `;
 
-const DefaultText = styled.p`
-  color: #272c34;
-  margin: auto;
+const DefaultText = styled.div`
+color: #141a20;
+margin: auto;
   text-align: center;
   padding-top: 20px;
-  padding-bottom:20px;
+  padding-bottom: 20px;
 `;
 
-const coreContractAddress = "0x7016eb12fa75A763467876F5A352eFe10d3013E1"
+const NoNFTsMessage = styled.h1`
+  font-size: 32px;
+`;
+
+const coreContractAddress = "0x23607b193E209dcACD4066d88dDd16A153516789"
 const mshrsContractAddress = "0x0880432A2A4D97C7d775566f205aa3c545886430"
 
-const MyMakPay = () => {
-   // connect contratc and user
+const MyMakPay: React.FC = () => {
+  const router = useRouter();
+  const handleCashIconClick = () => {
+    router.push('/corepay'); // Replace '/CorePay' with the actual path to your CorePay page
+  };
+
+  const address = useAddress()
   const { contract } = useContract(coreContractAddress);
-  const address = useAddress()  
   
-  const { data: ownedNFTs, isLoading, error } = useOwnedNFTs(contract, address);
-  
+  const { data: MyCore, isLoading, error } = useOwnedNFTs(contract, address);
+  console.log(MyCore)
   // Check if user has ownedNFTs
-  const hasOwnedNFTs = Boolean(ownedNFTs?.length);
+  const hasOwnedNFTs = Boolean(MyCore?.length);
   console.log(hasOwnedNFTs)
 
   return (
@@ -104,10 +114,11 @@ const MyMakPay = () => {
           {isLoading ? ( 
             <p>Loading...</p> 
           ) : (
-            ownedNFTs?.map((nft) => {
+            MyCore?.map((nft) => {
               return (
                 <CardContainer>
-                  <NftContainer>
+                  <NftContainer
+                    key={nft.metadata.id}>
                     <ThirdwebNftMedia
                       metadata={nft.metadata}
                       width={"50px"}
@@ -115,9 +126,9 @@ const MyMakPay = () => {
                       style={{ borderRadius: "6px" }}
                     />
                     <NftName>
-                      CORE #{nft.metadata.id} Token Holder
+                      Hello, CORE {nft.metadata.name}
                     </NftName>
-                    <BuyButton><BsCashStack /></BuyButton>
+                    <BuyButton onClick={handleCashIconClick}><BsCashStack /></BuyButton>
                   </NftContainer>
                 </CardContainer>
               );
@@ -125,8 +136,11 @@ const MyMakPay = () => {
           )}    
         </InfoSection>
       ) : (
-        <DefaultText><h1>😔</h1> You do not have a CORE token yet</DefaultText>
-      )}
+        <DefaultText>
+          <NoNFTsMessage>😔</NoNFTsMessage>
+          You do not have a core token yet
+        </DefaultText>  
+)}
       </Main>
     </Container>  
   )

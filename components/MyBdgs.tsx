@@ -62,8 +62,17 @@ const DefaultText = styled.p`
   padding-bottom:20px;
 `;
 
+
+const NoNFTsMessage = styled.h1`
+  font-size: 32px;
+`;
+
+const bdgsContractAddress = "0xBBC9956157e7cb58404F1B02cEaE029971aB6bbe"
+const coreContractAddress = "0x7016eb12fa75A763467876F5A352eFe10d3013E1"
+const mshrsContractAddress = "0x0880432A2A4D97C7d775566f205aa3c545886430"
+
 const MyBdgs: React.FC = () => {
-  const { contract } = useContract("0xBBC9956157e7cb58404F1B02cEaE029971aB6bbe");
+  const { contract } = useContract(bdgsContractAddress);
   const address = useAddress()  
   const { data: ownedNFTs, isLoading, error } = useOwnedNFTs(contract, address);
   
@@ -127,9 +136,11 @@ const MyBdgs: React.FC = () => {
             </NftContainer1>
           ))
         ) : (
-          <>
-            <DefaultText><h1>😔</h1> You have not earned any supporter badges yet</DefaultText>
-          </>
+          <DefaultText>
+          <NoNFTsMessage>😔</NoNFTsMessage>
+          You have not earned any supporter badges yet
+        </DefaultText>  
+           
         )}
       </Main>
     </Container>

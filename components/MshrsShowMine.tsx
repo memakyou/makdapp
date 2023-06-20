@@ -43,12 +43,16 @@ transition: border 0.3s; /* Add this line */
 }
 `;
 
-const DefaultText = styled.p`
+const DefaultText = styled.div`
   color: #272c34;
   margin: auto;
   text-align: center;
   padding-top: 20px;
-  padding-bottom:20px;
+  padding-bottom: 20px;
+`;
+
+const NoNFTsMessage = styled.h1`
+  font-size: 32px;
 `;
 
 const NftContainer = styled.div`
@@ -79,9 +83,10 @@ const BuyButton = styled.button`
   }
 `;
 
+const mshrsContractAddress = "0x0880432A2A4D97C7d775566f205aa3c545886430"
 
 const MshrsShowMine: React.FC = () => {
-  const { contract } = useContract("0x0880432A2A4D97C7d775566f205aa3c545886430");
+  const { contract } = useContract(mshrsContractAddress);
   const address = useAddress()  
   const { data: ownedNFTs, isLoading, error } = useOwnedNFTs(contract, address);
   
@@ -98,12 +103,12 @@ const MshrsShowMine: React.FC = () => {
           {isLoading ? ( 
             <p>Loading...</p> 
           ) : (
-            ownedNFTs?.map((nft) => {
+            ownedNFTs?.map((nft, index) => {
               const quantityOwned = Number(nft.quantityOwned); // Convert to number
 
               return (
-                <CardContainer>
-                  <NftContainer>
+                <CardContainer key={index}>
+                <NftContainer>
                     <ThirdwebNftMedia
                       metadata={nft.metadata}
                       width={"50px"}
@@ -120,7 +125,10 @@ const MshrsShowMine: React.FC = () => {
           )}    
         </InfoSection>
       ) : (
-        <DefaultText><h1>😔</h1> You have not purchased any music shares yet</DefaultText>
+        <DefaultText>
+          <NoNFTsMessage>😔</NoNFTsMessage>
+          You have not purchased any music shares yet
+        </DefaultText>        
       )}
       </Main>
     </Container>

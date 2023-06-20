@@ -1,4 +1,4 @@
-import { useContract, useContractRead, useContractWrite, useNFTs, useMintNFT, ThirdwebNftMedia, useAddress, Web3Button, ConnectWallet } from "@thirdweb-dev/react";
+import { useContract, useNFTs, ThirdwebNftMedia, useAddress, Web3Button } from "@thirdweb-dev/react";
 import styled from "styled-components";
 import { FaShoppingCart } from "react-icons/fa";
 import { useWindowSize } from "react-use";
@@ -355,12 +355,12 @@ const SubTitle = styled.h2`
   padding-top:20px
 `; 
 
+const coreContractAddress = "0x7016eb12fa75A763467876F5A352eFe10d3013E1"
+const mshrsContractAddress = "0x0880432A2A4D97C7d775566f205aa3c545886430"
 
 const MshrsShowAll: React.FC = () => {
-  const mshrsContract = process.env.MSHRS_CONTRACT //set up env var but not able to pass to thirdweb without being a string. will seak help from third web.
-
   const address = useAddress();
-  const { contract } = useContract("0x0880432A2A4D97C7d775566f205aa3c545886430");
+  const { contract } = useContract(mshrsContractAddress);
 
   const { data: nfts, isLoading, error } = useNFTs(contract);
 
@@ -521,7 +521,6 @@ const MshrsShowAll: React.FC = () => {
               </LeftDiv>
               <RightDiv>
               <ModalTitle>{selectedNFT?.metadata.name || 'Loading...'}</ModalTitle>
-
               <PercentageBox>{sliderValue} Tokens</PercentageBox>
               <PercentageBox>{(sharePertoken * sliderValue).toFixed(4)}% Song Share</PercentageBox>                
               <PercentageBox><a>€ {(sliderValue * mshrsUnitPrice).toFixed(2)}</a></PercentageBox>

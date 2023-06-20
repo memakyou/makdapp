@@ -8,8 +8,6 @@ const Container = styled.div`
   padding: 0px;
   gap: 2rem;
   justify-content: centre;
-
-
 `;
 
 const LeftDiv = styled.div`
