@@ -186,6 +186,8 @@ const Slider = styled.input`
 
   &::-webkit-slider-thumb {
     -webkit-appearance: none;
+    cursor: pointer;
+
     border: none;
     height: 20px;
     width: 20px;
@@ -423,10 +425,10 @@ const MshrsShowAll: React.FC = () => {
 
   // pricing logistics
   const sharePertoken = 0.0002;
-  const mshrsUnitPrice = 0.65;
+  const mshrsUnitPrice = 0.97;
   const mshrsPricePerTokenMatic = 1.10;
-  const mshrsUnitMinOrder = 20;
-  const mshrsUnitMaxOrder = 2500;
+  const mshrsUnitMinOrder = 15;
+  const mshrsUnitMaxOrder = 100000;
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [sliderValue, setSliderValue] = useState(50);
